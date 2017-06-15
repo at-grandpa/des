@@ -1,0 +1,9 @@
+FROM <%= @image %>
+
+RUN apt-get -y update
+RUN apt-get -y upgrade
+<%- unless @packages.empty? -%>
+RUN apt-get -y install <%= @packages.join(" ") %>
+<%- end -%>
+
+WORKDIR /root/<%= @project_name %>

@@ -12,7 +12,7 @@ module Des
     array "-p PACKAGE", "--package=PACKAGE", desc: "apt-get install package name.", default: [] of String, required: false
     run do |opts, args|
       project_name = Args.new(args).project_name
-      Dockerfile.new(project_name, opts).create_file
+      Dockerfile.new("path", project_name, opts).create_file
       DockerCompose.new(project_name, opts).create_file
       Makefile.new(project_name, opts).create_file
     end
