@@ -1,11 +1,13 @@
 module Des
   class Args
-    getter project_name
+    @args : Array(String)
 
-    @project_name : String
+    def initialize(@args)
+    end
 
-    def initialize(args)
-      @project_name = args.first
+    def project_name
+      raise "Invalid argument. Expected argument is 1." if @args.size != 1
+      @args.first
     end
   end
 end
