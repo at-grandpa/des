@@ -1,0 +1,19 @@
+name: dt
+version: 0.1.0
+
+authors:
+  - at-grandpa <yoshiyuki.tsuchida.k@gmail.com>
+
+targets:
+  dt:
+    main: src/dt.cr
+
+crystal: 0.21.1
+
+license: MIT
+
+
+dependencies:
+  clim:
+    github: at-grandpa/clim
+    version: 0.1.1
