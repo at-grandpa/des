@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe Dt do
+describe Des do
   # TODO: Write tests
 
   it "works" do
