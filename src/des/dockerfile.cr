@@ -2,18 +2,43 @@ require "ecr"
 
 module Des
   class Dockerfile
-    @dir : String = "."
-    @filename : String = "Dockerfile"
-    @image : String = "ubuntu:latest"
-    @packages : Array(String) = [] of String
-    @container_name : String = "my_container"
+    FILE_NAME = "Dockerfile"
+
+    @image : String
+    @packages : Array(String)
+    @container_name : String
     @rc : Des::Rc
     @opts : Des::Opts
 
-    getter image, packages
+    getter image, packages, container_name
 
-    def initialize(@rc, @opts, @dir = ".")
+    def initialize(@rc, @opts)
+      @image = _find_image
+      @packages = _find_packages
+      @container_name = _find_container_name
     end
+
+    private def _find_image
+      image = nil
+      image = @rc.image unless @rc.image.nil?
+      image = @opts.image unless @opts.image.nil?
+      raise "Image name for Dockerfile is not set. See 'des -h'"
+      image
+    end
+
+    private def _find_image_in_rc
+      return nil unless @rc.setting["default_param"]?
+      return nil unless @rc.setting["default_param"]["image"]?
+      @rc.setting["default_param"]["image"].as_s
+    end
+
+    private def _find_image_in_opts
+      return @image unless @opts.s["image"]?
+      validate_image!(@opts.s["image"])
+      @opts.s["image"]
+    end
+
+
 
     def create_file
       update_to_config_param
@@ -26,12 +51,6 @@ module Des
       @packages = _find_packages_in_conf
     end
 
-    private def _find_image_in_conf
-      return @image unless @rc.setting["default_param"]?
-      return @image unless @rc.setting["default_param"]["image"]?
-      @rc.setting["default_param"]["image"].as_s
-    end
-
     private def _find_packages_in_conf
       return @packages unless @rc.setting["default_param"]?
       return @packages unless @rc.setting["default_param"]["packages"]?
@@ -41,12 +60,6 @@ module Des
     def update_to_command_param
       @image = _find_image_in_opts
       @packages = _find_packages_in_opts
-    end
-
-    private def _find_image_in_opts
-      return @image unless @opts.s["image"]?
-      validate_image!(@opts.s["image"])
-      @opts.s["image"]
     end
 
     def validate_image!(image)

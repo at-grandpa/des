@@ -20,6 +20,12 @@ module Des
       end
     end
 
+    def packages
+      packages = @opts.a["packages"]?
+      return nil if packages.nil?
+      packages
+    end
+
     def container_name
       container_name = @opts.s["container-name"]?
       return nil if container_name.nil?
@@ -47,12 +53,6 @@ module Des
       return nil if rc_file.nil?
       raise "No such rc file. -> #{rc_file}" unless File.exists?(rc_file)
       rc_file
-    end
-
-    def packages
-      packages = @opts.a["packages"]?
-      return nil if packages.nil?
-      packages
     end
 
   end
