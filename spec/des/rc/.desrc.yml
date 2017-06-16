@@ -1,0 +1,10 @@
+default_param:
+  image: crystallang/crystal
+  packages:
+    - curl
+    - vim
+    - wget
+  path: .
+default_compose:
+  version: "2.0"
+
