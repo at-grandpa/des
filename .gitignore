@@ -2,3 +2,5 @@
 /lib/
 /bin/
 /.shards/
+spec/des/dockerfile/spec_output_dir/*
+!.gitkeep

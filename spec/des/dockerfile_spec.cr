@@ -73,4 +73,21 @@ describe Des::Dockerfile do
       dockerfile.packages.should eq ["desrc_package1", "desrc_package2"]
     end
   end
+  describe "#create_file" do
+    it "aaa" do
+      rc = Rc.new(File.expand_path("./spec/des/dockerfile/.desrc.yml"))
+      dockerfile = Dockerfile.new(rc, "container_name", Clim::Options::Values.new)
+      dockerfile.create_file("#{__DIR__}/dockerfile/spec_output_dir")
+      File.read("#{__DIR__}/dockerfile/spec_output_dir/Dockerfile").should eq <<-EXPECT_STR
+      FROM ubuntu:latest
+
+      RUN apt-get -y update
+      RUN apt-get -y upgrade
+
+      WORKDIR /root/container_name
+
+      EXPECT_STR
+      File.delete("#{__DIR__}/dockerfile/spec_output_dir/Dockerfile")
+    end
+  end
 end

@@ -1,16 +1,23 @@
+require "ecr"
+
 module Des
   class Dockerfile
-    # @dir : String
-    # @filename : String
+    @dir : String = "."
     @image : String = "ubuntu:latest"
     @packages : Array(String) = [] of String
-    @container_name : String = "my_project"
+    @container_name : String = "my_container"
     @rc : Des::Rc
     @opts : Clim::Options::Values
 
     getter image, packages
 
-    def initialize(@rc, @container_name, @opts)
+    def initialize(@rc, @container_name, @opts, @dir = ".")
+    end
+
+    def create_file
+      update_to_config_param
+      update_to_command_param
+      create_file
     end
 
     def update_to_config_param
@@ -53,9 +60,10 @@ module Des
       @opts.a["packages"]
     end
 
-    def create_file
-      update_to_config_param
-      update_to_command_param
+    def create_file(dir = ".")
+      File.write("#{dir}/Dockerfile", to_s)
     end
+
+    ECR.def_to_s "#{__DIR__}/dockerfile/template.ecr"
   end
 end

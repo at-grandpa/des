@@ -6,4 +6,4 @@ RUN apt-get -y upgrade
 RUN apt-get -y install <%= @packages.join(" ") %>
 <%- end -%>
 
-WORKDIR /root/<%= @project_name %>
+WORKDIR /root/<%= @container_name %>
