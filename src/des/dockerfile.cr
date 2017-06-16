@@ -2,18 +2,15 @@ module Des
   class Dockerfile
     # @dir : String
     # @filename : String
-    @image : String = "ubuntu"
+    @image : String = "ubuntu:latest"
     @packages : Array(String) = [] of String
-    @path : String = "./"
-    @project_name : String = "my_project"
+    @container_name : String = "my_project"
+    @rc : Des::Rc
     @opts : Clim::Options::Values
 
-    def initialize(@path, @project_name, @opts)
-    end
+    getter image, packages
 
-    def setup_ecr_param
-      @image = setup_image
-      @packages = setup_packages
+    def initialize(@rc, @container_name, @opts)
     end
 
     def setup_image
@@ -26,16 +23,22 @@ module Des
     end
 
     def setup_packages
-      packages = @opts.a["packages"]
-      pattern = "\\A[a-zA-Z][^:]+?(|:[0-9a-zA-Z-\._]+?)\\z"
-      unless image.match /#{pattern}/
-        raise "Invalid image name pattern. Valid pattern -> /#{pattern}/"
-      end
-      image
-      ["aaa"]
+      @opts.a["packages"]
+    end
+
+    def setup_config_param
+      @image = @rc.setting["default_param"]["image"]?.to_s || @image
+      @packages = @rc.setting["default_param"]["packages"].to_a || @packages
+    end
+
+    def setup_command_param
+      @image = setup_image
+      @packages = setup_packages
     end
 
     def create_file
+      setup_config_param
+      setup_command_param
     end
   end
 end
