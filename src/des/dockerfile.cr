@@ -3,15 +3,16 @@ require "ecr"
 module Des
   class Dockerfile
     @dir : String = "."
+    @filename : String = "Dockerfile"
     @image : String = "ubuntu:latest"
     @packages : Array(String) = [] of String
     @container_name : String = "my_container"
     @rc : Des::Rc
-    @opts : Clim::Options::Values
+    @opts : Des::Opts
 
     getter image, packages
 
-    def initialize(@rc, @container_name, @opts, @dir = ".")
+    def initialize(@rc, @opts, @dir = ".")
     end
 
     def create_file

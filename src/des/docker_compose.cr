@@ -1,9 +1,8 @@
 module Des
   class DockerCompose
-    @project_name : String
     @opts : Clim::Options::Values
 
-    def initialize(@project_name, @opts)
+    def initialize(@opts)
     end
 
     def create_file
