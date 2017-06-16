@@ -1,0 +1,3 @@
+default_compose:
+  version: "2.0"
+

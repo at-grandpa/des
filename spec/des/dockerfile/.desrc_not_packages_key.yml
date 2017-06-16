@@ -1,0 +1,6 @@
+default_param:
+  image: desrc_image
+  path: .
+default_compose:
+  version: "2.0"
+
