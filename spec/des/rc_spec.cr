@@ -1,7 +1,5 @@
 require "../spec_helper"
 
-alias Rc = Des::Rc
-
 describe Des::Rc do
   describe "#setting" do
     it "returns hash when rc file exists." do
