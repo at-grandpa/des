@@ -47,6 +47,19 @@ describe Des::Opts do
       end
     end
   end
+  describe "#packages" do
+    it "returns packages when packages exists." do
+      input_opts = Clim::Options::Values.new
+      input_opts.merge!({"packages" => ["package1", "package2"]})
+      opts = Opts.new(input_opts)
+      opts.packages.should eq ["package1", "package2"]
+    end
+    it "returns nil when packages not exests in opts." do
+      input_opts = Clim::Options::Values.new
+      opts = Opts.new(input_opts)
+      opts.packages.should eq nil
+    end
+  end
   describe "#container" do
     [
       {
@@ -127,17 +140,17 @@ describe Des::Opts do
       end
     end
   end
-  describe "#packages" do
-    it "returns packages when packages exists." do
+  describe "#mysql_version" do
+    it "returns mysql_version when mysql_version exists." do
       input_opts = Clim::Options::Values.new
-      input_opts.array = {"packages" => ["package1", "package2"]}
+      input_opts.merge!({"mysql-version" => "5.7"})
       opts = Opts.new(input_opts)
-      opts.packages.should eq ["package1", "package2"]
+      opts.mysql_version.should eq "5.7"
     end
-    it "returns nil when packages not exests in opts." do
+    it "returns nil when mysql_version not exests in opts." do
       input_opts = Clim::Options::Values.new
       opts = Opts.new(input_opts)
-      opts.packages.should eq nil
+      opts.mysql_version.should eq nil
     end
   end
 end

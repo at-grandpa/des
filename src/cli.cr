@@ -23,6 +23,7 @@ module Des
 
       Dockerfile.new(parameters).create_file
       Makefile.new(parameters).create_file
+      DockerCompose.new(parameters).create_file
 
     end
   end

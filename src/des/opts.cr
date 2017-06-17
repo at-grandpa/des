@@ -53,5 +53,12 @@ module Des
       raise "rc_file set as an option is not found. -> #{rc_file}" unless File.exists?(rc_file)
       rc_file
     end
+
+    def mysql_version
+      mysql_version = @opts.s["mysql-version"]?
+      return nil if mysql_version.nil?
+      mysql_version
+    end
+
   end
 end

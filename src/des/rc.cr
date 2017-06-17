@@ -36,5 +36,12 @@ module Des
       raise "Save dir set as rc_file is not found. -> #{save_dir}" unless Dir.exists?(save_dir)
       save_dir
     end
+
+    def mysql_version
+      return nil unless @setting["default_param"]?
+      return nil unless @setting["default_param"]["mysql_version"]?
+      @setting["default_param"]["mysql_version"].as_s
+    end
+
   end
 end
