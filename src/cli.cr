@@ -18,6 +18,10 @@ module Des
 
       dockerfile_params = Dockerfile::Parameters.new(rc, opts)
       Dockerfile::FileCreator.new(dockerfile_params).create_file
+
+      makefile_params = Makefile::Parameters.new(rc, opts)
+      Makefile::FileCreator.new(makefile_params).create_file
+
       # DockerCompose.new(opts).create_file
       # Makefile.new(opts).create_file
     end

@@ -1,12 +1,8 @@
+require "./makefile/parameters"
+require "./makefile/file_creator"
+
 module Des
-  class Makefile
-    @opts : Clim::Options::Values
-
-    def initialize(@opts)
-    end
-
-    def create_file
-      puts "create Makefile"
-    end
+  module Makefile
+    FILE_NAME = "Makefile"
   end
 end
