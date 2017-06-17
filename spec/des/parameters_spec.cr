@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-describe Des::Dockerfile::Parameters do
+describe Des::Parameters do
   describe "#initialize" do
     describe "(about 'image')" do
       it "raises an Exception when 'image' key not exists in rc_file and opts." do
@@ -10,15 +10,15 @@ describe Des::Dockerfile::Parameters do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/rc_file_save_dir
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
         YAML_STR
         rc = Rc.new(yaml_str) # 'image' key not exists.
 
         opts_values = Clim::Options::Values.new
         opts = Opts.new(opts_values) # 'image' key not exists.
 
-        expect_raises(Exception, "Image name for Dockerfile is not set. See 'des -h'") do
-          Des::Dockerfile::Parameters.new(rc, opts)
+        expect_raises(Exception, "Image name is not set. See 'des -h'") do
+          Des::Parameters.new(rc, opts)
         end
       end
       it "set rc_file image when opts image not exists." do
@@ -29,14 +29,14 @@ describe Des::Dockerfile::Parameters do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/rc_file_save_dir
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
         YAML_STR
         rc = Rc.new(yaml_str)
 
         opts_values = Clim::Options::Values.new
         opts = Opts.new(opts_values) # 'image' key not exist.
 
-        parameters = Des::Dockerfile::Parameters.new(rc, opts)
+        parameters = Des::Parameters.new(rc, opts)
         parameters.image.should eq "rc_file_image"
       end
       it "overwrite rc_file image with opts image when opts image exists." do
@@ -47,7 +47,7 @@ describe Des::Dockerfile::Parameters do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/rc_file_save_dir
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -55,7 +55,7 @@ describe Des::Dockerfile::Parameters do
         opts_values.merge!({"image" => "opts_image"})
         opts = Opts.new(opts_values)
 
-        parameters = Des::Dockerfile::Parameters.new(rc, opts)
+        parameters = Des::Parameters.new(rc, opts)
         parameters.image.should eq "opts_image"
       end
     end
@@ -65,15 +65,15 @@ describe Des::Dockerfile::Parameters do
         default_param:
           image: rc_file_image
           container: rc_file_container
-          save_dir: #{__DIR__}/rc_file_save_dir
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
         YAML_STR
         rc = Rc.new(yaml_str) # 'packages' key not exists.
 
         opts_values = Clim::Options::Values.new
         opts = Opts.new(opts_values) # 'packages' key not exists.
 
-        expect_raises(Exception, "Packages for Dockerfile is not set. See 'des -h'") do
-          Des::Dockerfile::Parameters.new(rc, opts)
+        expect_raises(Exception, "Packages is not set. See 'des -h'") do
+          Des::Parameters.new(rc, opts)
         end
       end
       it "set rc_file packages when opts packages not exists." do
@@ -84,14 +84,14 @@ describe Des::Dockerfile::Parameters do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/rc_file_save_dir
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
         YAML_STR
         rc = Rc.new(yaml_str)
 
         opts_values = Clim::Options::Values.new
         opts = Opts.new(opts_values) # 'packages' key not exist.
 
-        parameters = Des::Dockerfile::Parameters.new(rc, opts)
+        parameters = Des::Parameters.new(rc, opts)
         parameters.packages.should eq ["rc_file_package1", "rc_file_package2"]
       end
       it "overwrite rc_file packages with opts packages when opts packages exists." do
@@ -102,7 +102,7 @@ describe Des::Dockerfile::Parameters do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/rc_file_save_dir
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -110,7 +110,7 @@ describe Des::Dockerfile::Parameters do
         opts_values.merge!({"packages" => ["opts_package1", "opts_package2"]})
         opts = Opts.new(opts_values)
 
-        parameters = Des::Dockerfile::Parameters.new(rc, opts)
+        parameters = Des::Parameters.new(rc, opts)
         parameters.packages.should eq ["opts_package1", "opts_package2"]
       end
     end
@@ -122,15 +122,15 @@ describe Des::Dockerfile::Parameters do
           packages:
             - rc_file_package1
             - rc_file_package2
-          save_dir: #{__DIR__}/rc_file_save_dir
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
         YAML_STR
         rc = Rc.new(yaml_str) # 'container' key not exists.
 
         opts_values = Clim::Options::Values.new
         opts = Opts.new(opts_values) # 'container' key not exists.
 
-        expect_raises(Exception, "Container name for Dockerfile is not set. See 'des -h'") do
-          Des::Dockerfile::Parameters.new(rc, opts)
+        expect_raises(Exception, "Container name is not set. See 'des -h'") do
+          Des::Parameters.new(rc, opts)
         end
       end
       it "set rc_file container when opts container not exists." do
@@ -141,14 +141,14 @@ describe Des::Dockerfile::Parameters do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/rc_file_save_dir
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
         YAML_STR
         rc = Rc.new(yaml_str)
 
         opts_values = Clim::Options::Values.new
         opts = Opts.new(opts_values) # 'container' key not exist.
 
-        parameters = Des::Dockerfile::Parameters.new(rc, opts)
+        parameters = Des::Parameters.new(rc, opts)
         parameters.container.should eq "rc_file_container"
       end
       it "overwrite rc_file container with opts container when opts container exists." do
@@ -159,7 +159,7 @@ describe Des::Dockerfile::Parameters do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/rc_file_save_dir
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -167,7 +167,7 @@ describe Des::Dockerfile::Parameters do
         opts_values.merge!({"container" => "opts_container"})
         opts = Opts.new(opts_values)
 
-        parameters = Des::Dockerfile::Parameters.new(rc, opts)
+        parameters = Des::Parameters.new(rc, opts)
         parameters.container.should eq "opts_container"
       end
     end
@@ -188,7 +188,7 @@ describe Des::Dockerfile::Parameters do
         opts = Opts.new(opts_values) # 'save_dir' key not exists.
 
         expect_raises(Exception, "Save dir is not set. See 'des -h'") do
-          Des::Dockerfile::Parameters.new(rc, opts)
+          Des::Parameters.new(rc, opts)
         end
       end
       it "set rc_file save_dir when opts save_dir not exists." do
@@ -199,15 +199,15 @@ describe Des::Dockerfile::Parameters do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/rc_file_save_dir
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
         YAML_STR
         rc = Rc.new(yaml_str)
 
         opts_values = Clim::Options::Values.new
         opts = Opts.new(opts_values) # 'save_dir' key not exist.
 
-        parameters = Des::Dockerfile::Parameters.new(rc, opts)
-        parameters.save_dir.should eq "#{__DIR__}/rc_file_save_dir"
+        parameters = Des::Parameters.new(rc, opts)
+        parameters.save_dir.should eq "#{__DIR__}/parameters/rc_file_save_dir"
       end
       it "overwrite rc_file save_dir with opts save_dir when opts save_dir exists." do
         yaml_str = <<-YAML_STR
@@ -217,16 +217,16 @@ describe Des::Dockerfile::Parameters do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/rc_file_save_dir
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
         YAML_STR
         rc = Rc.new(yaml_str)
 
         opts_values = Clim::Options::Values.new
-        opts_values.merge!({"save-dir" => "#{__DIR__}/opts_save_dir"})
+        opts_values.merge!({"save-dir" => "#{__DIR__}/parameters/opts_save_dir"})
         opts = Opts.new(opts_values)
 
-        parameters = Des::Dockerfile::Parameters.new(rc, opts)
-        parameters.save_dir.should eq "#{__DIR__}/opts_save_dir"
+        parameters = Des::Parameters.new(rc, opts)
+        parameters.save_dir.should eq "#{__DIR__}/parameters/opts_save_dir"
       end
     end
   end

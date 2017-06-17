@@ -1,4 +1,3 @@
-require "./dockerfile/parameters"
 require "./dockerfile/file_creator"
 
 module Des

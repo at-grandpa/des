@@ -13,17 +13,17 @@ module Des
     string "--mysql=VERSION", desc: "Add mysql container with version specified.", default: ""
     string "--nginx=VERSION", desc: "Add nginx container with version specified.", default: ""
     run do |opts, args|
+
       opts = Opts.new(opts)
-      rc = Rc.new(File.read(opts.rc_file))
 
-      dockerfile_params = Dockerfile::Parameters.new(rc, opts)
-      Dockerfile::FileCreator.new(dockerfile_params).create_file
+      rc_file_yaml_str = File.read(opts.rc_file)
+      rc = Rc.new(rc_file_yaml_str)
 
-      makefile_params = Makefile::Parameters.new(rc, opts)
-      Makefile::FileCreator.new(makefile_params).create_file
+      parameters = Parameters.new(rc, opts)
 
-      # DockerCompose.new(opts).create_file
-      # Makefile.new(opts).create_file
+      Dockerfile::FileCreator.new(parameters).create_file
+      Makefile::FileCreator.new(parameters).create_file
+
     end
   end
 end

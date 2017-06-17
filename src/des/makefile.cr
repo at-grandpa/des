@@ -1,4 +1,3 @@
-require "./makefile/parameters"
 require "./makefile/file_creator"
 
 module Des

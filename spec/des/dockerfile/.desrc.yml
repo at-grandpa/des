@@ -1,9 +1,0 @@
-default_param:
-  image: desrc_image
-  packages:
-    - desrc_package1
-    - desrc_package2
-  path: .
-default_compose:
-  version: "2.0"
-
