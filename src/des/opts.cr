@@ -1,7 +1,5 @@
 module Des
   class Opts
-
-
     def initialize(@opts : Clim::Options::Values)
     end
 
@@ -44,16 +42,16 @@ module Des
     def save_dir
       save_dir = @opts.s["save-dir"]?
       return nil if save_dir.nil?
-      raise "No such save dir. -> #{save_dir}" unless Dir.exists?(save_dir)
+      raise "Save dir set as an option is not found. -> #{save_dir}" unless Dir.exists?(save_dir)
       save_dir
     end
 
     def rc_file
       rc_file = @opts.s["rc-file"]?
       return nil if rc_file.nil?
-      raise "No such rc file. -> #{rc_file}" unless File.exists?(rc_file)
+      # raise "rc_file path is not set. See 'des -h'" if rc_file.nil?
+      raise "rc_file set as an option is not found. -> #{rc_file}" unless File.exists?(rc_file)
       rc_file
     end
-
   end
 end

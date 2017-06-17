@@ -116,42 +116,12 @@ describe Des::Rc do
     it "returns save_dir when 'save_dir' key exists." do
       yaml_str = <<-YAML
       default_param:
-        save_dir: ~/des
+        save_dir: #{__DIR__}/rc/rc_file_save_dir
       default_compose:
         version: "2.0"
       YAML
       rc = Rc.new(yaml_str)
-      rc.save_dir.should eq "~/des"
-    end
-  end
-  describe "#rc_file" do
-    it "returns nil when 'default_param' key not exists." do
-      yaml_str = <<-YAML
-      default_compose:
-        version: "2.0"
-      YAML
-      rc = Rc.new(yaml_str)
-      rc.rc_file.should be_nil
-    end
-    it "returns nil when 'rc_file' key not exists." do
-      yaml_str = <<-YAML
-      default_param:
-        dummy_key: dummy_value
-      default_compose:
-        version: "2.0"
-      YAML
-      rc = Rc.new(yaml_str)
-      rc.rc_file.should be_nil
-    end
-    it "returns rc_file when 'rc_file' key exists." do
-      yaml_str = <<-YAML
-      default_param:
-        rc_file: ~/.desrc.yml
-      default_compose:
-        version: "2.0"
-      YAML
-      rc = Rc.new(yaml_str)
-      rc.rc_file.should eq "~/.desrc.yml"
+      rc.save_dir.should eq "#{__DIR__}/rc/rc_file_save_dir"
     end
   end
 end

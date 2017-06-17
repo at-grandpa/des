@@ -2,9 +2,13 @@ require "yaml"
 
 module Des
   class Rc
-
     def initialize(yaml_str)
       @setting = YAML.parse(yaml_str)
+      begin
+        @setting.as_h  # rc file format is only allowed in hash format.
+      rescue ex
+        raise "rc file format is not Hash. Exception -> #{ex.message}"
+      end
     end
 
     def image
@@ -28,13 +32,9 @@ module Des
     def save_dir
       return nil unless @setting["default_param"]?
       return nil unless @setting["default_param"]["save_dir"]?
-      @setting["default_param"]["save_dir"].as_s
-    end
-
-    def rc_file
-      return nil unless @setting["default_param"]?
-      return nil unless @setting["default_param"]["rc_file"]?
-      @setting["default_param"]["rc_file"].as_s
+      save_dir = @setting["default_param"]["save_dir"].as_s
+      raise "Save dir set as rc_file is not found. -> #{save_dir}" unless Dir.exists?(save_dir)
+      save_dir
     end
   end
 end

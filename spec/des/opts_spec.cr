@@ -99,7 +99,7 @@ describe Des::Opts do
       input_opts = Clim::Options::Values.new
       input_opts.merge!({"save-dir" => "#{__DIR__}/missing_dir/"})
       opts = Opts.new(input_opts)
-      expect_raises(Exception, "No such save dir. -> #{__DIR__}/missing_dir/") do
+      expect_raises(Exception, "Save dir set as an option is not found. -> #{__DIR__}/missing_dir/") do
         opts.save_dir
       end
     end
@@ -120,7 +120,7 @@ describe Des::Opts do
       input_opts = Clim::Options::Values.new
       input_opts.merge!({"rc-file" => "#{__DIR__}/opts/missing_rc_file.yml"})
       opts = Opts.new(input_opts)
-      expect_raises(Exception, "No such rc file. -> #{__DIR__}/opts/missing_rc_file.yml") do
+      expect_raises(Exception, "rc_file set as an option is not found. -> #{__DIR__}/opts/missing_rc_file.yml") do
         opts.rc_file
       end
     end
