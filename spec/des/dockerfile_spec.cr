@@ -17,10 +17,10 @@ describe Des::Dockerfile do
       rc = Rc.new(yaml_str)
 
       opts_values = Clim::Options::Values.new
-      opts_values.string = {"image" => "opts_image"}
-      opts_values.array = {"packages" => ["opts_package1", "opts_package2"]}
-      opts_values.string = {"container-name" => "opts_container"}
-      opts_values.string = {"save-dir" => "#{__DIR__}"}
+      opts_values.merge!({"image" => "opts_image"})
+      opts_values.merge!({"packages" => ["opts_package1", "opts_package2"]})
+      opts_values.merge!({"container-name" => "opts_container"})
+      opts_values.merge!({"save-dir" => "#{__DIR__}"})
       opts = Opts.new(opts_values)
 
       dockerfile = Dockerfile.new(rc, opts)

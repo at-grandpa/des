@@ -1,7 +1,5 @@
 require "../spec_helper"
 
-alias Opts = Des::Opts
-
 describe Des::Opts do
   describe "#image" do
     [
@@ -20,7 +18,7 @@ describe Des::Opts do
     ].each do |spec_case|
       it "returns #{spec_case["expected"]} when input image is #{spec_case["input"]}." do
         input_opts = Clim::Options::Values.new
-        input_opts.string = {"image" => spec_case["input"]}
+        input_opts.merge!({"image" => spec_case["input"]})
         opts = Opts.new(input_opts)
         opts.image.should eq spec_case["expected"]
       end
@@ -41,7 +39,7 @@ describe Des::Opts do
     ].each do |spec_case|
       it "raises an Exception when invarid image name. spec pattern -> #{spec_case["input"]}." do
         input_opts = Clim::Options::Values.new
-        input_opts.string = {"image" => spec_case["input"]}
+        input_opts.merge!({"image" => spec_case["input"]})
         opts = Opts.new(input_opts)
         expect_raises(Exception, "Invalid image name pattern. Valid pattern -> /#{Opts::IMAGE_PATTERN}/") do
           opts.image
@@ -58,7 +56,7 @@ describe Des::Opts do
     ].each do |spec_case|
       it "returns #{spec_case["expected"]} when input container_name is #{spec_case["input"]}." do
         input_opts = Clim::Options::Values.new
-        input_opts.string = {"container-name" => spec_case["input"]}
+        input_opts.merge!({"container-name" => spec_case["input"]})
         opts = Opts.new(input_opts)
         opts.container_name.should eq spec_case["expected"]
       end
@@ -77,7 +75,7 @@ describe Des::Opts do
     ].each do |spec_case|
       it "raises an Exception when invarid container name. spec pattern -> #{spec_case["input"]}." do
         input_opts = Clim::Options::Values.new
-        input_opts.string = {"container-name" => spec_case["input"]}
+        input_opts.merge!({"container-name" => spec_case["input"]})
         opts = Opts.new(input_opts)
         expect_raises(Exception, "Invalid container name pattern. Valid pattern -> /#{Opts::CONTAINER_NAME_PATTERN}/") do
           opts.container_name
@@ -88,7 +86,7 @@ describe Des::Opts do
   describe "#save_dir" do
     it "returns save dir path when dir path exists." do
       input_opts = Clim::Options::Values.new
-      input_opts.string = {"save-dir" => __DIR__}
+      input_opts.merge!({"save-dir" => __DIR__})
       opts = Opts.new(input_opts)
       opts.save_dir.should eq __DIR__
     end
@@ -99,7 +97,7 @@ describe Des::Opts do
     end
     it "raises an Exception when no such save dir." do
       input_opts = Clim::Options::Values.new
-      input_opts.string = {"save-dir" => "#{__DIR__}/missing_dir/"}
+      input_opts.merge!({"save-dir" => "#{__DIR__}/missing_dir/"})
       opts = Opts.new(input_opts)
       expect_raises(Exception, "No such save dir. -> #{__DIR__}/missing_dir/") do
         opts.save_dir
@@ -109,7 +107,7 @@ describe Des::Opts do
   describe "#rc_file" do
     it "returns rc file path when file exists." do
       input_opts = Clim::Options::Values.new
-      input_opts.string = {"rc-file" => "#{__DIR__}/opts/.desrc.yml"}
+      input_opts.merge!({"rc-file" => "#{__DIR__}/opts/.desrc.yml"})
       opts = Opts.new(input_opts)
       opts.rc_file.should eq "#{__DIR__}/opts/.desrc.yml"
     end
@@ -120,7 +118,7 @@ describe Des::Opts do
     end
     it "raises an Exception when no such save dir." do
       input_opts = Clim::Options::Values.new
-      input_opts.string = {"rc-file" => "#{__DIR__}/opts/missing_rc_file.yml"}
+      input_opts.merge!({"rc-file" => "#{__DIR__}/opts/missing_rc_file.yml"})
       opts = Opts.new(input_opts)
       expect_raises(Exception, "No such rc file. -> #{__DIR__}/opts/missing_rc_file.yml") do
         opts.rc_file
