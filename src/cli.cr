@@ -21,8 +21,8 @@ module Des
 
       parameters = Parameters.new(rc, opts)
 
-      Dockerfile::FileCreator.new(parameters).create_file
-      Makefile::FileCreator.new(parameters).create_file
+      Dockerfile.new(parameters).create_file
+      Makefile.new(parameters).create_file
 
     end
   end

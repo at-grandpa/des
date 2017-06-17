@@ -1,7 +1,11 @@
-require "./makefile/file_creator"
+require "./file_creator"
 
 module Des
-  module Makefile
-    FILE_NAME = "Makefile"
+  class Makefile < FileCreator
+    def file_name
+      "Makefile"
+    end
+
+    ecr_setting
   end
 end
