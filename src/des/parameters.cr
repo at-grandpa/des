@@ -1,3 +1,5 @@
+require "yaml"
+
 module Des
   class Parameters
     @opts : Des::Opts
@@ -8,9 +10,9 @@ module Des
     @save_dir : String
     @mysql_version : String
     @nginx_version : String
-    # @docker_compose : Hash(String, String)
+    @docker_compose : YAML::Any
 
-    getter image, packages, container, save_dir, mysql_version, nginx_version
+    getter image, packages, container, save_dir, mysql_version, nginx_version, docker_compose
 
     def initialize(@rc, @opts)
       @image = _find_image
@@ -19,7 +21,7 @@ module Des
       @save_dir = _find_save_dir
       @mysql_version = _find_mysql_version
       @nginx_version = _find_nginx_version
-      # @docker_compose = _build_docker_compose
+      @docker_compose = _find_docker_compose
     end
 
     private def _find_image
@@ -70,16 +72,16 @@ module Des
       nginx_version
     end
 
-    private def _build_docker_compose
-      # 初期設定のhashを得る
-      # optionの設定を足していく
-      # 出力する
-      # image = nil
-      # image = @rc.image unless @rc.image.nil?
-      # image = @opts.image unless @opts.image.nil?
-      # raise "Image name is not set. See 'des -h'" if image.nil?
-      # image
+    private def _find_docker_compose
+      default_compose_yaml = <<-YAML
+      version: '2'
+      services:
+        app:
+          build: .
+      YAML
+      default_docker_compose = YAML.parse(default_compose_yaml)
+      rc_docker_compose = @rc.docker_compose
+      rc_docker_compose.nil? ? default_docker_compose : rc_docker_compose
     end
-
   end
 end

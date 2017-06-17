@@ -65,6 +65,5 @@ module Des
       return nil if nginx_version.nil?
       nginx_version
     end
-
   end
 end

@@ -375,5 +375,77 @@ describe Des::Parameters do
         parameters.nginx_version.should eq "1.14.1"
       end
     end
+    describe "(about 'docker_compose')" do
+      it "returns default compose setting when 'docker_compose' key not exists in rc_file and opts." do
+        yaml_str = <<-YAML_STR
+        default_param:
+          image: rc_file_image
+          packages:
+            - rc_file_package1
+            - rc_file_package2
+          container: rc_file_container
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          mysql_version: 5.7
+          nginx_version: 1.13.1
+        YAML_STR
+        rc = Rc.new(yaml_str) # 'docker_compose' key not exists.
+
+        opts_values = Clim::Options::Values.new
+        opts = Opts.new(opts_values)
+
+        parameters = Des::Parameters.new(rc, opts)
+        parameters.docker_compose.should eq(
+          {
+            "version"  => "2",
+            "services" => {
+              "app" => {
+                "build" => ".",
+              },
+            },
+          }
+        )
+      end
+      it "overwrite default with rc_file docker_compose when rc_file docker_compose exists." do
+        yaml_str = <<-YAML_STR
+        default_param:
+          image: rc_file_image
+          packages:
+            - rc_file_package1
+            - rc_file_package2
+          container: rc_file_container
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          mysql_version: 5.7
+          nginx_version: 1.13.1
+          docker_compose:
+            version: '2'
+            services:
+              app:
+                build: .
+                port:
+                  - 80
+                  - 443
+        YAML_STR
+        rc = Rc.new(yaml_str)
+
+        opts_values = Clim::Options::Values.new
+        opts = Opts.new(opts_values)
+
+        parameters = Des::Parameters.new(rc, opts)
+        parameters.docker_compose.should eq(
+          {
+            "version"  => "2",
+            "services" => {
+              "app" => {
+                "build" => ".",
+                "port"  => [
+                  "80",
+                  "443",
+                ],
+              },
+            },
+          }
+        )
+      end
+    end
   end
 end

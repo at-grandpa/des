@@ -49,5 +49,11 @@ module Des
       @setting["default_param"]["nginx_version"].as_s
     end
 
+    def docker_compose
+      return nil unless @setting["default_param"]?
+      return nil unless @setting["default_param"]["docker_compose"]?
+      @setting["default_param"]["docker_compose"]
+    end
+
   end
 end

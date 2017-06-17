@@ -154,4 +154,47 @@ describe Des::Rc do
       rc.nginx_version.should eq "1.13.1"
     end
   end
+  describe "#docker_compose" do
+    it "returns nil when 'default_param' key not exists." do
+      yaml_str = <<-YAML
+      dummy_key: dummy_value
+      YAML
+      rc = Rc.new(yaml_str)
+      rc.docker_compose.should be_nil
+    end
+    it "returns nil when 'docker_compose' key not exists." do
+      yaml_str = <<-YAML
+      default_param:
+        dummy_key: dummy_value
+      YAML
+      rc = Rc.new(yaml_str)
+      rc.docker_compose.should be_nil
+    end
+    it "returns nginx_versionwhen 'docker_compose' key exists." do
+      yaml_str = <<-YAML
+      default_param:
+        docker_compose:
+          version: '2'
+          services:
+            app:
+              build: .
+              port:
+                - 80
+                - 443
+      YAML
+      rc = Rc.new(yaml_str)
+      rc.docker_compose.should eq({
+        "version"  => "2",
+        "services" => {
+          "app" => {
+            "build" => ".",
+            "port"  => [
+              "80",
+              "443",
+            ],
+          },
+        },
+      })
+    end
+  end
 end
