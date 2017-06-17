@@ -3,9 +3,8 @@ require "yaml"
 module Des
   class Rc
 
-    def initialize(path)
-      raise "No such rc file. -> #{path}" unless File.exists?(path)
-      @setting = YAML.parse(File.read(path))
+    def initialize(yaml_str)
+      @setting = YAML.parse(yaml_str)
     end
 
     def image
@@ -26,10 +25,16 @@ module Des
       @setting["default_param"]["container_name"].as_s
     end
 
-    def container_name
+    def save_dir
       return nil unless @setting["default_param"]?
-      return nil unless @setting["default_param"]["container_name"]?
-      @setting["default_param"]["container_name"].as_s
+      return nil unless @setting["default_param"]["save_dir"]?
+      @setting["default_param"]["save_dir"].as_s
+    end
+
+    def rc_file
+      return nil unless @setting["default_param"]?
+      return nil unless @setting["default_param"]["rc_file"]?
+      @setting["default_param"]["rc_file"].as_s
     end
   end
 end
