@@ -1,4 +1,5 @@
 require "ecr"
+require "colorize"
 
 module Des
   abstract class FileCreator
@@ -8,7 +9,9 @@ module Des
     abstract def file_name
 
     def create_file
-      File.write("#{@parameters.save_dir}/#{file_name}", to_s)
+      path = "#{@parameters.save_dir}/#{file_name}"
+      File.write(path, to_s)
+      puts "#{"create".colorize(:light_green)}  #{path}"
     end
 
     macro ecr_setting
