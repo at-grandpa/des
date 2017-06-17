@@ -7,7 +7,6 @@ module Des
 
     def image
       image = @opts.s["image"]?
-      p image
       return nil if image.nil?
       _validate_image!(image)
       image

@@ -23,7 +23,6 @@ module Des
     private def _find_image
       image = nil
       image = @rc.image unless @rc.image.nil?
-      p @opts.image
       image = @opts.image unless @opts.image.nil?
       raise "Image name for Dockerfile is not set. See 'des -h'" if image.nil?
       image
