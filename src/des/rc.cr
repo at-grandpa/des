@@ -23,10 +23,10 @@ module Des
       @setting["default_param"]["packages"].map(&.as_s)
     end
 
-    def container_name
+    def container
       return nil unless @setting["default_param"]?
-      return nil unless @setting["default_param"]["container_name"]?
-      @setting["default_param"]["container_name"].as_s
+      return nil unless @setting["default_param"]["container"]?
+      @setting["default_param"]["container"].as_s
     end
 
     def save_dir

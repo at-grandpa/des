@@ -7,7 +7,7 @@ module Des
     usage "des [options]"
     string "-i IMAGE", "--image=IMAGE", desc: "Base docker image name.", default: "ubuntu:16.04"
     array "-p PACKAGES", "--packages=PACKAGE", desc: "apt-get install packages name.", default: [] of String, required: false
-    string "-c CONTAINER_NAME", "--container-name=CONTAINER_NAME", desc: "Container name.", default: "my_container"
+    string "-c NAME", "--container=NAME", desc: "Container name.", default: "my_container"
     string "-d SAVE_DIR", "--save-dir=SAVE_DIR", desc: "Save dir path.", default: "."
     string "-r RC_FILE", "--rc-file=RC_FILE", desc: ".descr.yml path.", default: "~/.desrc.yml"
     string "--mysql=VERSION", desc: "Add mysql container with version specified.", default: ""

@@ -47,24 +47,24 @@ describe Des::Opts do
       end
     end
   end
-  describe "#container_name" do
+  describe "#container" do
     [
       {
-        "input"    => "spec_container_name",
-        "expected" => "spec_container_name",
+        "input"    => "spec_container",
+        "expected" => "spec_container",
       },
     ].each do |spec_case|
-      it "returns #{spec_case["expected"]} when input container_name is #{spec_case["input"]}." do
+      it "returns #{spec_case["expected"]} when input container is #{spec_case["input"]}." do
         input_opts = Clim::Options::Values.new
-        input_opts.merge!({"container-name" => spec_case["input"]})
+        input_opts.merge!({"container" => spec_case["input"]})
         opts = Opts.new(input_opts)
-        opts.container_name.should eq spec_case["expected"]
+        opts.container.should eq spec_case["expected"]
       end
     end
     it "returns nil when input container name not exests." do
       input_opts = Clim::Options::Values.new
       opts = Opts.new(input_opts)
-      opts.container_name.should eq nil
+      opts.container.should eq nil
     end
     [
       {"input" => ""},
@@ -75,10 +75,10 @@ describe Des::Opts do
     ].each do |spec_case|
       it "raises an Exception when invarid container name. spec pattern -> #{spec_case["input"]}." do
         input_opts = Clim::Options::Values.new
-        input_opts.merge!({"container-name" => spec_case["input"]})
+        input_opts.merge!({"container" => spec_case["input"]})
         opts = Opts.new(input_opts)
-        expect_raises(Exception, "Invalid container name pattern. Valid pattern -> /#{Opts::CONTAINER_NAME_PATTERN}/") do
-          opts.container_name
+        expect_raises(Exception, "Invalid container name pattern. Valid pattern -> /#{Opts::CONTAINER_PATTERN}/") do
+          opts.container
         end
       end
     end
@@ -111,12 +111,14 @@ describe Des::Opts do
       opts = Opts.new(input_opts)
       opts.rc_file.should eq "#{__DIR__}/opts/.desrc.yml"
     end
-    it "returns nil when input rc file path not exests in opts." do
+    it "raises an Exception when rc_file path is not set in opts." do
       input_opts = Clim::Options::Values.new
       opts = Opts.new(input_opts)
-      opts.rc_file.should eq nil
+      expect_raises(Exception, "rc_file path is not set. See 'des -h'") do
+        opts.rc_file
+      end
     end
-    it "raises an Exception when no such save dir." do
+    it "raises an Exception when rc_file set as an option is not found." do
       input_opts = Clim::Options::Values.new
       input_opts.merge!({"rc-file" => "#{__DIR__}/opts/missing_rc_file.yml"})
       opts = Opts.new(input_opts)

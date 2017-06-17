@@ -64,16 +64,16 @@ describe Des::Rc do
       rc.packages.should eq ["curl", "vim", "wget"]
     end
   end
-  describe "#container_name" do
+  describe "#container" do
     it "returns nil when 'default_param' key not exists." do
       yaml_str = <<-YAML
       default_compose:
         version: "2.0"
       YAML
       rc = Rc.new(yaml_str)
-      rc.container_name.should be_nil
+      rc.container.should be_nil
     end
-    it "returns nil when 'container_name' key not exists." do
+    it "returns nil when 'container' key not exists." do
       yaml_str = <<-YAML
       default_param:
         dummy_key: dummy_value
@@ -81,17 +81,17 @@ describe Des::Rc do
         version: "2.0"
       YAML
       rc = Rc.new(yaml_str)
-      rc.container_name.should be_nil
+      rc.container.should be_nil
     end
-    it "returns container_name when 'container_name' key exists." do
+    it "returns container when 'container' key exists." do
       yaml_str = <<-YAML
       default_param:
-        container_name: my_container
+        container: my_container
       default_compose:
         version: "2.0"
       YAML
       rc = Rc.new(yaml_str)
-      rc.container_name.should eq "my_container"
+      rc.container.should eq "my_container"
     end
   end
   describe "#save_dir" do

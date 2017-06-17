@@ -5,15 +5,15 @@ module Des
       @rc : Des::Rc
       @image : String
       @packages : Array(String)
-      @container_name : String
+      @container : String
       @save_dir : String
 
-      getter image, packages, container_name, save_dir
+      getter image, packages, container, save_dir
 
       def initialize(@rc, @opts)
         @image = _find_image
         @packages = _find_packages
-        @container_name = _find_container_name
+        @container = _find_container
         @save_dir = _find_save_dir
       end
 
@@ -33,12 +33,12 @@ module Des
         packages
       end
 
-      private def _find_container_name
-        container_name = nil
-        container_name = @rc.container_name unless @rc.container_name.nil?
-        container_name = @opts.container_name unless @opts.container_name.nil?
-        raise "Container name for Dockerfile is not set. See 'des -h'" if container_name.nil?
-        container_name
+      private def _find_container
+        container = nil
+        container = @rc.container unless @rc.container.nil?
+        container = @opts.container unless @opts.container.nil?
+        raise "Container name for Dockerfile is not set. See 'des -h'" if container.nil?
+        container
       end
 
       private def _find_save_dir

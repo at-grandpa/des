@@ -24,18 +24,18 @@ module Des
       packages
     end
 
-    def container_name
-      container_name = @opts.s["container-name"]?
-      return nil if container_name.nil?
-      _validate_container_name!(container_name)
-      container_name
+    def container
+      container = @opts.s["container"]?
+      return nil if container.nil?
+      _validate_container!(container)
+      container
     end
 
-    CONTAINER_NAME_PATTERN = "\\A[0-9a-zA-Z-_]+?\\z"
+    CONTAINER_PATTERN = "\\A[0-9a-zA-Z-_]+?\\z"
 
-    private def _validate_container_name!(container_name)
-      unless container_name.match /#{CONTAINER_NAME_PATTERN}/
-        raise "Invalid container name pattern. Valid pattern -> /#{CONTAINER_NAME_PATTERN}/"
+    private def _validate_container!(container)
+      unless container.match /#{CONTAINER_PATTERN}/
+        raise "Invalid container name pattern. Valid pattern -> /#{CONTAINER_PATTERN}/"
       end
     end
 
