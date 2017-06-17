@@ -129,4 +129,29 @@ describe Des::Rc do
       rc.mysql_version.should eq "5.7"
     end
   end
+  describe "#nginx_version" do
+    it "returns nil when 'default_param' key not exists." do
+      yaml_str = <<-YAML
+      dummy_key: dummy_value
+      YAML
+      rc = Rc.new(yaml_str)
+      rc.nginx_version.should be_nil
+    end
+    it "returns nil when 'nginx_version' key not exists." do
+      yaml_str = <<-YAML
+      default_param:
+        dummy_key: dummy_value
+      YAML
+      rc = Rc.new(yaml_str)
+      rc.nginx_version.should be_nil
+    end
+    it "returns nginx_versionwhen 'nginx_version' key exists." do
+      yaml_str = <<-YAML
+      default_param:
+        nginx_version: 1.13.1
+      YAML
+      rc = Rc.new(yaml_str)
+      rc.nginx_version.should eq "1.13.1"
+    end
+  end
 end

@@ -6,20 +6,20 @@ module Des
     @packages : Array(String)
     @container : String
     @save_dir : String
-    # @docker_compose : Hash(String, String)
     @mysql_version : String
-    # @nginx_version : String
+    @nginx_version : String
+    # @docker_compose : Hash(String, String)
 
-    getter image, packages, container, save_dir, mysql_version
+    getter image, packages, container, save_dir, mysql_version, nginx_version
 
     def initialize(@rc, @opts)
       @image = _find_image
       @packages = _find_packages
       @container = _find_container
       @save_dir = _find_save_dir
-      # @docker_compose = _build_docker_compose
       @mysql_version = _find_mysql_version
-      # @nginx_version = _find_nginx_version
+      @nginx_version = _find_nginx_version
+      # @docker_compose = _build_docker_compose
     end
 
     private def _find_image
@@ -60,6 +60,14 @@ module Des
       mysql_version = @opts.mysql_version unless @opts.mysql_version.nil?
       raise "Mysql version is not set. See 'des -h'" if mysql_version.nil?
       mysql_version
+    end
+
+    private def _find_nginx_version
+      nginx_version = nil
+      nginx_version = @rc.nginx_version unless @rc.nginx_version.nil?
+      nginx_version = @opts.nginx_version unless @opts.nginx_version.nil?
+      raise "Nginx version is not set. See 'des -h'" if nginx_version.nil?
+      nginx_version
     end
 
     private def _build_docker_compose

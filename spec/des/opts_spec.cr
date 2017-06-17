@@ -153,4 +153,17 @@ describe Des::Opts do
       opts.mysql_version.should eq nil
     end
   end
+  describe "#nginx_version" do
+    it "returns nginx_version when nginx_version exists." do
+      input_opts = Clim::Options::Values.new
+      input_opts.merge!({"nginx-version" => "1.13.1"})
+      opts = Opts.new(input_opts)
+      opts.nginx_version.should eq "1.13.1"
+    end
+    it "returns nil when nginx_version not exests in opts." do
+      input_opts = Clim::Options::Values.new
+      opts = Opts.new(input_opts)
+      opts.nginx_version.should eq nil
+    end
+  end
 end

@@ -43,5 +43,11 @@ module Des
       @setting["default_param"]["mysql_version"].as_s
     end
 
+    def nginx_version
+      return nil unless @setting["default_param"]?
+      return nil unless @setting["default_param"]["nginx_version"]?
+      @setting["default_param"]["nginx_version"].as_s
+    end
+
   end
 end

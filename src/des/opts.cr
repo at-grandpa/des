@@ -60,5 +60,11 @@ module Des
       mysql_version
     end
 
+    def nginx_version
+      nginx_version = @opts.s["nginx-version"]?
+      return nil if nginx_version.nil?
+      nginx_version
+    end
+
   end
 end
