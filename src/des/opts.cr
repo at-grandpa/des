@@ -42,8 +42,9 @@ module Des
     def save_dir
       save_dir = @opts.s["save-dir"]?
       return nil if save_dir.nil?
-      raise "Save dir set as an option is not found. -> #{save_dir}" unless Dir.exists?(save_dir)
-      save_dir
+      expand_save_dir = File.expand_path(save_dir)
+      raise "Save dir set as an option is not found. -> #{expand_save_dir}" unless Dir.exists?(expand_save_dir)
+      expand_save_dir
     end
 
     def rc_file

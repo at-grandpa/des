@@ -97,9 +97,9 @@ describe Des::Opts do
     end
     it "raises an Exception when no such save dir." do
       input_opts = Clim::Options::Values.new
-      input_opts.merge!({"save-dir" => "#{__DIR__}/missing_dir/"})
+      input_opts.merge!({"save-dir" => "#{__DIR__}/missing_dir"})
       opts = Opts.new(input_opts)
-      expect_raises(Exception, "Save dir set as an option is not found. -> #{__DIR__}/missing_dir/") do
+      expect_raises(Exception, "Save dir set as an option is not found. -> #{__DIR__}/missing_dir") do
         opts.save_dir
       end
     end
