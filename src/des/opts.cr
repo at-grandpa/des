@@ -54,16 +54,11 @@ module Des
       rc_file
     end
 
-    def mysql_version
-      mysql_version = @opts.s["mysql-version"]?
-      return nil if mysql_version.nil?
-      mysql_version
+    def web_app
+      web_app = @opts.b["web-app"]?
+      return nil if web_app.nil?
+      web_app
     end
 
-    def nginx_version
-      nginx_version = @opts.s["nginx-version"]?
-      return nil if nginx_version.nil?
-      nginx_version
-    end
   end
 end

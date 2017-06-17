@@ -140,30 +140,17 @@ describe Des::Opts do
       end
     end
   end
-  describe "#mysql_version" do
-    it "returns mysql_version when mysql_version exists." do
+  describe "#web_app" do
+    it "returns web_app when web_app exists." do
       input_opts = Clim::Options::Values.new
-      input_opts.merge!({"mysql-version" => "5.7"})
+      input_opts.merge!({"web-app" => true})
       opts = Opts.new(input_opts)
-      opts.mysql_version.should eq "5.7"
+      opts.web_app.should eq true
     end
-    it "returns nil when mysql_version not exests in opts." do
+    it "returns nil when web_app not exests in opts." do
       input_opts = Clim::Options::Values.new
       opts = Opts.new(input_opts)
-      opts.mysql_version.should eq nil
-    end
-  end
-  describe "#nginx_version" do
-    it "returns nginx_version when nginx_version exists." do
-      input_opts = Clim::Options::Values.new
-      input_opts.merge!({"nginx-version" => "1.13.1"})
-      opts = Opts.new(input_opts)
-      opts.nginx_version.should eq "1.13.1"
-    end
-    it "returns nil when nginx_version not exests in opts." do
-      input_opts = Clim::Options::Values.new
-      opts = Opts.new(input_opts)
-      opts.nginx_version.should eq nil
+      opts.web_app.should eq nil
     end
   end
 end

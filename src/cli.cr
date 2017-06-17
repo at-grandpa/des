@@ -10,8 +10,7 @@ module Des
     string "-c NAME", "--container=NAME",        desc: "Container name.",                             default: "my_container"
     string "-d SAVE_DIR", "--save-dir=SAVE_DIR", desc: "Save dir path.",                              default: "."
     string "-r RC_FILE", "--rc-file=RC_FILE",    desc: ".descr.yml path.",                            default: "~/.desrc.yml"
-    string "--mysql-version=VERSION",            desc: "Add mysql container with version specified.", default: ""
-    string "--nginx-version=VERSION",            desc: "Add nginx container with version specified.", default: ""
+    bool   "-w", "--web-app",                    desc: "Web app version. (Includes nginx and mysql)", default: false
     run do |opts, args|
 
       opts = Opts.new(opts)

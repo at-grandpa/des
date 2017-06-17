@@ -11,8 +11,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
+          web_app: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'image' key not exists.
 
@@ -32,8 +31,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
+          web_app: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -52,8 +50,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
+          web_app: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -72,8 +69,7 @@ describe Des::Parameters do
           image: rc_file_image
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
+          web_app: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'packages' key not exists.
 
@@ -93,8 +89,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
+          web_app: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -113,8 +108,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
+          web_app: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -135,8 +129,7 @@ describe Des::Parameters do
             - rc_file_package1
             - rc_file_package2
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
+          web_app: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'container' key not exists.
 
@@ -156,8 +149,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
+          web_app: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -176,8 +168,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
+          web_app: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -217,8 +208,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
+          web_app: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -237,8 +227,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
+          web_app: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -250,8 +239,8 @@ describe Des::Parameters do
         parameters.save_dir.should eq "#{__DIR__}/parameters/opts_save_dir"
       end
     end
-    describe "(about 'mysql_version')" do
-      it "raises an Exception when 'mysql_version' key not exists in rc_file and opts." do
+    describe "(about 'web_app')" do
+      it "raises an Exception when 'web_app' key not exists in rc_file and opts." do
         yaml_str = <<-YAML_STR
         default_param:
           image: rc_file_image
@@ -261,16 +250,16 @@ describe Des::Parameters do
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
         YAML_STR
-        rc = Rc.new(yaml_str) # 'mysql_version' key not exists.
+        rc = Rc.new(yaml_str) # 'web_app' key not exists.
 
         opts_values = Clim::Options::Values.new
-        opts = Opts.new(opts_values) # 'mysql_version' key not exists.
+        opts = Opts.new(opts_values) # 'web_app' key not exists.
 
-        expect_raises(Exception, "Mysql version is not set. See 'des -h'") do
+        expect_raises(Exception, "web_app flag is not set. See 'des -h'") do
           Des::Parameters.new(rc, opts)
         end
       end
-      it "set rc_file mysql_version when opts mysql_version not exists." do
+      it "set rc_file web_app when opts web_app not exists." do
         yaml_str = <<-YAML_STR
         default_param:
           image: rc_file_image
@@ -279,18 +268,17 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
+          web_app: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
         opts_values = Clim::Options::Values.new
-        opts = Opts.new(opts_values) # 'mysql_version' key not exist.
+        opts = Opts.new(opts_values) # 'web_app' key not exist.
 
         parameters = Des::Parameters.new(rc, opts)
-        parameters.mysql_version.should eq "5.7"
+        parameters.web_app.should eq false
       end
-      it "overwrite rc_file mysql_version with opts mysql_version when opts mysql_version exists." do
+      it "overwrite rc_file web_app with opts web_app when opts web_app exists." do
         yaml_str = <<-YAML_STR
         default_param:
           image: rc_file_image
@@ -299,152 +287,16 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
+          web_app: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
         opts_values = Clim::Options::Values.new
-        opts_values.merge!({"mysql-version" => "7.0"})
+        opts_values.merge!({"web-app" => true})
         opts = Opts.new(opts_values)
 
         parameters = Des::Parameters.new(rc, opts)
-        parameters.mysql_version.should eq "7.0"
-      end
-    end
-    describe "(about 'nginx_version')" do
-      it "raises an Exception when 'nginx_version' key not exists in rc_file and opts." do
-        yaml_str = <<-YAML_STR
-        default_param:
-          image: rc_file_image
-          packages:
-            - rc_file_package1
-            - rc_file_package2
-          container: rc_file_container
-          save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-        YAML_STR
-        rc = Rc.new(yaml_str) # 'nginx_version' key not exists.
-
-        opts_values = Clim::Options::Values.new
-        opts = Opts.new(opts_values) # 'nginx_version' key not exists.
-
-        expect_raises(Exception, "Nginx version is not set. See 'des -h'") do
-          Des::Parameters.new(rc, opts)
-        end
-      end
-      it "set rc_file nginx_version when opts nginx_version not exists." do
-        yaml_str = <<-YAML_STR
-        default_param:
-          image: rc_file_image
-          packages:
-            - rc_file_package1
-            - rc_file_package2
-          container: rc_file_container
-          save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
-        YAML_STR
-        rc = Rc.new(yaml_str)
-
-        opts_values = Clim::Options::Values.new
-        opts = Opts.new(opts_values) # 'nginx_version' key not exist.
-
-        parameters = Des::Parameters.new(rc, opts)
-        parameters.nginx_version.should eq "1.13.1"
-      end
-      it "overwrite rc_file nginx_version with opts nginx_version when opts nginx_version exists." do
-        yaml_str = <<-YAML_STR
-        default_param:
-          image: rc_file_image
-          packages:
-            - rc_file_package1
-            - rc_file_package2
-          container: rc_file_container
-          save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
-        YAML_STR
-        rc = Rc.new(yaml_str)
-
-        opts_values = Clim::Options::Values.new
-        opts_values.merge!({"nginx-version" => "1.14.1"})
-        opts = Opts.new(opts_values)
-
-        parameters = Des::Parameters.new(rc, opts)
-        parameters.nginx_version.should eq "1.14.1"
-      end
-    end
-    describe "(about 'docker_compose')" do
-      it "returns default compose setting when 'docker_compose' key not exists in rc_file and opts." do
-        yaml_str = <<-YAML_STR
-        default_param:
-          image: rc_file_image
-          packages:
-            - rc_file_package1
-            - rc_file_package2
-          container: rc_file_container
-          save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
-        YAML_STR
-        rc = Rc.new(yaml_str) # 'docker_compose' key not exists.
-
-        opts_values = Clim::Options::Values.new
-        opts = Opts.new(opts_values)
-
-        parameters = Des::Parameters.new(rc, opts)
-        parameters.docker_compose.should eq(
-          {
-            "version"  => "2",
-            "services" => {
-              "app" => {
-                "build" => ".",
-              },
-            },
-          }
-        )
-      end
-      it "overwrite default with rc_file docker_compose when rc_file docker_compose exists." do
-        yaml_str = <<-YAML_STR
-        default_param:
-          image: rc_file_image
-          packages:
-            - rc_file_package1
-            - rc_file_package2
-          container: rc_file_container
-          save_dir: #{__DIR__}/parameters/rc_file_save_dir
-          mysql_version: 5.7
-          nginx_version: 1.13.1
-          docker_compose:
-            version: '2'
-            services:
-              app:
-                build: .
-                port:
-                  - 80
-                  - 443
-        YAML_STR
-        rc = Rc.new(yaml_str)
-
-        opts_values = Clim::Options::Values.new
-        opts = Opts.new(opts_values)
-
-        parameters = Des::Parameters.new(rc, opts)
-        parameters.docker_compose.should eq(
-          {
-            "version"  => "2",
-            "services" => {
-              "app" => {
-                "build" => ".",
-                "port"  => [
-                  "80",
-                  "443",
-                ],
-              },
-            },
-          }
-        )
+        parameters.web_app.should eq true
       end
     end
   end

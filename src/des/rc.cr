@@ -5,7 +5,7 @@ module Des
     def initialize(yaml_str)
       @setting = YAML.parse(yaml_str)
       begin
-        @setting.as_h  # rc file format is only allowed in hash format.
+        @setting.as_h # rc file format is only allowed in hash format.
       rescue ex
         raise "rc file format is not Hash. Exception -> #{ex.message}"
       end
@@ -37,23 +37,18 @@ module Des
       save_dir
     end
 
-    def mysql_version
+    def web_app
       return nil unless @setting["default_param"]?
-      return nil unless @setting["default_param"]["mysql_version"]?
-      @setting["default_param"]["mysql_version"].as_s
+      return nil unless @setting["default_param"]["web_app"]?
+      web_app_str = @setting["default_param"]["web_app"].as_s
+      case web_app_str
+      when "true"
+        true
+      when "false"
+        false
+      else
+        raise "web_app flag set as rc_file is allowed only 'true' or 'false'. The set flag is [#{web_app_str}]."
+      end
     end
-
-    def nginx_version
-      return nil unless @setting["default_param"]?
-      return nil unless @setting["default_param"]["nginx_version"]?
-      @setting["default_param"]["nginx_version"].as_s
-    end
-
-    def docker_compose
-      return nil unless @setting["default_param"]?
-      return nil unless @setting["default_param"]["docker_compose"]?
-      @setting["default_param"]["docker_compose"]
-    end
-
   end
 end

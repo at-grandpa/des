@@ -104,97 +104,47 @@ describe Des::Rc do
       rc.save_dir.should eq "#{__DIR__}/rc/rc_file_save_dir"
     end
   end
-  describe "#mysql_version" do
+  describe "#web_app" do
     it "returns nil when 'default_param' key not exists." do
       yaml_str = <<-YAML
       dummy_key: dummy_value
       YAML
       rc = Rc.new(yaml_str)
-      rc.mysql_version.should be_nil
+      rc.web_app.should be_nil
     end
-    it "returns nil when 'mysql_version' key not exists." do
+    it "returns nil when 'web_app' key not exists." do
       yaml_str = <<-YAML
       default_param:
         dummy_key: dummy_value
       YAML
       rc = Rc.new(yaml_str)
-      rc.mysql_version.should be_nil
+      rc.web_app.should be_nil
     end
-    it "returns mysql_version when 'mysql_version' key exists." do
+    it "raises an Exception when web_app other than true and false is set." do
       yaml_str = <<-YAML
       default_param:
-        mysql_version: 5.7
+        web_app: hoge
       YAML
       rc = Rc.new(yaml_str)
-      rc.mysql_version.should eq "5.7"
+      expect_raises(Exception, "web_app flag set as rc_file is allowed only 'true' or 'false'. The set flag is [hoge].") do
+        rc.web_app
+      end
     end
-  end
-  describe "#nginx_version" do
-    it "returns nil when 'default_param' key not exists." do
-      yaml_str = <<-YAML
-      dummy_key: dummy_value
-      YAML
-      rc = Rc.new(yaml_str)
-      rc.nginx_version.should be_nil
-    end
-    it "returns nil when 'nginx_version' key not exists." do
+    it "returns true when 'web_app' is true." do
       yaml_str = <<-YAML
       default_param:
-        dummy_key: dummy_value
+        web_app: true
       YAML
       rc = Rc.new(yaml_str)
-      rc.nginx_version.should be_nil
+      rc.web_app.should be_true
     end
-    it "returns nginx_versionwhen 'nginx_version' key exists." do
+    it "returns false when 'web_app' is false." do
       yaml_str = <<-YAML
       default_param:
-        nginx_version: 1.13.1
+        web_app: false
       YAML
       rc = Rc.new(yaml_str)
-      rc.nginx_version.should eq "1.13.1"
-    end
-  end
-  describe "#docker_compose" do
-    it "returns nil when 'default_param' key not exists." do
-      yaml_str = <<-YAML
-      dummy_key: dummy_value
-      YAML
-      rc = Rc.new(yaml_str)
-      rc.docker_compose.should be_nil
-    end
-    it "returns nil when 'docker_compose' key not exists." do
-      yaml_str = <<-YAML
-      default_param:
-        dummy_key: dummy_value
-      YAML
-      rc = Rc.new(yaml_str)
-      rc.docker_compose.should be_nil
-    end
-    it "returns nginx_versionwhen 'docker_compose' key exists." do
-      yaml_str = <<-YAML
-      default_param:
-        docker_compose:
-          version: '2'
-          services:
-            app:
-              build: .
-              port:
-                - 80
-                - 443
-      YAML
-      rc = Rc.new(yaml_str)
-      rc.docker_compose.should eq({
-        "version"  => "2",
-        "services" => {
-          "app" => {
-            "build" => ".",
-            "port"  => [
-              "80",
-              "443",
-            ],
-          },
-        },
-      })
+      rc.web_app.should be_false
     end
   end
 end
