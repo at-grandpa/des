@@ -3,7 +3,7 @@ require "colorize"
 
 module Des
   abstract class FileCreator
-    def initialize(@parameters : Parameters)
+    def initialize(@parameters : Parameters, @silent : Bool = false)
     end
 
     abstract def file_name
@@ -11,7 +11,7 @@ module Des
     def create_file
       path = "#{@parameters.save_dir}/#{file_name}"
       File.write(path, to_s)
-      puts "#{"create".colorize(:light_green)}  #{path}"
+      puts "#{"create".colorize(:light_green)}  #{path}" unless @silent
     end
 
     macro ecr_setting

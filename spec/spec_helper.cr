@@ -3,3 +3,5 @@ require "../src/des"
 
 alias Rc = Des::Rc
 alias Opts = Des::Opts
+alias Parameters = Des::Parameters
+alias Dockerfile = Des::Dockerfile
