@@ -21,7 +21,7 @@ describe Des::Dockerfile do
   describe "#create_file" do
     [
       Dockerfile::SpecCase.new(
-        describe: "create file with rc_file parameter when there is no opts parameters.",
+        describe: "create Dockerfile with rc_file parameter when there is no opts parameters.",
         rc_file_yaml: "
         default_param:
           image: rc_file_image
