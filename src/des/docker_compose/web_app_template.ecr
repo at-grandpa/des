@@ -1,0 +1,29 @@
+version: '2'
+services:
+  app:
+    build: .
+    container_name: <%= @parameters.container %>
+    restart: always
+    stdin_open: true
+    volumes:
+      - .:/root/<%= @parameters.container %>
+    ports:
+      - 3000
+    links:
+      - mysql
+  mysql:
+    image: mysql
+    container_name: <%= @parameters.container %>-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306
+  nginx:
+    image: nginx
+    container_name: <%= @parameters.container %>-nginx
+    restart: always
+    ports:
+      - 80:80
+    links:
+      - app

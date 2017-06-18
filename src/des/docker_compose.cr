@@ -1,12 +1,34 @@
+require "./file_creator"
+require "yaml"
+require "ecr"
+
 module Des
   class DockerCompose
-    @opts : Clim::Options::Values
-
-    def initialize(@opts)
+    def initialize(@parameters : Parameters)
     end
 
     def create_file
-      puts "create docker-compose.yml"
+      if @parameters.web_app
+        WebApp.new(@parameters).create_file
+      else
+        Default.new(@parameters).create_file
+      end
+    end
+
+    class Default < FileCreator
+      def file_name
+        "docker-compose.yml"
+      end
+
+      ECR.def_to_s "#{__DIR__}/docker_compose/default_template.ecr"
+    end
+
+    class WebApp < FileCreator
+      def file_name
+        "docker-compose.yml"
+      end
+
+      ECR.def_to_s "#{__DIR__}/docker_compose/web_app_template.ecr"
     end
   end
 end

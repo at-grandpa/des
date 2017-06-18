@@ -1,0 +1,11 @@
+version: '2'
+services:
+  app:
+    build: .
+    container_name: <%= @parameters.container %>
+    restart: always
+    stdin_open: true
+    volumes:
+      - .:/root/<%= @parameters.container %>
+    ports:
+      - 3000
