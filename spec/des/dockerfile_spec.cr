@@ -1,11 +1,11 @@
 require "../spec_helper"
 
-alias OptsParameters = Hash(String, String) | Hash(String, Bool) | Hash(String, Array(String))
+alias OptsParameter = Hash(String, String) | Hash(String, Bool) | Hash(String, Array(String))
 
 class SpecCase
   @describe : String = ""
   @rc_file_yaml : String = ""
-  @opts_parameters : Array(OptsParameters) = [] of OptsParameters
+  @opts_parameters : Array(OptsParameter) = [] of OptsParameter
   @expect : String = ""
 
   getter describe, rc_file_yaml, opts_parameters, expect
@@ -19,7 +19,7 @@ describe Des::Dockerfile do
     [
       SpecCase.new(
         describe: "create file with rc_file parameter when there is no opts parameters.",
-        rc_file_yaml: <<-RC_FILE_YAML
+        rc_file_yaml: "
         default_param:
           image: rc_file_image
           packages:
@@ -28,8 +28,8 @@ describe Des::Dockerfile do
           container: rc_file_container
           save_dir: #{__DIR__}/dockerfile/rc_file_save_dir
           web_app: false
-        RC_FILE_YAML,
-        opts_parameters: [] of OptsParameters,
+        ",
+        opts_parameters: [] of OptsParameter,
         expect: <<-EXPECT
         FROM rc_file_image
 
