@@ -4,14 +4,14 @@ require "ecr"
 
 module Des
   class DockerCompose
-    def initialize(@parameters : Parameters)
+    def initialize(@parameters : Parameters, @silent : Bool = false)
     end
 
     def create_file
       if @parameters.web_app
-        WebApp.new(@parameters).create_file
+        WebApp.new(@parameters, @silent).create_file
       else
-        Default.new(@parameters).create_file
+        Default.new(@parameters, @silent).create_file
       end
     end
 

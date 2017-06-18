@@ -1,6 +1,6 @@
 require "../spec_helper"
 
-describe Des::Dockerfile do
+describe Des::DockerCompose do
   describe "#create_file" do
     [
       SpecCase.new(
@@ -17,65 +17,17 @@ describe Des::Dockerfile do
         ",
         opts_parameters: [] of OptsParameter,
         expect: <<-EXPECT
-        FROM rc_file_image
-
-        RUN apt-get -y update
-        RUN apt-get -y upgrade
-        RUN apt-get -y install rc_file_package1 rc_file_package2
-
-        WORKDIR /root/rc_file_container
-
-        EXPECT
-      ),
-      SpecCase.new(
-        describe: "create Dockerfile overwrited 'image' with the opts parameter when opts has an 'image'.",
-        rc_file_yaml: "
-        default_param:
-          image: rc_file_image
-          packages:
-            - rc_file_package1
-            - rc_file_package2
-          container: rc_file_container
-          save_dir: #{__DIR__}/var/rc_file_save_dir
-          web_app: false
-        ",
-        opts_parameters: [
-          {"image" => "opts_image"},
-        ],
-        expect: <<-EXPECT
-        FROM opts_image
-
-        RUN apt-get -y update
-        RUN apt-get -y upgrade
-        RUN apt-get -y install rc_file_package1 rc_file_package2
-
-        WORKDIR /root/rc_file_container
-
-        EXPECT
-      ),
-      SpecCase.new(
-        describe: "create Dockerfile overwrited 'packages' with the opts parameter when opts has an 'packages'.",
-        rc_file_yaml: "
-        default_param:
-          image: rc_file_image
-          packages:
-            - rc_file_package1
-            - rc_file_package2
-          container: rc_file_container
-          save_dir: #{__DIR__}/var/rc_file_save_dir
-          web_app: false
-        ",
-        opts_parameters: [
-          {"packages" => ["opts_packages1", "opts_packages2", "opts_packages3"]},
-        ],
-        expect: <<-EXPECT
-        FROM rc_file_image
-
-        RUN apt-get -y update
-        RUN apt-get -y upgrade
-        RUN apt-get -y install opts_packages1 opts_packages2 opts_packages3
-
-        WORKDIR /root/rc_file_container
+        version: '2'
+        services:
+          app:
+            build: .
+            container_name: rc_file_container
+            restart: always
+            stdin_open: true
+            volumes:
+              - .:/root/rc_file_container
+            ports:
+              - 3000
 
         EXPECT
       ),
@@ -95,13 +47,17 @@ describe Des::Dockerfile do
           {"container" => "opts_container"},
         ],
         expect: <<-EXPECT
-        FROM rc_file_image
-
-        RUN apt-get -y update
-        RUN apt-get -y upgrade
-        RUN apt-get -y install rc_file_package1 rc_file_package2
-
-        WORKDIR /root/opts_container
+        version: '2'
+        services:
+          app:
+            build: .
+            container_name: opts_container
+            restart: always
+            stdin_open: true
+            volumes:
+              - .:/root/opts_container
+            ports:
+              - 3000
 
         EXPECT
       ),
@@ -121,13 +77,17 @@ describe Des::Dockerfile do
           {"save-dir" => "#{__DIR__}/var/opts_save_dir"},
         ],
         expect: <<-EXPECT
-        FROM rc_file_image
-
-        RUN apt-get -y update
-        RUN apt-get -y upgrade
-        RUN apt-get -y install rc_file_package1 rc_file_package2
-
-        WORKDIR /root/rc_file_container
+        version: '2'
+        services:
+          app:
+            build: .
+            container_name: rc_file_container
+            restart: always
+            stdin_open: true
+            volumes:
+              - .:/root/rc_file_container
+            ports:
+              - 3000
 
         EXPECT
       ),
@@ -147,13 +107,35 @@ describe Des::Dockerfile do
           {"web-app" => true},
         ],
         expect: <<-EXPECT
-        FROM rc_file_image
-
-        RUN apt-get -y update
-        RUN apt-get -y upgrade
-        RUN apt-get -y install rc_file_package1 rc_file_package2
-
-        WORKDIR /root/rc_file_container
+        version: '2'
+        services:
+          app:
+            build: .
+            container_name: rc_file_container
+            restart: always
+            stdin_open: true
+            volumes:
+              - .:/root/rc_file_container
+            ports:
+              - 3000
+            links:
+              - mysql
+          mysql:
+            image: mysql
+            container_name: rc_file_container-mysql
+            restart: always
+            environment:
+              MYSQL_ROOT_PASSWORD: root
+            ports:
+              - 3306
+          nginx:
+            image: nginx
+            container_name: rc_file_container-nginx
+            restart: always
+            ports:
+              - 80:80
+            links:
+              - app
 
         EXPECT
       ),
@@ -170,20 +152,40 @@ describe Des::Dockerfile do
           web_app: false
         ",
         opts_parameters: [
-          {"image" => "opts_image"},
-          {"packages" => ["opts_packages1", "opts_packages2", "opts_packages3"]},
           {"container" => "opts_container"},
           {"save-dir" => "#{__DIR__}/var/opts_save_dir"},
           {"web-app" => true},
         ],
         expect: <<-EXPECT
-        FROM opts_image
-
-        RUN apt-get -y update
-        RUN apt-get -y upgrade
-        RUN apt-get -y install opts_packages1 opts_packages2 opts_packages3
-
-        WORKDIR /root/opts_container
+        version: '2'
+        services:
+          app:
+            build: .
+            container_name: opts_container
+            restart: always
+            stdin_open: true
+            volumes:
+              - .:/root/opts_container
+            ports:
+              - 3000
+            links:
+              - mysql
+          mysql:
+            image: mysql
+            container_name: opts_container-mysql
+            restart: always
+            environment:
+              MYSQL_ROOT_PASSWORD: root
+            ports:
+              - 3306
+          nginx:
+            image: nginx
+            container_name: opts_container-nginx
+            restart: always
+            ports:
+              - 80:80
+            links:
+              - app
 
         EXPECT
       ),
@@ -198,9 +200,9 @@ describe Des::Dockerfile do
         opts = Opts.new(input_opts)
 
         parameters = Parameters.new(rc, opts)
-        Dockerfile.new(parameters, silent: true).create_file
+        DockerCompose.new(parameters, silent: true).create_file
 
-        created_file_path = "#{parameters.save_dir}/Dockerfile"
+        created_file_path = "#{parameters.save_dir}/docker-compose.yml"
         File.read(created_file_path).should eq spec_case.expect
         File.delete(created_file_path)
       end

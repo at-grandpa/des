@@ -100,7 +100,7 @@ describe Des::Makefile do
         parameters = Parameters.new(rc, opts)
         Makefile.new(parameters, silent: true).create_file
 
-        created_file_path = "#{rc.save_dir}/Makefile"
+        created_file_path = "#{parameters.save_dir}/Makefile"
         File.read(created_file_path).should eq spec_case.expect
         File.delete(created_file_path)
       end
