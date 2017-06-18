@@ -1,26 +1,9 @@
 require "../spec_helper"
 
-alias OptsParameter = Hash(String, String) | Hash(String, Bool) | Hash(String, Array(String))
-
-class Makefile::SpecCase
-  @describe : String = ""
-  @rc_file_yaml : String = ""
-  @opts_parameters : Array(OptsParameter) = [] of OptsParameter
-  @expect : String = ""
-
-  getter describe, rc_file_yaml, opts_parameters, expect
-
-  def initialize(@describe, @rc_file_yaml, opts_parameters, @expect)
-    opts_parameters.each do |parameter|
-      @opts_parameters << parameter
-    end
-  end
-end
-
 describe Des::Makefile do
   describe "#create_file" do
     [
-      Makefile::SpecCase.new(
+      SpecCase.new(
         describe: "create Makefile with rc_file parameter when there is no opts parameters.",
         rc_file_yaml: "
         default_param:
@@ -29,7 +12,7 @@ describe Des::Makefile do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/makefile/rc_file_save_dir
+          save_dir: #{__DIR__}/var/rc_file_save_dir
           web_app: false
         ",
         opts_parameters: [] of OptsParameter,
@@ -61,7 +44,7 @@ describe Des::Makefile do
 
         EXPECT
       ),
-      Makefile::SpecCase.new(
+      SpecCase.new(
         describe: "create Makefile overwrited 'container' with the opts parameter when opts has an 'container'.",
         rc_file_yaml: "
         default_param:
@@ -70,7 +53,7 @@ describe Des::Makefile do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/makefile/rc_file_save_dir
+          save_dir: #{__DIR__}/var/rc_file_save_dir
           web_app: false
         ",
         opts_parameters: [

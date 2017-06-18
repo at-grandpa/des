@@ -1,26 +1,9 @@
 require "../spec_helper"
 
-alias OptsParameter = Hash(String, String) | Hash(String, Bool) | Hash(String, Array(String))
-
-class Dockerfile::SpecCase
-  @describe : String = ""
-  @rc_file_yaml : String = ""
-  @opts_parameters : Array(OptsParameter) = [] of OptsParameter
-  @expect : String = ""
-
-  getter describe, rc_file_yaml, opts_parameters, expect
-
-  def initialize(@describe, @rc_file_yaml, opts_parameters, @expect)
-    opts_parameters.each do |parameter|
-      @opts_parameters << parameter
-    end
-  end
-end
-
 describe Des::Dockerfile do
   describe "#create_file" do
     [
-      Dockerfile::SpecCase.new(
+      SpecCase.new(
         describe: "create Dockerfile with rc_file parameter when there is no opts parameters.",
         rc_file_yaml: "
         default_param:
@@ -29,7 +12,7 @@ describe Des::Dockerfile do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/dockerfile/rc_file_save_dir
+          save_dir: #{__DIR__}/var/rc_file_save_dir
           web_app: false
         ",
         opts_parameters: [] of OptsParameter,
@@ -44,7 +27,7 @@ describe Des::Dockerfile do
 
         EXPECT
       ),
-      Dockerfile::SpecCase.new(
+      SpecCase.new(
         describe: "create Dockerfile overwrited 'image' with the opts parameter when opts has an 'image'.",
         rc_file_yaml: "
         default_param:
@@ -53,7 +36,7 @@ describe Des::Dockerfile do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/dockerfile/rc_file_save_dir
+          save_dir: #{__DIR__}/var/rc_file_save_dir
           web_app: false
         ",
         opts_parameters: [
@@ -70,7 +53,7 @@ describe Des::Dockerfile do
 
         EXPECT
       ),
-      Dockerfile::SpecCase.new(
+      SpecCase.new(
         describe: "create Dockerfile overwrited 'packages' with the opts parameter when opts has an 'packages'.",
         rc_file_yaml: "
         default_param:
@@ -79,7 +62,7 @@ describe Des::Dockerfile do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/dockerfile/rc_file_save_dir
+          save_dir: #{__DIR__}/var/rc_file_save_dir
           web_app: false
         ",
         opts_parameters: [
@@ -96,7 +79,7 @@ describe Des::Dockerfile do
 
         EXPECT
       ),
-      Dockerfile::SpecCase.new(
+      SpecCase.new(
         describe: "create Dockerfile overwrited 'container' with the opts parameter when opts has an 'container'.",
         rc_file_yaml: "
         default_param:
@@ -105,7 +88,7 @@ describe Des::Dockerfile do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/dockerfile/rc_file_save_dir
+          save_dir: #{__DIR__}/var/rc_file_save_dir
           web_app: false
         ",
         opts_parameters: [
@@ -122,7 +105,7 @@ describe Des::Dockerfile do
 
         EXPECT
       ),
-      Dockerfile::SpecCase.new(
+      SpecCase.new(
         describe: "create Dockerfile overwrited 'save_dir' with the opts parameter when opts has an 'save_dir'.",
         rc_file_yaml: "
         default_param:
@@ -131,11 +114,11 @@ describe Des::Dockerfile do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/dockerfile/rc_file_save_dir
+          save_dir: #{__DIR__}/var/rc_file_save_dir
           web_app: false
         ",
         opts_parameters: [
-          {"save_dir" => "#{__DIR__}/dockerfile/opts_save_dir"},
+          {"save_dir" => "#{__DIR__}/var/opts_save_dir"},
         ],
         expect: <<-EXPECT
         FROM rc_file_image
@@ -148,7 +131,7 @@ describe Des::Dockerfile do
 
         EXPECT
       ),
-      Dockerfile::SpecCase.new(
+      SpecCase.new(
         describe: "create Dockerfile overwrited 'web_app' with the opts parameter when opts has an 'web_app'.",
         rc_file_yaml: "
         default_param:
@@ -157,7 +140,7 @@ describe Des::Dockerfile do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/dockerfile/rc_file_save_dir
+          save_dir: #{__DIR__}/var/rc_file_save_dir
           web_app: false
         ",
         opts_parameters: [
@@ -174,7 +157,7 @@ describe Des::Dockerfile do
 
         EXPECT
       ),
-      Dockerfile::SpecCase.new(
+      SpecCase.new(
         describe: "create Dockerfile overwrited all parameters with the opts parameter when opts has an all parameters.",
         rc_file_yaml: "
         default_param:
@@ -183,14 +166,14 @@ describe Des::Dockerfile do
             - rc_file_package1
             - rc_file_package2
           container: rc_file_container
-          save_dir: #{__DIR__}/dockerfile/rc_file_save_dir
+          save_dir: #{__DIR__}/var/rc_file_save_dir
           web_app: false
         ",
         opts_parameters: [
           {"image" => "opts_image"},
           {"packages" => ["opts_packages1", "opts_packages2", "opts_packages3"]},
           {"container" => "opts_container"},
-          {"save_dir" => "#{__DIR__}/dockerfile/opts_save_dir"},
+          {"save_dir" => "#{__DIR__}/var/opts_save_dir"},
           {"web_app" => true},
         ],
         expect: <<-EXPECT
