@@ -5,3 +5,5 @@ alias Rc = Des::Rc
 alias Opts = Des::Opts
 alias Parameters = Des::Parameters
 alias Dockerfile = Des::Dockerfile
+alias Makefile = Des::Makefile
+alias DockerCompose = Des::DockerCompose
