@@ -10,7 +10,8 @@ module Des
     string "-c NAME", "--container=NAME",        desc: "Container name.",                             default: "my_container"
     string "-d SAVE_DIR", "--save-dir=SAVE_DIR", desc: "Save dir path.",                              default: "."
     string "-r RC_FILE", "--rc-file=RC_FILE",    desc: ".descr.yml path.",                            default: "~/.desrc.yml"
-    bool   "-w", "--web-app",                    desc: "Web app version. (Includes nginx and mysql)", default: false
+    bool   "-w", "--web-app",                    desc: "Web app mode. (Includes nginx and mysql)",    default: false
+    bool   "-o", "--overwrite",                  desc: "Overwrite each file.",                        default: false
     run do |opts, args|
 
       opts = Opts.new(opts)

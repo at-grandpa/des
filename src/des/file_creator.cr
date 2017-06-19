@@ -10,8 +10,36 @@ module Des
 
     def create_file
       path = "#{@parameters.save_dir}/#{file_name}"
+      if File.exists?(path)
+        if @parameters.overwrite
+          write(path)
+        else
+          overwrite?(path) ? write(path) : not_write(path)
+        end
+      else
+        write(path)
+      end
+    end
+
+    def write(path)
       File.write(path, to_s)
       puts "#{"create".colorize(:light_green)}  #{path}" unless @silent
+    end
+
+    def not_write(path)
+      puts "#{"Did not overwrite.".colorize(:light_yellow)}" unless @silent
+    end
+
+    def overwrite?(path)
+      ans = ""
+      loop do
+        puts "#{path}"
+        print "Overwrite? (y or n) > "
+        ans = gets
+        break if ans == "y" || ans == "n"
+        puts "Please input y or n."
+      end
+      ans == "y"
     end
 
     macro ecr_setting

@@ -14,6 +14,7 @@ describe Des::Makefile do
           container: rc_file_container
           save_dir: #{__DIR__}/var/rc_file_save_dir
           web_app: false
+          overwrite: false
         ",
         opts_parameters: [] of OptsParameter,
         expect: <<-EXPECT
@@ -55,6 +56,7 @@ describe Des::Makefile do
           container: rc_file_container
           save_dir: #{__DIR__}/var/rc_file_save_dir
           web_app: false
+          overwrite: false
         ",
         opts_parameters: [
           {"container" => "opts_container"},

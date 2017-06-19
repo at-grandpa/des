@@ -60,5 +60,10 @@ module Des
       web_app
     end
 
+    def overwrite
+      overwrite = @opts.b["overwrite"]?
+      return nil if overwrite.nil?
+      overwrite
+    end
   end
 end

@@ -50,5 +50,19 @@ module Des
         raise "web_app flag set as rc_file is allowed only 'true' or 'false'. The set flag is [#{web_app_str}]."
       end
     end
+
+    def overwrite
+      return nil unless @setting["default_param"]?
+      return nil unless @setting["default_param"]["overwrite"]?
+      overwrite_str = @setting["default_param"]["overwrite"].as_s
+      case overwrite_str
+      when "true"
+        true
+      when "false"
+        false
+      else
+        raise "overwrite flag set as rc_file is allowed only 'true' or 'false'. The set flag is [#{overwrite_str}]."
+      end
+    end
   end
 end

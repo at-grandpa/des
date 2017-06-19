@@ -12,6 +12,7 @@ describe Des::Parameters do
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
           web_app: false
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'image' key not exists.
 
@@ -32,6 +33,7 @@ describe Des::Parameters do
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
           web_app: false
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -51,6 +53,7 @@ describe Des::Parameters do
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
           web_app: false
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -70,6 +73,7 @@ describe Des::Parameters do
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
           web_app: false
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'packages' key not exists.
 
@@ -90,6 +94,7 @@ describe Des::Parameters do
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
           web_app: false
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -109,6 +114,7 @@ describe Des::Parameters do
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
           web_app: false
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -130,6 +136,7 @@ describe Des::Parameters do
             - rc_file_package2
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
           web_app: false
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'container' key not exists.
 
@@ -150,6 +157,7 @@ describe Des::Parameters do
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
           web_app: false
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -169,6 +177,7 @@ describe Des::Parameters do
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
           web_app: false
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -209,6 +218,7 @@ describe Des::Parameters do
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
           web_app: false
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -228,6 +238,7 @@ describe Des::Parameters do
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
           web_app: false
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -249,6 +260,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'web_app' key not exists.
 
@@ -269,6 +281,7 @@ describe Des::Parameters do
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
           web_app: false
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
@@ -288,6 +301,7 @@ describe Des::Parameters do
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
           web_app: false
+          overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 

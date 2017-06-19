@@ -9,8 +9,9 @@ module Des
     @container : String
     @save_dir : String
     @web_app : Bool
+    @overwrite : Bool
 
-    getter image, packages, container, save_dir, web_app
+    getter image, packages, container, save_dir, web_app, overwrite
 
     def initialize(@rc, @opts)
       @image = _find_image
@@ -18,6 +19,7 @@ module Des
       @container = _find_container
       @save_dir = _find_save_dir
       @web_app = _find_web_app
+      @overwrite = _find_overwrite
     end
 
     private def _find_image
@@ -54,10 +56,18 @@ module Des
 
     private def _find_web_app
       web_app = nil
-      web_app= @rc.web_app unless @rc.web_app.nil?
+      web_app = @rc.web_app unless @rc.web_app.nil?
       web_app = @opts.web_app unless @opts.web_app.nil?
       raise "web_app flag is not set. See 'des -h'" if web_app.nil?
       web_app
+    end
+
+    private def _find_overwrite
+      overwrite = nil
+      overwrite = @rc.overwrite unless @rc.overwrite.nil?
+      overwrite = @opts.overwrite unless @opts.overwrite.nil?
+      raise "overwrite flag is not set. See 'des -h'" if overwrite.nil?
+      overwrite
     end
   end
 end
