@@ -153,4 +153,17 @@ describe Des::Opts do
       opts.web_app.should eq nil
     end
   end
+  describe "#overwrite" do
+    it "returns overwrite when overwrite exists." do
+      input_opts = Clim::Options::Values.new
+      input_opts.merge!({"overwrite" => true})
+      opts = Opts.new(input_opts)
+      opts.overwrite.should eq true
+    end
+    it "returns nil when overwrite not exests in opts." do
+      input_opts = Clim::Options::Values.new
+      opts = Opts.new(input_opts)
+      opts.overwrite.should eq nil
+    end
+  end
 end

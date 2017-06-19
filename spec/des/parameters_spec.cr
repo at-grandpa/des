@@ -313,5 +313,79 @@ describe Des::Parameters do
         parameters.web_app.should eq true
       end
     end
+
+
+
+
+
+
+
+
+
+
+
+    describe "(about 'overwrite')" do
+      it "raises an Exception when 'overwrite' key not exists in rc_file and opts." do
+        yaml_str = <<-YAML_STR
+        default_param:
+          image: rc_file_image
+          packages:
+            - rc_file_package1
+            - rc_file_package2
+          container: rc_file_container
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          web_app: false
+        YAML_STR
+        rc = Rc.new(yaml_str) # 'overwrite' key not exists.
+
+        opts_values = Clim::Options::Values.new
+        opts = Opts.new(opts_values) # 'overwrite' key not exists.
+
+        expect_raises(Exception, "overwrite flag is not set. See 'des -h'") do
+          Des::Parameters.new(rc, opts)
+        end
+      end
+      it "set rc_file overwrite when opts overwrite not exists." do
+        yaml_str = <<-YAML_STR
+        default_param:
+          image: rc_file_image
+          packages:
+            - rc_file_package1
+            - rc_file_package2
+          container: rc_file_container
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          web_app: false
+          overwrite: false
+        YAML_STR
+        rc = Rc.new(yaml_str)
+
+        opts_values = Clim::Options::Values.new
+        opts = Opts.new(opts_values) # 'overwrite' key not exist.
+
+        parameters = Des::Parameters.new(rc, opts)
+        parameters.overwrite.should eq false
+      end
+      it "overwrite rc_file overwrite with opts overwrite when opts overwrite exists." do
+        yaml_str = <<-YAML_STR
+        default_param:
+          image: rc_file_image
+          packages:
+            - rc_file_package1
+            - rc_file_package2
+          container: rc_file_container
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          web_app: false
+          overwrite: false
+        YAML_STR
+        rc = Rc.new(yaml_str)
+
+        opts_values = Clim::Options::Values.new
+        opts_values.merge!({"overwrite" => true})
+        opts = Opts.new(opts_values)
+
+        parameters = Des::Parameters.new(rc, opts)
+        parameters.overwrite.should eq true
+      end
+    end
   end
 end

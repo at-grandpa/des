@@ -147,4 +147,47 @@ describe Des::Rc do
       rc.web_app.should be_false
     end
   end
+  describe "#overwrite" do
+    it "returns nil when 'default_param' key not exists." do
+      yaml_str = <<-YAML
+      dummy_key: dummy_value
+      YAML
+      rc = Rc.new(yaml_str)
+      rc.overwrite.should be_nil
+    end
+    it "returns nil when 'overwrite' key not exists." do
+      yaml_str = <<-YAML
+      default_param:
+        dummy_key: dummy_value
+      YAML
+      rc = Rc.new(yaml_str)
+      rc.overwrite.should be_nil
+    end
+    it "raises an Exception when overwrite other than true and false is set." do
+      yaml_str = <<-YAML
+      default_param:
+        overwrite: hoge
+      YAML
+      rc = Rc.new(yaml_str)
+      expect_raises(Exception, "overwrite flag set as rc_file is allowed only 'true' or 'false'. The set flag is [hoge].") do
+        rc.overwrite
+      end
+    end
+    it "returns true when 'overwrite' is true." do
+      yaml_str = <<-YAML
+      default_param:
+        overwrite: true
+      YAML
+      rc = Rc.new(yaml_str)
+      rc.overwrite.should be_true
+    end
+    it "returns false when 'overwrite' is false." do
+      yaml_str = <<-YAML
+      default_param:
+        overwrite: false
+      YAML
+      rc = Rc.new(yaml_str)
+      rc.overwrite.should be_false
+    end
+  end
 end
