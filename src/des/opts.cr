@@ -50,8 +50,9 @@ module Des
     def rc_file
       rc_file = @opts.s["rc-file"]?
       raise "rc_file path is not set. See 'des -h'" if rc_file.nil?
-      raise "rc_file set as an option is not found. -> #{rc_file}" unless File.exists?(rc_file)
-      rc_file
+      rc_file_realpath = File.expand_path(rc_file)
+      raise "rc_file set as an option is not found. -> #{rc_file}" unless File.exists?(rc_file_realpath)
+      rc_file_realpath
     end
 
     def web_app
