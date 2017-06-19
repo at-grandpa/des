@@ -12,9 +12,9 @@ module Des
       path = "#{@parameters.save_dir}/#{file_name}"
       if File.exists?(path)
         if @parameters.overwrite
-          write(path)
+          overwrite(path)
         else
-          overwrite?(path) ? write(path) : not_write(path)
+          overwrite?(path) ? overwrite(path) : not_write(path)
         end
       else
         write(path)
@@ -23,7 +23,12 @@ module Des
 
     def write(path)
       File.write(path, to_s)
-      puts "#{"create".colorize(:light_green)}  #{path}" unless @silent
+      puts "#{"Create".colorize(:light_green)} #{path}" unless @silent
+    end
+
+    def overwrite(path)
+      File.write(path, to_s)
+      puts "#{"Overwrite".colorize(:light_green)} #{path}" unless @silent
     end
 
     def not_write(path)
@@ -38,6 +43,7 @@ module Des
         ans = gets
         break if ans == "y" || ans == "n"
         puts "Please input y or n."
+        puts ""
       end
       ans == "y"
     end
