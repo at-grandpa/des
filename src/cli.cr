@@ -3,7 +3,15 @@ require "./des"
 module Des
   class Cli < Clim
     main_command
-    desc "Creates docker environment skeleton."
+
+    desc <<-DESC
+    Creates docker environment setting files.
+
+        - Dockerfile
+        - Makefile
+        - docker-compose.yml
+    DESC
+
     usage "des [options]"
     string "-i IMAGE", "--image=IMAGE",          desc: "Base docker image name.",                     default: "ubuntu:16.04"
     array  "-p PACKAGES", "--packages=PACKAGE",  desc: "apt-get install packages name.",              default: [] of String
