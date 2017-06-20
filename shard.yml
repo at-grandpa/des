@@ -16,4 +16,4 @@ license: MIT
 dependencies:
   clim:
     github: at-grandpa/clim
-    version: 0.1.1
+    branch: nilable

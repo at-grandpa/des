@@ -33,6 +33,20 @@ module Des
       DockerCompose.new(parameters).create_file
       NginxConf.new(parameters).create_file if parameters.web_app
     end
+
+    sub do
+      command "rcfile"
+      desc "Create default run commands file '.desrc.yml'."
+      usage "des rcfile [options]"
+      string "-d SAVE_DIR", "--save-dir=SAVE_DIR", desc: "Save dir path.", default: File.expand_path("~")
+      bool "-o", "--overwrite", desc: "Overwrite file.", default: false
+      run do |opts, args|
+        opts = Opts.new(opts)
+        rc = Rc.new
+        parameters = Parameters.new(rc, opts)
+        # RcFile.new(parameters).create_file
+      end
+    end
   end
 end
 
