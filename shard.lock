@@ -2,5 +2,5 @@ version: 1.0
 shards:
   clim:
     github: at-grandpa/clim
-    commit: 5ca6728e6823dd351435160647ab6f57ee55e4b8
+    version: 0.1.1
 

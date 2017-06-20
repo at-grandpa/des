@@ -2,9 +2,8 @@ FROM <%= @parameters.image %>
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
-<%- packages = @parameters.packages -%>
-<%- if !packages.nil? && !packages.empty? -%>
-RUN apt-get -y install <%= packages.join(" ") %>
+<%- unless @parameters.packages.empty? -%>
+RUN apt-get -y install <%= @parameters.packages.join(" ") %>
 <%- end -%>
 
 WORKDIR /root/<%= @parameters.container %>
