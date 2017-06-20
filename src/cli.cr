@@ -13,15 +13,14 @@ module Des
     DESC
 
     usage "des [options]"
-    string "-i IMAGE", "--image=IMAGE",          desc: "Base docker image name.",                     default: "ubuntu:16.04"
-    array  "-p PACKAGES", "--packages=PACKAGE",  desc: "apt-get install packages name.",              default: [] of String
-    string "-c NAME", "--container=NAME",        desc: "Container name.",                             default: "my_container"
-    string "-d SAVE_DIR", "--save-dir=SAVE_DIR", desc: "Save dir path.",                              default: "."
-    string "-r RC_FILE", "--rc-file=RC_FILE",    desc: ".descr.yml path.",                            default: "~/.desrc.yml"
-    bool   "-w", "--web-app",                    desc: "Web app mode. (Includes nginx and mysql)",    default: false
-    bool   "-o", "--overwrite",                  desc: "Overwrite each file.",                        default: false
+    string "-i IMAGE", "--image=IMAGE", desc: "Base docker image name."
+    array "-p PACKAGES", "--packages=PACKAGE", desc: "apt-get install packages name."
+    string "-c NAME", "--container=NAME", desc: "Container name."
+    string "-d SAVE_DIR", "--save-dir=SAVE_DIR", desc: "Save dir path."
+    string "-r RC_FILE", "--rc-file=RC_FILE", desc: ".descr.yml path.", default: "~/.desrc.yml"
+    bool "-w", "--web-app", desc: "Web app mode. (Includes nginx and mysql)"
+    bool "-o", "--overwrite", desc: "Overwrite each file."
     run do |opts, args|
-
       opts = Opts.new(opts)
 
       rc_file_yaml_str = File.read(opts.rc_file)
@@ -32,7 +31,6 @@ module Des
       Dockerfile.new(parameters).create_file
       Makefile.new(parameters).create_file
       DockerCompose.new(parameters).create_file
-
     end
   end
 end
