@@ -5,6 +5,8 @@ CONTAINER_NAME := <%= @parameters.container %>
 ps:
 	$(DOCKER_COMPOSE) ps
 
+setup: build up
+
 build:
 	$(DOCKER_COMPOSE) build
 
