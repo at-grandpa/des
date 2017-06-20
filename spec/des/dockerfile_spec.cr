@@ -205,11 +205,15 @@ describe Des::Dockerfile do
         opts = Opts.new(input_opts)
 
         parameters = Parameters.new(rc, opts)
-        Dockerfile.new(parameters, silent: true).create_file
 
         created_file_path = "#{parameters.save_dir}/Dockerfile"
+
+        File.delete(created_file_path) if File.exists?(created_file_path)
+
+        Dockerfile.new(parameters, silent: true).create_file
+
         File.read(created_file_path).should eq spec_case.expect
-        File.delete(created_file_path)
+        File.delete(created_file_path) if File.exists?(created_file_path)
       end
     end
   end

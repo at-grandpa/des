@@ -25,6 +25,8 @@ describe Des::Makefile do
         ps:
         	$(DOCKER_COMPOSE) ps
 
+        setup: build up
+
         build:
         	$(DOCKER_COMPOSE) build
 
@@ -69,6 +71,8 @@ describe Des::Makefile do
         ps:
         	$(DOCKER_COMPOSE) ps
 
+        setup: build up
+
         build:
         	$(DOCKER_COMPOSE) build
 
@@ -100,11 +104,15 @@ describe Des::Makefile do
         opts = Opts.new(input_opts)
 
         parameters = Parameters.new(rc, opts)
-        Makefile.new(parameters, silent: true).create_file
 
         created_file_path = "#{parameters.save_dir}/Makefile"
+
+        File.delete(created_file_path) if File.exists?(created_file_path)
+
+        Makefile.new(parameters, silent: true).create_file
+
         File.read(created_file_path).should eq spec_case.expect
-        File.delete(created_file_path)
+        File.delete(created_file_path) if File.exists?(created_file_path)
       end
     end
   end

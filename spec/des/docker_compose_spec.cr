@@ -136,6 +136,8 @@ describe Des::DockerCompose do
             image: nginx
             container_name: rc_file_container-nginx
             restart: always
+            volumes:
+              - ./nginx.conf:/etc/nginx/nginx.conf
             ports:
               - 80:80
             links:
@@ -187,6 +189,8 @@ describe Des::DockerCompose do
             image: nginx
             container_name: opts_container-nginx
             restart: always
+            volumes:
+              - ./nginx.conf:/etc/nginx/nginx.conf
             ports:
               - 80:80
             links:
@@ -205,11 +209,15 @@ describe Des::DockerCompose do
         opts = Opts.new(input_opts)
 
         parameters = Parameters.new(rc, opts)
-        DockerCompose.new(parameters, silent: true).create_file
 
         created_file_path = "#{parameters.save_dir}/docker-compose.yml"
+
+        File.delete(created_file_path) if File.exists?(created_file_path)
+
+        DockerCompose.new(parameters, silent: true).create_file
+
         File.read(created_file_path).should eq spec_case.expect
-        File.delete(created_file_path)
+        File.delete(created_file_path) if File.exists?(created_file_path)
       end
     end
   end
