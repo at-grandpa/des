@@ -38,6 +38,7 @@ module Des
     def overwrite?(path)
       ans = ""
       loop do
+        puts ""
         puts "#{path}"
         print "Overwrite? (y or n) > "
         ans = gets
