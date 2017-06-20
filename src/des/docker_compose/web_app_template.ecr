@@ -23,6 +23,8 @@ services:
     image: nginx
     container_name: <%= @parameters.container %>-nginx
     restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
     ports:
       - 80:80
     links:

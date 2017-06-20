@@ -31,6 +31,7 @@ module Des
       Dockerfile.new(parameters).create_file
       Makefile.new(parameters).create_file
       DockerCompose.new(parameters).create_file
+      NginxConf.new(parameters).create_file if parameters.web_app
     end
   end
 end
