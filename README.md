@@ -126,7 +126,9 @@ default_param:
 
 ## Development
 
-TODO: Write development instructions here
+```
+$ make spec
+```
 
 ## Contributing
 
