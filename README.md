@@ -110,7 +110,7 @@ $ des -h
 
 ## .descr.yml
 
-Write the default setting of the command in this file. It is placed at `~/.desrc.yml` by default.
+Write the default option values of the command in this file. It is placed at `~/.desrc.yml` by default.
 
 ```yaml
 default_param:
