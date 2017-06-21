@@ -1,0 +1,10 @@
+default_param:
+  image: ubuntu:16.04
+  packages:
+    - curl
+    - vim
+  container: my_container
+  save_dir: .
+  web_app: false
+  overwrite: false
+
