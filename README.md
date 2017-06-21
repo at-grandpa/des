@@ -10,7 +10,7 @@ TODO
 
 ## Usage
 
-For example, you have a crystal code you want to run. However, crystal is not installed. In that case, use 'des'.
+For example, you have a crystal code you want to run. However, crystal is not installed. In that case, use `des`.
 
 ```
 $ ls
