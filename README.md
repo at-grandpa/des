@@ -104,7 +104,7 @@ $ des -h
     -c NAME, --container=NAME        Container name.
     -d SAVE_DIR, --save-dir=SAVE_DIR Save dir path.
     -r RC_FILE, --rc-file=RC_FILE    .descr.yml path.  [default:~/.desrc.yml]
-    -w, --web-app                    Web app mode. (Includes nginx and mysql)
+    -w, --web-app                    Web app mode. (Includes nginx and mysql.)
     -o, --overwrite                  Overwrite each file.
 ```
 
