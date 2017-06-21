@@ -1,6 +1,5 @@
 /doc/
 /lib/
-/bin/
+/bin/*
 /.shards/
-spec/des/dockerfile/spec_output_dir/*
 !.gitkeep
