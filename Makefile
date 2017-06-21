@@ -3,7 +3,6 @@ DES_BIN ?= $(shell which des)
 PREFIX ?= /usr/local
 OUTPUT_BIN ?= bin/des
 TAR_DIR ?= bin/des
-RC_FILE_TEMPLATE ?= ./template/.desrc.yml
 VERSION ?= 0.1.0
 TAR_GZ_FILE_NAME ?= des-$(VERSION)-darwin-x86_64.tar.gz
 
@@ -25,10 +24,9 @@ install: build
 tar:
 	rm -rf ./bin/*
 	$(MAKE) build
-	mv $(OUTPUT_BIN) $(OUTPUT_BIN)_bk
+	mv $(OUTPUT_BIN) $(OUTPUT_BIN)_bin
 	mkdir -p $(TAR_DIR)
-	cp $(OUTPUT_BIN)_bk $(TAR_DIR)/des
-	cp $(RC_FILE_TEMPLATE) $(TAR_DIR)
+	cp $(OUTPUT_BIN)_bin $(TAR_DIR)/des
 	cp README.md $(TAR_DIR)
 	cp LICENSE $(TAR_DIR)
 	cd bin && tar zcvf $(TAR_GZ_FILE_NAME) des
