@@ -7,6 +7,8 @@ If you have a script you want to run in the docker environment, you can quickly 
 ## Installation
 
 ```
+$ git clone https://github.com/at-grandpa/des.git
+$ cd des
 $ make install
 ```
 
