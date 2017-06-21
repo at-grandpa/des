@@ -6,7 +6,9 @@ If you have a script you want to run in the docker environment, you can quickly 
 
 ## Installation
 
-TODO
+```
+$ make install
+```
 
 ## Usage
 
