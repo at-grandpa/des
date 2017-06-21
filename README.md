@@ -19,6 +19,9 @@ sample.cr
 $ cat sample.cr
 puts "I want to run this crystal code."
 
+$ crystal -v
+bash: crystal: command not found
+
 $ des --image=crystallang/crystal --container=my_crystal_container
 Create ./Dockerfile
 Create ./Makefile
