@@ -25,7 +25,9 @@ Create ./Makefile
 Create ./docker-compose.yml
 ```
 
-`Dockerfile`, `Makefile` and `docker-compose.yml` are created. Next, run `make setup`.
+`Dockerfile`, `Makefile` and `docker-compose.yml` are created.
+
+Next, run `make setup`.
 
 ```
 $ make setup
@@ -42,11 +44,24 @@ Creating my_crystal_container
 $
 ```
 
-The docker environment is built. Next, run `make attach`.
+The docker environment is built.
+
+Next, run `make attach`.
 
 ```
 $ make attach
 docker exec -it my_crystal_container /bin/bash
+root@xxxxxxxxx:~/my_crystal_container#
+```
+
+You can attach the docker container.
+
+This container is in the following state.
+
+* The current directory of the host is mounted.
+* Created from the specified image. (In this example, `crystallang/crystal`)
+
+```
 root@xxxxxxxxx:~/my_crystal_container# ls -la
 total 20
 drwxr-xr-x 6 root root  204 Jun 21 00:18 .
@@ -57,10 +72,10 @@ drwx------ 3 root root 4096 Jun 21 00:22 ..
 -rw-r--r-- 1 root root   40 Jun 21 00:16 sample.cr
 root@xxxxxxxxx:~/my_crystal_container# crystal -v
 Crystal 0.22.0 [3c71228] (2017-04-20) LLVM 3.5.0
-root@da6f8953e270:~/my_crystal_container#
+root@xxxxxxxxx:~/my_crystal_container#
 ```
 
-A directory on the host side is mounted and a crystal environment is also built. You can run the your script.
+You can run the your script.
 
 ```
 root@xxxxxxxxx:~/my_crystal_container# crystal run sample.cr
