@@ -7,6 +7,7 @@ VERSION ?= 0.1.0
 TAR_GZ_FILE_NAME ?= des-$(VERSION)-darwin-x86_64.tar.gz
 
 build:
+	rm -rf ./bin/*
 	$(CRYSTAL_BIN) dep update
 	$(CRYSTAL_BIN) build --release -o $(OUTPUT_BIN) src/cli.cr $(CRFLAGS)
 
@@ -19,7 +20,6 @@ spec: build
 install: build
 	mkdir -p $(PREFIX)/bin
 	cp ./bin/des $(PREFIX)/bin
-	cp ./template/.desrc.yml $(HOME)
 
 tar:
 	rm -rf ./bin/*

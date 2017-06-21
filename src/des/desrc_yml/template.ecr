@@ -1,0 +1,27 @@
+default_param:
+<%- image = @opts.s["image"] -%>
+<%- packages = @opts.a["packages"] -%>
+<%- container = @opts.s["container"] -%>
+<%- save_dir = @opts.s["save-dir"] -%>
+<%- web_app = @opts.b["web-app"] -%>
+<%- overwrite = @opts.b["overwrite"] -%>
+  image: <%- if image.nil? -%>ubuntu:16.04<%- else -%><%= image %><%- end -%>
+
+<%- if packages.nil? -%>
+  packages:
+    - curl
+    - vim
+<%- else -%>
+  packages:
+<%- packages.each do |package| -%>
+    - <%= package %>
+<%- end -%>
+<%- end -%>
+  container: <%- if container.nil? -%>my_container<%- else -%><%= container %><%- end -%>
+
+  save_dir: <%- if save_dir.nil? -%>.<%- else -%><%= save_dir %><%- end -%>
+
+  web_app: <%- if web_app.nil? -%>false<%- else -%><%= web_app %><%- end -%>
+
+  overwrite: <%- if overwrite.nil? -%>false<%- else -%><%= overwrite %><%- end -%>
+
