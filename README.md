@@ -4,6 +4,8 @@ CLI to create Docker Environment Setting files.
 
 If you have a script you want to run in the docker environment, you can quickly build a docker environment.
 
+[![Build Status](https://travis-ci.org/at-grandpa/des.svg?branch=master)](https://travis-ci.org/at-grandpa/des)
+
 ## Installation
 
 ```
