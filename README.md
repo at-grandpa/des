@@ -110,7 +110,19 @@ $ des -h
 
 ## .descr.yml
 
-TODO
+Write the default setting of the command in this file. It is placed at `~/.desrc.yml` by default.
+
+```yaml
+default_param:
+  image: ubuntu:16.04
+  packages:
+    - curl
+    - vim
+  container: my_container
+  save_dir: .
+  web_app: false
+  overwrite: false
+```
 
 ## Development
 
