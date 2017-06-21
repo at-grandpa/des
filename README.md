@@ -27,7 +27,7 @@ Create ./docker-compose.yml
 
 `Dockerfile`, `Makefile` and `docker-compose.yml` are created.
 
-Next, run `make setup`.
+Next, run `make setup`. The docker environment is built.
 
 ```
 $ make setup
@@ -44,9 +44,7 @@ Creating my_crystal_container
 $
 ```
 
-The docker environment is built.
-
-Next, run `make attach`.
+Next, run `make attach`. You can attach the docker container.
 
 ```
 $ make attach
@@ -54,11 +52,9 @@ docker exec -it my_crystal_container /bin/bash
 root@xxxxxxxxx:~/my_crystal_container#
 ```
 
-You can attach the docker container.
-
 This container is in the following state.
 
-* The current directory of the host is mounted.
+* The current directory of the host machine is mounted.
 * Created from the specified image. (In this example, `crystallang/crystal`)
 
 ```
@@ -82,13 +78,17 @@ root@xxxxxxxxx:~/my_crystal_container# crystal run sample.cr
 I want to run this crystal code.
 ```
 
+## Options
+
+TODO
+
 ## Development
 
 TODO: Write development instructions here
 
 ## Contributing
 
-1. Fork it ( https://github.com/[your-github-name]/des/fork )
+1. Fork it ( https://github.com/at-grandpa/des/fork )
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
@@ -96,4 +96,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [[your-github-name]](https://github.com/[your-github-name]) at-grandpa - creator, maintainer
+- [at-grandpa](https://github.com/at-grandpa) at-grandpa - creator, maintainer
