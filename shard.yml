@@ -1,14 +1,14 @@
-name: dt
+name: des
 version: 0.1.0
 
 authors:
   - at-grandpa <yoshiyuki.tsuchida.k@gmail.com>
 
 targets:
-  dt:
-    main: src/dt.cr
+  des:
+    main: src/des.cr
 
-crystal: 0.21.1
+crystal: 0.22.0
 
 license: MIT
 
