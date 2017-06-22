@@ -121,7 +121,7 @@ $ des -h
     -o, --overwrite                  Overwrite each file.
 ```
 
-## .descr.yml
+## .desrc.yml
 
 Write the default option values of the command in this file. It is placed at `~/.desrc.yml` by default.
 
