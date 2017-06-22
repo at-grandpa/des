@@ -16,6 +16,8 @@ $ brew install des
 
 #### git clone
 ```
+$ brew update
+$ brew install crystal-lang
 $ git clone https://github.com/at-grandpa/des.git
 $ cd des
 $ make install
