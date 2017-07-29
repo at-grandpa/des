@@ -16,4 +16,4 @@ license: MIT
 dependencies:
   clim:
     github: at-grandpa/clim
-    version: 0.1.2
+    version: 0.1.3
