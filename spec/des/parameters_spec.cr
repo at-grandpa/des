@@ -11,6 +11,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -32,6 +33,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -52,6 +54,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -72,6 +75,7 @@ describe Des::Parameters do
           image: rc_file_image
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -93,6 +97,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -113,6 +118,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -135,6 +141,7 @@ describe Des::Parameters do
             - rc_file_package1
             - rc_file_package2
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -156,6 +163,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -176,6 +184,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -217,6 +226,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -237,6 +247,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -250,6 +261,72 @@ describe Des::Parameters do
         parameters.save_dir.should eq "#{__DIR__}/parameters/opts_save_dir"
       end
     end
+
+    describe "(about 'docker_compose_version')" do
+      it "raises an Exception when 'docker_compose_version' key not exists in rc_file and opts." do
+        yaml_str = <<-YAML_STR
+        default_param:
+          image: rc_file_image
+          packages:
+            - rc_file_package1
+            - rc_file_package2
+          container: rc_file_container
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
+        YAML_STR
+        rc = Rc.new(yaml_str) # 'docker_compose_version' key not exists.
+
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
+        opts = Opts.new(opts_values) # 'docker_compose_version' key not exists.
+
+        expect_raises(Exception, "docker-compose version is not set. See 'des -h'") do
+          Des::Parameters.new(rc, opts)
+        end
+      end
+      it "set rc_file docker_compose_version when opts docker_compose_version not exists." do
+        yaml_str = <<-YAML_STR
+        default_param:
+          image: rc_file_image
+          packages:
+            - rc_file_package1
+            - rc_file_package2
+          container: rc_file_container
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
+          web_app: false
+          overwrite: false
+        YAML_STR
+        rc = Rc.new(yaml_str)
+
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
+        opts = Opts.new(opts_values) # 'docker_compose_version' key not exist.
+
+        parameters = Des::Parameters.new(rc, opts)
+        parameters.docker_compose_version.should eq "3"
+      end
+      it "overwrite rc_file docker_compose_version with opts docker_compose_version when opts docker_compose_version exists." do
+        yaml_str = <<-YAML_STR
+        default_param:
+          image: rc_file_image
+          packages:
+            - rc_file_package1
+            - rc_file_package2
+          container: rc_file_container
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
+          web_app: false
+          overwrite: false
+        YAML_STR
+        rc = Rc.new(yaml_str)
+
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
+        opts_values.merge!({"docker-compose-version" => "4"})
+        opts = Opts.new(opts_values)
+
+        parameters = Des::Parameters.new(rc, opts)
+        parameters.docker_compose_version.should eq "4"
+      end
+    end
+
     describe "(about 'web_app')" do
       it "raises an Exception when 'web_app' key not exists in rc_file and opts." do
         yaml_str = <<-YAML_STR
@@ -260,6 +337,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'web_app' key not exists.
@@ -280,6 +358,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -300,6 +379,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -324,6 +404,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'overwrite' key not exists.
@@ -344,6 +425,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
@@ -364,6 +446,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR

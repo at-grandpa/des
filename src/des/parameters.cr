@@ -8,16 +8,18 @@ module Des
     @packages : Array(String)
     @container : String
     @save_dir : String
+    @docker_compose_version : String
     @web_app : Bool
     @overwrite : Bool
 
-    getter image, packages, container, save_dir, web_app, overwrite
+    getter image, packages, container, save_dir, docker_compose_version, web_app, overwrite
 
     def initialize(@rc, @opts)
       @image = _find_image
       @packages = _find_packages
       @container = _find_container
       @save_dir = _find_save_dir
+      @docker_compose_version = _find_docker_compose_version
       @web_app = _find_web_app
       @overwrite = _find_overwrite
     end
@@ -52,6 +54,14 @@ module Des
       save_dir = @opts.save_dir unless @opts.save_dir.nil?
       raise "Save dir is not set. See 'des -h'" if save_dir.nil?
       save_dir
+    end
+
+    private def _find_docker_compose_version
+      docker_compose_version = nil
+      docker_compose_version = @rc.docker_compose_version unless @rc.docker_compose_version.nil?
+      docker_compose_version = @opts.docker_compose_version unless @opts.docker_compose_version.nil?
+      raise "docker-compose version is not set. See 'des -h'" if docker_compose_version.nil?
+      docker_compose_version
     end
 
     private def _find_web_app

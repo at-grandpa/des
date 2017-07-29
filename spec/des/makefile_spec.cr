@@ -13,6 +13,7 @@ describe Des::Makefile do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/var/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         ",
@@ -57,6 +58,7 @@ describe Des::Makefile do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/var/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         ",

@@ -59,6 +59,22 @@ module Des
       rc_file_realpath
     end
 
+    def docker_compose_version
+      docker_compose_version = @opts["docker-compose-version"]?
+      return nil if docker_compose_version.nil?
+      docker_compose_version_str = docker_compose_version.as(String)
+      _validate_docker_compose_version!(docker_compose_version_str)
+      docker_compose_version_str
+    end
+
+    DOCKER_COMPOSE_VERSION_PATTERN = "\\A[0-9]+?\\z"
+
+    private def _validate_docker_compose_version!(docker_compose_version)
+      unless docker_compose_version.match /#{DOCKER_COMPOSE_VERSION_PATTERN}/
+        raise "Invalid docker-compose version pattern. Valid pattern -> /#{DOCKER_COMPOSE_VERSION_PATTERN}/"
+      end
+    end
+
     def web_app
       web_app = @opts["web-app"]?
       return nil if web_app.nil?

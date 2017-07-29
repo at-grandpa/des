@@ -3,6 +3,7 @@ default_param:
 <%- packages = @opts["packages"]?.try &.as(Array(String)) -%>
 <%- container = @opts["container"]?.try &.as(String) -%>
 <%- save_dir = @opts["save-dir"]?.try &.as(String) -%>
+<%- docker_compose_version = @opts["docker-compose-version"]?.try &.as(String) -%>
 <%- web_app = @opts["web-app"]?.try &.as(Bool) -%>
 <%- overwrite = @opts["overwrite"]?.try &.as(Bool) -%>
   image: <%- if image.nil? -%>ubuntu:16.04<%- else -%><%= image %><%- end -%>
@@ -20,6 +21,8 @@ default_param:
   container: <%- if container.nil? -%>my_container<%- else -%><%= container %><%- end -%>
 
   save_dir: <%- if save_dir.nil? -%>.<%- else -%><%= save_dir %><%- end -%>
+
+  docker_compose_version: <%- if docker_compose_version.nil? -%>3<%- else -%><%= docker_compose_version %><%- end -%>
 
   web_app: <%- if web_app.nil? -%>false<%- else -%><%= web_app %><%- end -%>
 

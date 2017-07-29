@@ -16,6 +16,7 @@ describe Des::DesrcYml do
             - vim
           container: my_container
           save_dir: .
+          docker_compose_version: 3
           web_app: false
           overwrite: false
 
@@ -35,6 +36,7 @@ describe Des::DesrcYml do
             - vim
           container: my_container
           save_dir: .
+          docker_compose_version: 3
           web_app: false
           overwrite: false
 
@@ -55,6 +57,7 @@ describe Des::DesrcYml do
             - htop
           container: my_container
           save_dir: .
+          docker_compose_version: 3
           web_app: false
           overwrite: false
 
@@ -73,6 +76,7 @@ describe Des::DesrcYml do
           packages:
           container: my_container
           save_dir: .
+          docker_compose_version: 3
           web_app: false
           overwrite: false
 
@@ -94,6 +98,7 @@ describe Des::DesrcYml do
             - htop
           container: spec_container
           save_dir: .
+          docker_compose_version: 3
           web_app: false
           overwrite: false
 
@@ -116,6 +121,7 @@ describe Des::DesrcYml do
             - htop
           container: spec_container
           save_dir: spec_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
 
@@ -139,6 +145,7 @@ describe Des::DesrcYml do
             - htop
           container: spec_container
           save_dir: spec_save_dir
+          docker_compose_version: 3
           web_app: true
           overwrite: false
 
@@ -163,6 +170,7 @@ describe Des::DesrcYml do
             - htop
           container: spec_container
           save_dir: spec_save_dir
+          docker_compose_version: 3
           web_app: true
           overwrite: true
 

@@ -18,6 +18,7 @@ module Des
     string "-c NAME", "--container=NAME", desc: "Container name."
     string "-s SAVE_DIR", "--save-dir=SAVE_DIR", desc: "Save dir path."
     string "-r RC_FILE", "--rc-file=RC_FILE", desc: ".descr.yml path.", default: "#{File.expand_path("~")}/.desrc.yml"
+    string "--docker-compose-version=VERSION", desc: "docker-compose version.", default: "3"
     bool "-w", "--web-app", desc: "Web app mode. (Includes nginx and mysql.)"
     bool "-o", "--overwrite", desc: "Overwrite each file."
     bool "-d", "--desrc", desc: "Dispray .descr.yml setting.", default: false
@@ -58,7 +59,7 @@ module Des
 
     sub do
       command "version"
-      desc  "Show version."
+      desc "Show version."
       usage "des version"
       run do |opts, args|
         puts "des #{Des::VERSION}"
