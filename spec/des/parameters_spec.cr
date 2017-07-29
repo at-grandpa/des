@@ -16,7 +16,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str) # 'image' key not exists.
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'image' key not exists.
 
         expect_raises(Exception, "Image name is not set. See 'des -h'") do
@@ -37,7 +37,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'image' key not exist.
 
         parameters = Des::Parameters.new(rc, opts)
@@ -57,7 +57,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts_values.merge!({"image" => "opts_image"})
         opts = Opts.new(opts_values)
 
@@ -77,7 +77,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str) # 'packages' key not exists.
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'packages' key not exists.
 
         expect_raises(Exception, "Packages is not set. See 'des -h'") do
@@ -98,7 +98,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'packages' key not exist.
 
         parameters = Des::Parameters.new(rc, opts)
@@ -118,7 +118,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts_values.merge!({"packages" => ["opts_package1", "opts_package2"]})
         opts = Opts.new(opts_values)
 
@@ -140,7 +140,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str) # 'container' key not exists.
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'container' key not exists.
 
         expect_raises(Exception, "Container name is not set. See 'des -h'") do
@@ -161,7 +161,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'container' key not exist.
 
         parameters = Des::Parameters.new(rc, opts)
@@ -181,7 +181,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts_values.merge!({"container" => "opts_container"})
         opts = Opts.new(opts_values)
 
@@ -201,7 +201,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str) # 'save_dir' key not exists.
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'save_dir' key not exists.
 
         expect_raises(Exception, "Save dir is not set. See 'des -h'") do
@@ -222,7 +222,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'save_dir' key not exist.
 
         parameters = Des::Parameters.new(rc, opts)
@@ -242,7 +242,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts_values.merge!({"save-dir" => "#{__DIR__}/parameters/opts_save_dir"})
         opts = Opts.new(opts_values)
 
@@ -264,7 +264,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str) # 'web_app' key not exists.
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'web_app' key not exists.
 
         expect_raises(Exception, "web_app flag is not set. See 'des -h'") do
@@ -285,7 +285,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'web_app' key not exist.
 
         parameters = Des::Parameters.new(rc, opts)
@@ -305,7 +305,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts_values.merge!({"web-app" => true})
         opts = Opts.new(opts_values)
 
@@ -313,16 +313,6 @@ describe Des::Parameters do
         parameters.web_app.should eq true
       end
     end
-
-
-
-
-
-
-
-
-
-
 
     describe "(about 'overwrite')" do
       it "raises an Exception when 'overwrite' key not exists in rc_file and opts." do
@@ -338,7 +328,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str) # 'overwrite' key not exists.
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'overwrite' key not exists.
 
         expect_raises(Exception, "overwrite flag is not set. See 'des -h'") do
@@ -359,7 +349,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'overwrite' key not exist.
 
         parameters = Des::Parameters.new(rc, opts)
@@ -379,7 +369,7 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts_values.merge!({"overwrite" => true})
         opts = Opts.new(opts_values)
 

@@ -1,13 +1,14 @@
 module Des
   class Opts
-    def initialize(@opts : Clim::Options::Values)
+    def initialize(@opts : Hash(String, String | Bool | Array(String) | Nil))
     end
 
     def image
-      image = @opts.s["image"]?
+      image = @opts["image"]?
       return nil if image.nil?
-      _validate_image!(image)
-      image
+      image_str = image.as(String)
+      _validate_image!(image_str)
+      image_str
     end
 
     IMAGE_PATTERN = "\\A[a-zA-Z][^:]+?(|:[0-9a-zA-Z-\._]+?)\\z"
@@ -19,16 +20,17 @@ module Des
     end
 
     def packages
-      packages = @opts.a["packages"]?
+      packages = @opts["packages"]?
       return nil if packages.nil?
-      packages
+      packages.as(Array(String))
     end
 
     def container
-      container = @opts.s["container"]?
+      container = @opts["container"]?
       return nil if container.nil?
-      _validate_container!(container)
-      container
+      container_str = container.as(String)
+      _validate_container!(container_str)
+      container_str
     end
 
     CONTAINER_PATTERN = "\\A[0-9a-zA-Z-_]+?\\z"
@@ -40,31 +42,33 @@ module Des
     end
 
     def save_dir
-      save_dir = @opts.s["save-dir"]?
+      save_dir = @opts["save-dir"]?
       return nil if save_dir.nil?
-      expand_save_dir = File.expand_path(save_dir)
+      save_dir_str = save_dir.as(String)
+      expand_save_dir = File.expand_path(save_dir_str)
       raise "Save dir set as an option is not found. -> #{expand_save_dir}" unless Dir.exists?(expand_save_dir)
       expand_save_dir
     end
 
     def rc_file
-      rc_file = @opts.s["rc-file"]?
+      rc_file = @opts["rc-file"]?
       raise "rc_file path is not set. See 'des -h'" if rc_file.nil?
-      rc_file_realpath = File.expand_path(rc_file)
-      raise "rc_file set as an option is not found. -> #{rc_file}" unless File.exists?(rc_file_realpath)
+      rc_file_str = rc_file.as(String)
+      rc_file_realpath = File.expand_path(rc_file_str)
+      raise "rc_file set as an option is not found. -> #{rc_file_str}" unless File.exists?(rc_file_realpath)
       rc_file_realpath
     end
 
     def web_app
-      web_app = @opts.b["web-app"]?
+      web_app = @opts["web-app"]?
       return nil if web_app.nil?
-      web_app
+      web_app.as(Bool)
     end
 
     def overwrite
-      overwrite = @opts.b["overwrite"]?
+      overwrite = @opts["overwrite"]?
       return nil if overwrite.nil?
-      overwrite
+      overwrite.as(Bool)
     end
   end
 end

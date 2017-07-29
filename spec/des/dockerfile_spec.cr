@@ -198,7 +198,7 @@ describe Des::Dockerfile do
       it spec_case.describe do
         rc = Rc.new(spec_case.rc_file_yaml)
 
-        input_opts = Clim::Options::Values.new
+        input_opts = Hash(String, String | Bool | Array(String) | Nil).new
         spec_case.opts_parameters.each do |parameter|
           input_opts.merge!(parameter)
         end

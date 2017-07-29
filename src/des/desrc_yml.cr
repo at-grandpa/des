@@ -10,7 +10,7 @@ module Des
     end
 
     def create_file
-      path = @opts.s["rc-file"]
+      path = @opts["rc-file"].as(String)
       if path.nil?
         raise "rc_file path is not set. See 'des -h'"
       elsif File.exists?(path)
