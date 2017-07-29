@@ -1,10 +1,10 @@
 default_param:
-<%- image = @opts.s["image"] -%>
-<%- packages = @opts.a["packages"] -%>
-<%- container = @opts.s["container"] -%>
-<%- save_dir = @opts.s["save-dir"] -%>
-<%- web_app = @opts.b["web-app"] -%>
-<%- overwrite = @opts.b["overwrite"] -%>
+<%- image = @opts["image"].as(String) -%>
+<%- packages = @opts["packages"].as(Array(String)) -%>
+<%- container = @opts["container"].as(String) -%>
+<%- save_dir = @opts["save-dir"].as(String) -%>
+<%- web_app = @opts["web-app"].as(Bool) -%>
+<%- overwrite = @opts["overwrite"].as(Bool) -%>
   image: <%- if image.nil? -%>ubuntu:16.04<%- else -%><%= image %><%- end -%>
 
 <%- if packages.nil? -%>

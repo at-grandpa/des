@@ -2,7 +2,7 @@ require "./file_creator"
 
 module Des
   class DesrcYml
-    def initialize(@opts : Clim::Options::Values, @silent : Bool = false)
+    def initialize(@opts : Hash(String, String | Bool | Array(String) | Nil), @silent : Bool = false)
     end
 
     def file_name
