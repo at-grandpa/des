@@ -127,7 +127,7 @@ describe Des::Opts do
     it "raises an Exception when rc_file path is not set in opts." do
       input_opts = Hash(String, String | Bool | Array(String) | Nil).new
       opts = Opts.new(input_opts)
-      expect_raises(Exception, "rc_file path is not set. See 'des -h'") do
+      expect_raises(Exception, "rc_file path is not set. See 'des --help'") do
         opts.rc_file
       end
     end

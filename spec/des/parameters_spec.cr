@@ -20,7 +20,7 @@ describe Des::Parameters do
         opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'image' key not exists.
 
-        expect_raises(Exception, "Image name is not set. See 'des -h'") do
+        expect_raises(Exception, "Image name is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -84,7 +84,7 @@ describe Des::Parameters do
         opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'packages' key not exists.
 
-        expect_raises(Exception, "Packages is not set. See 'des -h'") do
+        expect_raises(Exception, "Packages is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -150,7 +150,7 @@ describe Des::Parameters do
         opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'container' key not exists.
 
-        expect_raises(Exception, "Container name is not set. See 'des -h'") do
+        expect_raises(Exception, "Container name is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -213,7 +213,7 @@ describe Des::Parameters do
         opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'save_dir' key not exists.
 
-        expect_raises(Exception, "Save dir is not set. See 'des -h'") do
+        expect_raises(Exception, "Save dir is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -278,7 +278,7 @@ describe Des::Parameters do
         opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'docker_compose_version' key not exists.
 
-        expect_raises(Exception, "docker-compose version is not set. See 'des -h'") do
+        expect_raises(Exception, "docker-compose version is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -345,7 +345,7 @@ describe Des::Parameters do
         opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'web_app' key not exists.
 
-        expect_raises(Exception, "web_app flag is not set. See 'des -h'") do
+        expect_raises(Exception, "web_app flag is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -412,7 +412,7 @@ describe Des::Parameters do
         opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'overwrite' key not exists.
 
-        expect_raises(Exception, "overwrite flag is not set. See 'des -h'") do
+        expect_raises(Exception, "overwrite flag is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
