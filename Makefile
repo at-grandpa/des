@@ -14,9 +14,6 @@ build:
 clean:
 	rm -f ./bin/des
 
-spec: build
-	$(CRYSTAL_BIN) spec
-
 install: build
 	mkdir -p $(PREFIX)/bin
 	cp ./bin/des $(PREFIX)/bin

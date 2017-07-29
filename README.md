@@ -142,7 +142,7 @@ default_param:
 ## Development
 
 ```
-$ make spec
+$ crystal spec
 ```
 
 ## Contributing
