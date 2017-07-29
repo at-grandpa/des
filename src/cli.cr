@@ -20,7 +20,14 @@ module Des
     string "-r RC_FILE", "--rc-file=RC_FILE", desc: ".descr.yml path.", default: "#{File.expand_path("~")}/.desrc.yml"
     bool "-w", "--web-app", desc: "Web app mode. (Includes nginx and mysql.)"
     bool "-o", "--overwrite", desc: "Overwrite each file."
+    bool "-v", "--version", desc: "Show version.", default: false
     run do |opts, args|
+      # Display version
+      if opts["version"].as(Bool)
+        puts "des #{Des::VERSION}"
+        exit 0
+      end
+
       rc_file_path = opts["rc-file"].as(String)
       if !rc_file_path.nil? && !File.exists?(rc_file_path)
         DesrcYml.new(opts).create_file
@@ -37,6 +44,15 @@ module Des
       Makefile.new(parameters).create_file
       DockerCompose.new(parameters).create_file
       NginxConf.new(parameters).create_file if parameters.web_app
+    end
+
+    sub do
+      command "version"
+      desc  "Show version."
+      usage "des version"
+      run do |opts, args|
+        puts "des #{Des::VERSION}"
+      end
     end
   end
 end
