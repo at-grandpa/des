@@ -20,6 +20,7 @@ module Des
     string "-r RC_FILE", "--rc-file=RC_FILE", desc: ".descr.yml path.", default: "#{File.expand_path("~")}/.desrc.yml"
     bool "-w", "--web-app", desc: "Web app mode. (Includes nginx and mysql.)"
     bool "-o", "--overwrite", desc: "Overwrite each file."
+    bool "-d", "--desrc", desc: "Dispray .descr.yml setting.", default: false
     bool "-v", "--version", desc: "Show version.", default: false
     run do |opts, args|
       # Display version
@@ -31,6 +32,15 @@ module Des
       rc_file_path = opts["rc-file"].as(String)
       if !rc_file_path.nil? && !File.exists?(rc_file_path)
         DesrcYml.new(opts).create_file
+      end
+
+      # Display rc_file
+      if opts["desrc"].as(Bool)
+        puts ""
+        puts "File path: #{rc_file_path}"
+        puts ""
+        puts "#{File.read(rc_file_path)}"
+        exit 0
       end
 
       opts = Opts.new(opts)
