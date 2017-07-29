@@ -37,6 +37,12 @@ module Des
       save_dir
     end
 
+    def docker_compose_version
+      return nil unless @setting["default_param"]?
+      return nil unless @setting["default_param"]["docker_compose_version"]?
+      @setting["default_param"]["docker_compose_version"].as_s
+    end
+
     def web_app
       return nil unless @setting["default_param"]?
       return nil unless @setting["default_param"]["web_app"]?

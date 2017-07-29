@@ -11,15 +11,16 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'image' key not exists.
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'image' key not exists.
 
-        expect_raises(Exception, "Image name is not set. See 'des -h'") do
+        expect_raises(Exception, "Image name is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -32,12 +33,13 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'image' key not exist.
 
         parameters = Des::Parameters.new(rc, opts)
@@ -52,12 +54,13 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts_values.merge!({"image" => "opts_image"})
         opts = Opts.new(opts_values)
 
@@ -72,15 +75,16 @@ describe Des::Parameters do
           image: rc_file_image
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'packages' key not exists.
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'packages' key not exists.
 
-        expect_raises(Exception, "Packages is not set. See 'des -h'") do
+        expect_raises(Exception, "Packages is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -93,12 +97,13 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'packages' key not exist.
 
         parameters = Des::Parameters.new(rc, opts)
@@ -113,12 +118,13 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts_values.merge!({"packages" => ["opts_package1", "opts_package2"]})
         opts = Opts.new(opts_values)
 
@@ -135,15 +141,16 @@ describe Des::Parameters do
             - rc_file_package1
             - rc_file_package2
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'container' key not exists.
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'container' key not exists.
 
-        expect_raises(Exception, "Container name is not set. See 'des -h'") do
+        expect_raises(Exception, "Container name is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -156,12 +163,13 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'container' key not exist.
 
         parameters = Des::Parameters.new(rc, opts)
@@ -176,12 +184,13 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts_values.merge!({"container" => "opts_container"})
         opts = Opts.new(opts_values)
 
@@ -201,10 +210,10 @@ describe Des::Parameters do
         YAML_STR
         rc = Rc.new(yaml_str) # 'save_dir' key not exists.
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'save_dir' key not exists.
 
-        expect_raises(Exception, "Save dir is not set. See 'des -h'") do
+        expect_raises(Exception, "Save dir is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -217,12 +226,13 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'save_dir' key not exist.
 
         parameters = Des::Parameters.new(rc, opts)
@@ -237,12 +247,13 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts_values.merge!({"save-dir" => "#{__DIR__}/parameters/opts_save_dir"})
         opts = Opts.new(opts_values)
 
@@ -250,6 +261,72 @@ describe Des::Parameters do
         parameters.save_dir.should eq "#{__DIR__}/parameters/opts_save_dir"
       end
     end
+
+    describe "(about 'docker_compose_version')" do
+      it "raises an Exception when 'docker_compose_version' key not exists in rc_file and opts." do
+        yaml_str = <<-YAML_STR
+        default_param:
+          image: rc_file_image
+          packages:
+            - rc_file_package1
+            - rc_file_package2
+          container: rc_file_container
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
+        YAML_STR
+        rc = Rc.new(yaml_str) # 'docker_compose_version' key not exists.
+
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
+        opts = Opts.new(opts_values) # 'docker_compose_version' key not exists.
+
+        expect_raises(Exception, "docker-compose version is not set. See 'des --help'") do
+          Des::Parameters.new(rc, opts)
+        end
+      end
+      it "set rc_file docker_compose_version when opts docker_compose_version not exists." do
+        yaml_str = <<-YAML_STR
+        default_param:
+          image: rc_file_image
+          packages:
+            - rc_file_package1
+            - rc_file_package2
+          container: rc_file_container
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
+          web_app: false
+          overwrite: false
+        YAML_STR
+        rc = Rc.new(yaml_str)
+
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
+        opts = Opts.new(opts_values) # 'docker_compose_version' key not exist.
+
+        parameters = Des::Parameters.new(rc, opts)
+        parameters.docker_compose_version.should eq "3"
+      end
+      it "overwrite rc_file docker_compose_version with opts docker_compose_version when opts docker_compose_version exists." do
+        yaml_str = <<-YAML_STR
+        default_param:
+          image: rc_file_image
+          packages:
+            - rc_file_package1
+            - rc_file_package2
+          container: rc_file_container
+          save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
+          web_app: false
+          overwrite: false
+        YAML_STR
+        rc = Rc.new(yaml_str)
+
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
+        opts_values.merge!({"docker-compose-version" => "4"})
+        opts = Opts.new(opts_values)
+
+        parameters = Des::Parameters.new(rc, opts)
+        parameters.docker_compose_version.should eq "4"
+      end
+    end
+
     describe "(about 'web_app')" do
       it "raises an Exception when 'web_app' key not exists in rc_file and opts." do
         yaml_str = <<-YAML_STR
@@ -260,14 +337,15 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'web_app' key not exists.
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'web_app' key not exists.
 
-        expect_raises(Exception, "web_app flag is not set. See 'des -h'") do
+        expect_raises(Exception, "web_app flag is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -280,12 +358,13 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'web_app' key not exist.
 
         parameters = Des::Parameters.new(rc, opts)
@@ -300,12 +379,13 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts_values.merge!({"web-app" => true})
         opts = Opts.new(opts_values)
 
@@ -313,16 +393,6 @@ describe Des::Parameters do
         parameters.web_app.should eq true
       end
     end
-
-
-
-
-
-
-
-
-
-
 
     describe "(about 'overwrite')" do
       it "raises an Exception when 'overwrite' key not exists in rc_file and opts." do
@@ -334,14 +404,15 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
         YAML_STR
         rc = Rc.new(yaml_str) # 'overwrite' key not exists.
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'overwrite' key not exists.
 
-        expect_raises(Exception, "overwrite flag is not set. See 'des -h'") do
+        expect_raises(Exception, "overwrite flag is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -354,12 +425,13 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts = Opts.new(opts_values) # 'overwrite' key not exist.
 
         parameters = Des::Parameters.new(rc, opts)
@@ -374,12 +446,13 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
           save_dir: #{__DIR__}/parameters/rc_file_save_dir
+          docker_compose_version: 3
           web_app: false
           overwrite: false
         YAML_STR
         rc = Rc.new(yaml_str)
 
-        opts_values = Clim::Options::Values.new
+        opts_values = Hash(String, String | Bool | Array(String) | Nil).new
         opts_values.merge!({"overwrite" => true})
         opts = Opts.new(opts_values)
 

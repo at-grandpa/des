@@ -1,6 +1,6 @@
 # des
 
-CLI to create Docker Environment Setting files.
+CLI to create **D**ocker **E**nvironment **S**etting files.
 
 If you have a script you want to run in the docker environment, you can quickly build a docker environment.
 
@@ -85,7 +85,7 @@ drwx------ 3 root root 4096 Jun 21 00:22 ..
 -rw-r--r-- 1 root root  199 Jun 21 00:18 docker-compose.yml
 -rw-r--r-- 1 root root   40 Jun 21 00:16 sample.cr
 root@xxxxxxxxx:~/my_crystal_container# crystal -v
-Crystal 0.22.0 [3c71228] (2017-04-20) LLVM 3.5.0
+Crystal 0.23.1 [e2a1389] (2017-07-13) LLVM 3.8.1
 root@xxxxxxxxx:~/my_crystal_container#
 ```
 
@@ -99,7 +99,7 @@ I want to run this crystal code.
 ## Options
 
 ```
-$ des -h
+$ des --help
 
   Creates docker environment setting files.
 
@@ -113,14 +113,22 @@ $ des -h
 
   Options:
 
-    -h, --help                       Show this help.
+    --help                           Show this help.
     -i IMAGE, --image=IMAGE          Base docker image name.
     -p PACKAGES, --packages=PACKAGE  apt-get install packages name.
     -c NAME, --container=NAME        Container name.
-    -d SAVE_DIR, --save-dir=SAVE_DIR Save dir path.
+    -s SAVE_DIR, --save-dir=SAVE_DIR Save dir path.
     -r RC_FILE, --rc-file=RC_FILE    .descr.yml path.  [default:~/.desrc.yml]
+    --docker-compose-version=VERSION docker-compose version.  [default:3]
     -w, --web-app                    Web app mode. (Includes nginx and mysql.)
     -o, --overwrite                  Overwrite each file.
+    -d, --desrc                      Dispray .descr.yml setting.  [default:false]
+    -v, --version                    Show version.  [default:false]
+
+  Sub Commands:
+
+    version   Show version.
+
 ```
 
 ## .desrc.yml
@@ -135,6 +143,7 @@ default_param:
     - vim
   container: my_container
   save_dir: .
+  docker_compose_version: 3
   web_app: false
   overwrite: false
 ```
@@ -142,7 +151,7 @@ default_param:
 ## Development
 
 ```
-$ make spec
+$ crystal spec
 ```
 
 ## Contributing
