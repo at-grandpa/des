@@ -40,32 +40,28 @@ module Des
     def docker_compose_version
       return nil unless @setting["default_param"]?
       return nil unless @setting["default_param"]["docker_compose_version"]?
-      @setting["default_param"]["docker_compose_version"].as_s
+      @setting["default_param"]["docker_compose_version"].as_i64.to_s
     end
 
     def web_app
-      return nil unless @setting["default_param"]?
-      return nil unless @setting["default_param"]["web_app"]?
-      web_app_str = @setting["default_param"]["web_app"].as_s
+      return nil unless @setting.as_h.has_key?("default_param")
+      return nil unless @setting["default_param"].as_h.has_key?("web_app")
+      web_app_str = @setting["default_param"]["web_app"]
       case web_app_str
-      when "true"
-        true
-      when "false"
-        false
+      when true  then true
+      when false then false
       else
         raise "web_app flag set as rc_file is allowed only 'true' or 'false'. The set flag is [#{web_app_str}]."
       end
     end
 
     def overwrite
-      return nil unless @setting["default_param"]?
-      return nil unless @setting["default_param"]["overwrite"]?
-      overwrite_str = @setting["default_param"]["overwrite"].as_s
+      return nil unless @setting.as_h.has_key?("default_param")
+      return nil unless @setting["default_param"].as_h.has_key?("overwrite")
+      overwrite_str = @setting["default_param"]["overwrite"]
       case overwrite_str
-      when "true"
-        true
-      when "false"
-        false
+      when true  then true
+      when false then false
       else
         raise "overwrite flag set as rc_file is allowed only 'true' or 'false'. The set flag is [#{overwrite_str}]."
       end
