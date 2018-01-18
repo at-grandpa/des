@@ -1,5 +1,5 @@
 name: des
-version: 0.1.2
+version: 0.1.3
 
 authors:
   - at-grandpa <yoshiyuki.tsuchida.k@gmail.com>
@@ -8,7 +8,7 @@ targets:
   des:
     main: src/des.cr
 
-crystal: 0.23.0
+crystal: 0.24.1
 
 license: MIT
 
@@ -16,4 +16,4 @@ license: MIT
 dependencies:
   clim:
     github: at-grandpa/clim
-    version: 0.1.4
+    version: 0.1.5
