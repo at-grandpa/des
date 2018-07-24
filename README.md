@@ -10,6 +10,8 @@ If you have a script you want to run in the docker environment, you can quickly 
 
 #### homebrew
 ```
+$ brew update
+$ brew install crystal-lang
 $ brew tap at-grandpa/homebrew-des
 $ brew install des
 ```
