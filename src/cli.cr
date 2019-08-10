@@ -52,7 +52,7 @@ module Des
         des_opts = Opts.new(cli_options)
 
         rc_file_yaml_str = File.read(des_opts.rc_file)
-        rc = Rc.new(rc_file_yaml_str)
+        rc = Rc.from_yaml(rc_file_yaml_str)
 
         parameters = Parameters.new(rc, des_opts)
 

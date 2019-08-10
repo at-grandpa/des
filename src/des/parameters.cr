@@ -24,63 +24,47 @@ module Des
       @overwrite = _find_overwrite
     end
 
-    private def _find_image
-      image = nil
-      image = @rc.image unless @rc.image.nil?
-      image = @opts.image unless @opts.image.nil?
-      raise "Image name is not set. See 'des --help'" if image.nil?
-      image
+    macro find_parameter(*parameters)
+      {% for parameter in parameters %}
+        private def _find_{{parameter}}
+          rc_default_param = @rc.default_param
+
+          rc_parameter = if rc_default_param.nil?
+                           nil
+                         elsif rc_default_param.{{parameter}}.nil?
+                           nil
+                         else
+                           rc_default_param.{{parameter}}
+                         end
+
+          opts_parameter = @opts.{{parameter}}
+
+          return_parameter = rc_parameter unless rc_parameter.nil?
+          return_parameter = opts_parameter unless opts_parameter.nil?
+          raise "{{parameter}} parameter is not set. See 'des --help'" if return_parameter.nil?
+          return_parameter
+        end
+      {% end %}
     end
+
+    find_parameter image, container, save_dir, docker_compose_version, web_app, overwrite
 
     private def _find_packages
-      rc_packages = @rc.packages
-      packages = if rc_packages.nil?
-                   [] of String
-                 else
-                   rc_packages
-                 end
-      packages = @opts.packages unless @opts.packages.empty?
-      packages
+      rc_default_param = @rc.default_param
+
+      rc_packages = if rc_default_param.nil?
+                      [] of String
+                    else
+                      rc_default_param.packages
+                    end
+
+      opts_packages = @opts.packages
+
+      return_packages = [] of String
+      return_packages = rc_packages unless rc_packages.empty?
+      return_packages = opts_packages unless opts_packages.empty?
+      return_packages
     end
 
-    private def _find_container
-      container = nil
-      container = @rc.container unless @rc.container.nil?
-      container = @opts.container unless @opts.container.nil?
-      raise "Container name is not set. See 'des --help'" if container.nil?
-      container
-    end
-
-    private def _find_save_dir
-      save_dir = nil
-      save_dir = @rc.save_dir unless @rc.save_dir.nil?
-      save_dir = @opts.save_dir unless @opts.save_dir.nil?
-      raise "Save dir is not set. See 'des --help'" if save_dir.nil?
-      save_dir
-    end
-
-    private def _find_docker_compose_version
-      docker_compose_version = nil
-      docker_compose_version = @rc.docker_compose_version unless @rc.docker_compose_version.nil?
-      docker_compose_version = @opts.docker_compose_version unless @opts.docker_compose_version.nil?
-      raise "docker-compose version is not set. See 'des --help'" if docker_compose_version.nil?
-      docker_compose_version
-    end
-
-    private def _find_web_app
-      web_app = nil
-      web_app = @rc.web_app unless @rc.web_app.nil?
-      web_app = @opts.web_app unless @opts.web_app.nil?
-      raise "web_app flag is not set. See 'des --help'" if web_app.nil?
-      web_app
-    end
-
-    private def _find_overwrite
-      overwrite = nil
-      overwrite = @rc.overwrite unless @rc.overwrite.nil?
-      overwrite = @opts.overwrite unless @opts.overwrite.nil?
-      raise "overwrite flag is not set. See 'des --help'" if overwrite.nil?
-      overwrite
-    end
   end
 end

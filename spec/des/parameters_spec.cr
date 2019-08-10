@@ -15,7 +15,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str) # 'image' key not exists.
+        rc = Rc.from_yaml(yaml_str) # 'image' key not exists.
 
         cli_options = Des::CliOptions.new(
           image: nil,
@@ -30,7 +30,7 @@ describe Des::Parameters do
         )
         opts = Opts.new(cli_options) # 'image' key not exists.
 
-        expect_raises(Exception, "Image name is not set. See 'des --help'") do
+        expect_raises(Exception, "image parameter is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -47,7 +47,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: nil,
@@ -78,7 +78,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: "opts_image",
@@ -111,7 +111,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: "opts_image",
@@ -142,7 +142,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: "opts_image",
@@ -174,7 +174,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str) # 'container' key not exists.
+        rc = Rc.from_yaml(yaml_str) # 'container' key not exists.
 
         cli_options = Des::CliOptions.new(
           image: nil,
@@ -189,7 +189,7 @@ describe Des::Parameters do
         )
         opts = Opts.new(cli_options) # 'container' key not exists.
 
-        expect_raises(Exception, "Container name is not set. See 'des --help'") do
+        expect_raises(Exception, "container parameter is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -206,7 +206,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: nil,
@@ -237,7 +237,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: nil,
@@ -266,7 +266,7 @@ describe Des::Parameters do
             - rc_file_package2
           container: rc_file_container
         YAML_STR
-        rc = Rc.new(yaml_str) # 'save_dir' key not exists.
+        rc = Rc.from_yaml(yaml_str) # 'save_dir' key not exists.
 
         cli_options = Des::CliOptions.new(
           image: nil,
@@ -281,7 +281,7 @@ describe Des::Parameters do
         )
         opts = Opts.new(cli_options) # 'save_dir' key not exists.
 
-        expect_raises(Exception, "Save dir is not set. See 'des --help'") do
+        expect_raises(Exception, "save_dir parameter is not set. See 'des --help'") do
           Des::Parameters.new(rc, opts)
         end
       end
@@ -298,7 +298,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: nil,
@@ -329,7 +329,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: nil,
@@ -363,7 +363,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: nil,
@@ -394,7 +394,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: nil,
@@ -428,7 +428,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: nil,
@@ -459,7 +459,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: nil,
@@ -493,7 +493,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: nil,
@@ -524,7 +524,7 @@ describe Des::Parameters do
           web_app: false
           overwrite: false
         YAML_STR
-        rc = Rc.new(yaml_str)
+        rc = Rc.from_yaml(yaml_str)
 
         cli_options = Des::CliOptions.new(
           image: nil,

@@ -115,7 +115,7 @@ describe Des::Makefile do
       ),
     ].each do |spec_case|
       it spec_case.describe do
-        rc = Rc.new(spec_case.rc_file_yaml)
+        rc = Rc.from_yaml(spec_case.rc_file_yaml)
         opts = Opts.new(spec_case.cli_options)
         parameters = Parameters.new(rc, opts)
         created_file_path = "#{parameters.save_dir}/Makefile"
