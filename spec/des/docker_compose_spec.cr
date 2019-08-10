@@ -17,7 +17,17 @@ describe Des::DockerCompose do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [] of OptsParameter,
+        cli_options: Des::CliOptions.new(
+          image: nil,
+          packages: [] of String,
+          container: nil,
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         version: '3'
         services:
@@ -47,9 +57,17 @@ describe Des::DockerCompose do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [
-          {"container" => "opts_container"},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: nil,
+          packages: [] of String,
+          container: "opts_container",
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         version: '3'
         services:
@@ -79,9 +97,17 @@ describe Des::DockerCompose do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [
-          {"save-dir" => "#{__DIR__}/var/opts_save_dir"},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: nil,
+          packages: [] of String,
+          container: nil,
+          save_dir: "#{__DIR__}/var/opts_save_dir",
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         version: '3'
         services:
@@ -111,9 +137,17 @@ describe Des::DockerCompose do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [
-          {"web-app" => true},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: nil,
+          packages: [] of String,
+          container: nil,
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: true,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         version: '3'
         services:
@@ -163,12 +197,17 @@ describe Des::DockerCompose do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [
-          {"container" => "opts_container"},
-          {"save-dir" => "#{__DIR__}/var/opts_save_dir"},
-          {"docker-compose-version" => "4"},
-          {"web-app" => true},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: nil,
+          packages: [] of String,
+          container: "opts_container",
+          save_dir: "#{__DIR__}/var/opts_save_dir",
+          rc_file: "dummy_path",
+          docker_compose_version: "4",
+          web_app: true,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         version: '4'
         services:
@@ -207,15 +246,8 @@ describe Des::DockerCompose do
     ].each do |spec_case|
       it spec_case.describe do
         rc = Rc.new(spec_case.rc_file_yaml)
-
-        input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-        spec_case.opts_parameters.each do |parameter|
-          input_opts.merge!(parameter)
-        end
-        opts = Opts.new(input_opts)
-
+        opts = Opts.new(spec_case.cli_options)
         parameters = Parameters.new(rc, opts)
-
         created_file_path = "#{parameters.save_dir}/docker-compose.yml"
 
         File.delete(created_file_path) if File.exists?(created_file_path)

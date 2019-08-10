@@ -1,10 +1,10 @@
 module Des
   class Opts
-    def initialize(@opts : Hash(String, String | Bool | Array(String) | Nil))
+    def initialize(@opts : Des::CliOptions)
     end
 
     def image
-      image = @opts["image"]?
+      image = @opts.image
       return nil if image.nil?
       image_str = image.as(String)
       _validate_image!(image_str)
@@ -20,13 +20,11 @@ module Des
     end
 
     def packages
-      packages = @opts["packages"]?
-      return nil if packages.nil?
-      packages.as(Array(String))
+      @opts.packages
     end
 
     def container
-      container = @opts["container"]?
+      container = @opts.container
       return nil if container.nil?
       container_str = container.as(String)
       _validate_container!(container_str)
@@ -42,7 +40,7 @@ module Des
     end
 
     def save_dir
-      save_dir = @opts["save-dir"]?
+      save_dir = @opts.save_dir
       return nil if save_dir.nil?
       save_dir_str = save_dir.as(String)
       expand_save_dir = File.expand_path(save_dir_str)
@@ -51,7 +49,7 @@ module Des
     end
 
     def rc_file
-      rc_file = @opts["rc-file"]?
+      rc_file = @opts.rc_file
       raise "rc_file path is not set. See 'des --help'" if rc_file.nil?
       rc_file_str = rc_file.as(String)
       rc_file_realpath = File.expand_path(rc_file_str)
@@ -60,7 +58,7 @@ module Des
     end
 
     def docker_compose_version
-      docker_compose_version = @opts["docker-compose-version"]?
+      docker_compose_version = @opts.docker_compose_version
       return nil if docker_compose_version.nil?
       docker_compose_version_str = docker_compose_version.as(String)
       _validate_docker_compose_version!(docker_compose_version_str)
@@ -76,13 +74,13 @@ module Des
     end
 
     def web_app
-      web_app = @opts["web-app"]?
+      web_app = @opts.web_app
       return nil if web_app.nil?
       web_app.as(Bool)
     end
 
     def overwrite
-      overwrite = @opts["overwrite"]?
+      overwrite = @opts.overwrite
       return nil if overwrite.nil?
       overwrite.as(Bool)
     end

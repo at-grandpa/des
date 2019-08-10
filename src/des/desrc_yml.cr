@@ -2,7 +2,7 @@ require "./file_creator"
 
 module Des
   class DesrcYml
-    def initialize(@opts : Hash(String, String | Bool | Array(String) | Nil), @silent : Bool = false, @auto_answer : Bool = false)
+    def initialize(@opts : Des::CliOptions, @silent : Bool = false, @auto_answer : Bool = false)
     end
 
     def file_name
@@ -10,7 +10,7 @@ module Des
     end
 
     def create_file
-      path = @opts["rc-file"].as(String)
+      path = @opts.rc_file
       if path.nil?
         raise "rc_file path is not set. See 'des --help'"
       elsif File.exists?(path)

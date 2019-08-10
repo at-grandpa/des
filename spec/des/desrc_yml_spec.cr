@@ -5,9 +5,17 @@ describe Des::DesrcYml do
     [
       SpecCase.new(
         describe: "create .desrc.yml.",
-        opts_parameters: [
-          {"rc-file" => "#{__DIR__}/var/desrc_save_dir/.desrc.yml"},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: nil,
+          packages: ["curl", "vim"],
+          container: nil,
+          save_dir: nil,
+          rc_file: "#{__DIR__}/var/desrc_save_dir/.desrc.yml",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         default_param:
           image: ubuntu:16.04
@@ -19,15 +27,21 @@ describe Des::DesrcYml do
           docker_compose_version: 3
           web_app: false
           overwrite: false
-
         EXPECT
       ),
       SpecCase.new(
         describe: "create .desrc.yml when opts has a 'image'.",
-        opts_parameters: [
-          {"rc-file" => "#{__DIR__}/var/desrc_save_dir/.desrc.yml"},
-          {"image" => "crystallang/crystal"},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: "crystallang/crystal",
+          packages: ["curl", "vim"],
+          container: nil,
+          save_dir: nil,
+          rc_file: "#{__DIR__}/var/desrc_save_dir/.desrc.yml",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         default_param:
           image: crystallang/crystal
@@ -39,16 +53,21 @@ describe Des::DesrcYml do
           docker_compose_version: 3
           web_app: false
           overwrite: false
-
         EXPECT
       ),
       SpecCase.new(
         describe: "create .desrc.yml when opts has a 'packages'.",
-        opts_parameters: [
-          {"rc-file" => "#{__DIR__}/var/desrc_save_dir/.desrc.yml"},
-          {"image" => "crystallang/crystal"},
-          {"packages" => ["wget", "htop"]},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: "crystallang/crystal",
+          packages: ["wget", "htop"],
+          container: nil,
+          save_dir: nil,
+          rc_file: "#{__DIR__}/var/desrc_save_dir/.desrc.yml",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         default_param:
           image: crystallang/crystal
@@ -60,16 +79,21 @@ describe Des::DesrcYml do
           docker_compose_version: 3
           web_app: false
           overwrite: false
-
         EXPECT
       ),
       SpecCase.new(
         describe: "create .desrc.yml when opts has a empty 'packages'.",
-        opts_parameters: [
-          {"rc-file" => "#{__DIR__}/var/desrc_save_dir/.desrc.yml"},
-          {"image" => "crystallang/crystal"},
-          {"packages" => [] of String},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: "crystallang/crystal",
+          packages: [] of String,
+          container: nil,
+          save_dir: nil,
+          rc_file: "#{__DIR__}/var/desrc_save_dir/.desrc.yml",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         default_param:
           image: crystallang/crystal
@@ -79,17 +103,21 @@ describe Des::DesrcYml do
           docker_compose_version: 3
           web_app: false
           overwrite: false
-
         EXPECT
       ),
       SpecCase.new(
         describe: "create .desrc.yml when opts has a 'container'.",
-        opts_parameters: [
-          {"rc-file" => "#{__DIR__}/var/desrc_save_dir/.desrc.yml"},
-          {"image" => "crystallang/crystal"},
-          {"packages" => ["wget", "htop"]},
-          {"container" => "spec_container"},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: "crystallang/crystal",
+          packages: ["wget", "htop"],
+          container: "spec_container",
+          save_dir: nil,
+          rc_file: "#{__DIR__}/var/desrc_save_dir/.desrc.yml",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         default_param:
           image: crystallang/crystal
@@ -101,18 +129,21 @@ describe Des::DesrcYml do
           docker_compose_version: 3
           web_app: false
           overwrite: false
-
         EXPECT
       ),
       SpecCase.new(
         describe: "create .desrc.yml when opts has a 'save-dir'.",
-        opts_parameters: [
-          {"rc-file" => "#{__DIR__}/var/desrc_save_dir/.desrc.yml"},
-          {"image" => "crystallang/crystal"},
-          {"packages" => ["wget", "htop"]},
-          {"container" => "spec_container"},
-          {"save-dir" => "spec_save_dir"},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: "crystallang/crystal",
+          packages: ["wget", "htop"],
+          container: "spec_container",
+          save_dir: "spec_save_dir",
+          rc_file: "#{__DIR__}/var/desrc_save_dir/.desrc.yml",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         default_param:
           image: crystallang/crystal
@@ -124,19 +155,21 @@ describe Des::DesrcYml do
           docker_compose_version: 3
           web_app: false
           overwrite: false
-
         EXPECT
       ),
       SpecCase.new(
         describe: "create .desrc.yml when opts has a 'web-app'.",
-        opts_parameters: [
-          {"rc-file" => "#{__DIR__}/var/desrc_save_dir/.desrc.yml"},
-          {"image" => "crystallang/crystal"},
-          {"packages" => ["wget", "htop"]},
-          {"container" => "spec_container"},
-          {"save-dir" => "spec_save_dir"},
-          {"web-app" => true},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: "crystallang/crystal",
+          packages: ["wget", "htop"],
+          container: "spec_container",
+          save_dir: "spec_save_dir",
+          rc_file: "#{__DIR__}/var/desrc_save_dir/.desrc.yml",
+          docker_compose_version: "3",
+          web_app: true,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         default_param:
           image: crystallang/crystal
@@ -148,20 +181,21 @@ describe Des::DesrcYml do
           docker_compose_version: 3
           web_app: true
           overwrite: false
-
         EXPECT
       ),
       SpecCase.new(
         describe: "create .desrc.yml when opts has a 'overwrite'.",
-        opts_parameters: [
-          {"rc-file" => "#{__DIR__}/var/desrc_save_dir/.desrc.yml"},
-          {"image" => "crystallang/crystal"},
-          {"packages" => ["wget", "htop"]},
-          {"container" => "spec_container"},
-          {"save-dir" => "spec_save_dir"},
-          {"web-app" => true},
-          {"overwrite" => true},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: "crystallang/crystal",
+          packages: ["wget", "htop"],
+          container: "spec_container",
+          save_dir: "spec_save_dir",
+          rc_file: "#{__DIR__}/var/desrc_save_dir/.desrc.yml",
+          docker_compose_version: "3",
+          web_app: true,
+          overwrite: true,
+          desrc: false
+        ),
         expect: <<-EXPECT
         default_param:
           image: crystallang/crystal
@@ -173,21 +207,15 @@ describe Des::DesrcYml do
           docker_compose_version: 3
           web_app: true
           overwrite: true
-
         EXPECT
       ),
     ].each do |spec_case|
       it spec_case.describe do
-        input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-        spec_case.opts_parameters.each do |parameter|
-          input_opts.merge!(parameter)
-        end
-
-        created_file_path = input_opts["rc-file"].as(String)
+        created_file_path = spec_case.cli_options.rc_file
 
         File.delete(created_file_path) if File.exists?(created_file_path)
 
-        DesrcYml.new(input_opts, silent: true, auto_answer: true).create_file
+        DesrcYml.new(spec_case.cli_options, silent: true, auto_answer: true).create_file
 
         File.read(created_file_path).should eq spec_case.expect
         File.delete(created_file_path) if File.exists?(created_file_path)

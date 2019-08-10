@@ -17,7 +17,17 @@ describe Des::Dockerfile do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [] of OptsParameter,
+        cli_options: Des::CliOptions.new(
+          image: nil,
+          packages: ["rc_file_package1", "rc_file_package2"],
+          container: nil,
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         FROM rc_file_image
 
@@ -43,9 +53,17 @@ describe Des::Dockerfile do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [
-          {"image" => "opts_image"},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: "opts_image",
+          packages: ["rc_file_package1", "rc_file_package2"],
+          container: nil,
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         FROM opts_image
 
@@ -71,9 +89,17 @@ describe Des::Dockerfile do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [
-          {"packages" => ["opts_packages1", "opts_packages2", "opts_packages3"]},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: nil,
+          packages: ["opts_packages1", "opts_packages2", "opts_packages3"],
+          container: nil,
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         FROM rc_file_image
 
@@ -99,9 +125,17 @@ describe Des::Dockerfile do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [
-          {"container" => "opts_container"},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: nil,
+          packages: ["rc_file_package1", "rc_file_package2"],
+          container: "opts_container",
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         FROM rc_file_image
 
@@ -127,9 +161,17 @@ describe Des::Dockerfile do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [
-          {"save-dir" => "#{__DIR__}/var/opts_save_dir"},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: nil,
+          packages: ["rc_file_package1", "rc_file_package2"],
+          container: nil,
+          save_dir: "#{__DIR__}/var/opts_save_dir",
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         FROM rc_file_image
 
@@ -155,9 +197,17 @@ describe Des::Dockerfile do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [
-          {"web-app" => true},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: nil,
+          packages: ["rc_file_package1", "rc_file_package2"],
+          container: nil,
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: true,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         FROM rc_file_image
 
@@ -183,13 +233,17 @@ describe Des::Dockerfile do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [
-          {"image" => "opts_image"},
-          {"packages" => ["opts_packages1", "opts_packages2", "opts_packages3"]},
-          {"container" => "opts_container"},
-          {"save-dir" => "#{__DIR__}/var/opts_save_dir"},
-          {"web-app" => true},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: "opts_image",
+          packages: ["opts_packages1", "opts_packages2", "opts_packages3"],
+          container: "opts_container",
+          save_dir: "#{__DIR__}/var/opts_save_dir",
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: true,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         FROM opts_image
 
@@ -204,15 +258,8 @@ describe Des::Dockerfile do
     ].each do |spec_case|
       it spec_case.describe do
         rc = Rc.new(spec_case.rc_file_yaml)
-
-        input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-        spec_case.opts_parameters.each do |parameter|
-          input_opts.merge!(parameter)
-        end
-        opts = Opts.new(input_opts)
-
+        opts = Opts.new(spec_case.cli_options)
         parameters = Parameters.new(rc, opts)
-
         created_file_path = "#{parameters.save_dir}/Dockerfile"
 
         File.delete(created_file_path) if File.exists?(created_file_path)

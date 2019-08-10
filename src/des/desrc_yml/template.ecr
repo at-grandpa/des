@@ -1,11 +1,11 @@
 default_param:
-<%- image = @opts["image"]?.try &.as(String) -%>
-<%- packages = @opts["packages"]?.try &.as(Array(String)) -%>
-<%- container = @opts["container"]?.try &.as(String) -%>
-<%- save_dir = @opts["save-dir"]?.try &.as(String) -%>
-<%- docker_compose_version = @opts["docker-compose-version"]?.try &.as(String) -%>
-<%- web_app = @opts["web-app"]?.try &.as(Bool) -%>
-<%- overwrite = @opts["overwrite"]?.try &.as(Bool) -%>
+<%- image = @opts.image -%>
+<%- packages = @opts.packages -%>
+<%- container = @opts.container -%>
+<%- save_dir = @opts.save_dir -%>
+<%- docker_compose_version = @opts.docker_compose_version -%>
+<%- web_app = @opts.web_app -%>
+<%- overwrite = @opts.overwrite -%>
   image: <%- if image.nil? -%>ubuntu:16.04<%- else -%><%= image %><%- end -%>
 
 <%- if packages.nil? -%>
@@ -27,4 +27,3 @@ default_param:
   web_app: <%- if web_app.nil? -%>false<%- else -%><%= web_app %><%- end -%>
 
   overwrite: <%- if overwrite.nil? -%>false<%- else -%><%= overwrite %><%- end -%>
-

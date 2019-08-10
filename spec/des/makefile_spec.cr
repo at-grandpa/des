@@ -17,7 +17,17 @@ describe Des::Makefile do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [] of OptsParameter,
+        cli_options: Des::CliOptions.new(
+          image: nil,
+          packages: [] of String,
+          container: nil,
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         DOCKER_COMPOSE := docker-compose -f ./docker-compose.yml
         DOCKER_EXEC := docker exec -it
@@ -62,9 +72,17 @@ describe Des::Makefile do
           web_app: false
           overwrite: false
         ",
-        opts_parameters: [
-          {"container" => "opts_container"},
-        ],
+        cli_options: Des::CliOptions.new(
+          image: nil,
+          packages: [] of String,
+          container: "opts_container",
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        ),
         expect: <<-EXPECT
         DOCKER_COMPOSE := docker-compose -f ./docker-compose.yml
         DOCKER_EXEC := docker exec -it
@@ -98,15 +116,8 @@ describe Des::Makefile do
     ].each do |spec_case|
       it spec_case.describe do
         rc = Rc.new(spec_case.rc_file_yaml)
-
-        input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-        spec_case.opts_parameters.each do |parameter|
-          input_opts.merge!(parameter)
-        end
-        opts = Opts.new(input_opts)
-
+        opts = Opts.new(spec_case.cli_options)
         parameters = Parameters.new(rc, opts)
-
         created_file_path = "#{parameters.save_dir}/Makefile"
 
         File.delete(created_file_path) if File.exists?(created_file_path)
