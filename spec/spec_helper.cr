@@ -9,16 +9,25 @@ alias Makefile = Des::Makefile
 alias DockerCompose = Des::DockerCompose
 alias DesrcYml = Des::DesrcYml
 
-alias OptsParameter = Hash(String, String) | Hash(String, Bool) | Hash(String, Array(String))
-
 class SpecCase
-  @opts_parameters : Array(OptsParameter) = [] of OptsParameter
+  getter describe, rc_file_yaml, cli_options, expect
+  DEFAULT_CLI_OPTIONS = Des::CliOptions.new(
+    image: nil,
+    packages: [] of String,
+    container: nil,
+    save_dir: nil,
+    rc_file: "dummy_path",
+    docker_compose_version: "3",
+    web_app: false,
+    overwrite: false,
+    desrc: false
+  )
 
-  getter describe, rc_file_yaml, opts_parameters, expect
-
-  def initialize(@describe : String = "", @rc_file_yaml : String = "", opts_parameters = [] of OptsParameter, @expect : String = "")
-    opts_parameters.each do |parameter|
-      @opts_parameters << parameter
-    end
+  def initialize(
+    @describe : String = "",
+    @rc_file_yaml : String = "",
+    @cli_options : Des::CliOptions = DEFAULT_CLI_OPTIONS,
+    @expect : String = ""
+  )
   end
 end

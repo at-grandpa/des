@@ -1,3 +1,5 @@
+.PHONY: spec
+
 CRYSTAL_BIN ?= $(shell which crystal)
 DES_BIN ?= $(shell which des)
 PREFIX ?= /usr/local
@@ -6,9 +8,12 @@ TAR_DIR ?= bin/des
 VERSION ?= 0.1.3
 TAR_GZ_FILE_NAME ?= des-$(VERSION)-darwin-x86_64.tar.gz
 
+spec:
+	$(CRYSTAL_BIN) spec --error-trace
+
 build:
 	rm -rf ./bin/*
-	$(CRYSTAL_BIN) dep update
+	shards update
 	$(CRYSTAL_BIN) build --release -o $(OUTPUT_BIN) src/cli.cr $(CRFLAGS)
 
 clean:

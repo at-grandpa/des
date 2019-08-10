@@ -20,7 +20,7 @@ module Des
     def packages
       return nil unless @setting["default_param"]?
       return nil unless @setting["default_param"]["packages"]?
-      @setting["default_param"]["packages"].map(&.as_s)
+      @setting["default_param"]["packages"].as_a.map(&.as_s)
     end
 
     def container

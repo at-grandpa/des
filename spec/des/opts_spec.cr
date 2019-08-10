@@ -17,15 +17,34 @@ describe Des::Opts do
       },
     ].each do |spec_case|
       it "returns #{spec_case["expected"]} when input image is #{spec_case["input"]}." do
-        input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-        input_opts.merge!({"image" => spec_case["input"]})
-        opts = Opts.new(input_opts)
+        cli_options = Des::CliOptions.new(
+          image: spec_case["input"],
+          packages: [] of String,
+          container: nil,
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        )
+        opts = Opts.new(cli_options)
         opts.image.should eq spec_case["expected"]
       end
     end
     it "returns nil when input image not exests." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      opts = Opts.new(input_opts)
+      cli_options = Des::CliOptions.new(
+        image: nil,
+        packages: [] of String,
+        container: nil,
+        save_dir: nil,
+        rc_file: "dummy_path",
+        docker_compose_version: "3",
+        web_app: false,
+        overwrite: false,
+        desrc: false
+      )
+      opts = Opts.new(cli_options)
       opts.image.should eq nil
     end
     [
@@ -38,9 +57,18 @@ describe Des::Opts do
       {"input" => "aaa/bbb:ccc:ddd"},
     ].each do |spec_case|
       it "raises an Exception when invarid image name. spec pattern -> #{spec_case["input"]}." do
-        input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-        input_opts.merge!({"image" => spec_case["input"]})
-        opts = Opts.new(input_opts)
+        cli_options = Des::CliOptions.new(
+          image: spec_case["input"],
+          packages: [] of String,
+          container: nil,
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        )
+        opts = Opts.new(cli_options)
         expect_raises(Exception, "Invalid image name pattern. Valid pattern -> /#{Opts::IMAGE_PATTERN}/") do
           opts.image
         end
@@ -49,15 +77,34 @@ describe Des::Opts do
   end
   describe "#packages" do
     it "returns packages when packages exists." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      input_opts.merge!({"packages" => ["package1", "package2"]})
-      opts = Opts.new(input_opts)
+      cli_options = Des::CliOptions.new(
+        image: nil,
+        packages: ["package1", "package2"],
+        container: nil,
+        save_dir: nil,
+        rc_file: "dummy_path",
+        docker_compose_version: "3",
+        web_app: false,
+        overwrite: false,
+        desrc: false
+      )
+      opts = Opts.new(cli_options)
       opts.packages.should eq ["package1", "package2"]
     end
-    it "returns nil when packages not exests in opts." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      opts = Opts.new(input_opts)
-      opts.packages.should eq nil
+    it "returns [] of String when packages empty in opts." do
+      cli_options = Des::CliOptions.new(
+        image: nil,
+        packages: [] of String,
+        container: nil,
+        save_dir: nil,
+        rc_file: "dummy_path",
+        docker_compose_version: "3",
+        web_app: false,
+        overwrite: false,
+        desrc: false
+      )
+      opts = Opts.new(cli_options)
+      opts.packages.should eq [] of String
     end
   end
   describe "#container" do
@@ -68,15 +115,34 @@ describe Des::Opts do
       },
     ].each do |spec_case|
       it "returns #{spec_case["expected"]} when input container is #{spec_case["input"]}." do
-        input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-        input_opts.merge!({"container" => spec_case["input"]})
-        opts = Opts.new(input_opts)
+        cli_options = Des::CliOptions.new(
+          image: nil,
+          packages: [] of String,
+          container: spec_case["input"],
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        )
+        opts = Opts.new(cli_options)
         opts.container.should eq spec_case["expected"]
       end
     end
     it "returns nil when input container name not exests." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      opts = Opts.new(input_opts)
+      cli_options = Des::CliOptions.new(
+        image: nil,
+        packages: [] of String,
+        container: nil,
+        save_dir: nil,
+        rc_file: "dummy_path",
+        docker_compose_version: "3",
+        web_app: false,
+        overwrite: false,
+        desrc: false
+      )
+      opts = Opts.new(cli_options)
       opts.container.should eq nil
     end
     [
@@ -87,9 +153,18 @@ describe Des::Opts do
       {"input" => "aaa/bbb:ccc:ddd"},
     ].each do |spec_case|
       it "raises an Exception when invarid container name. spec pattern -> #{spec_case["input"]}." do
-        input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-        input_opts.merge!({"container" => spec_case["input"]})
-        opts = Opts.new(input_opts)
+        cli_options = Des::CliOptions.new(
+          image: nil,
+          packages: [] of String,
+          container: spec_case["input"],
+          save_dir: nil,
+          rc_file: "dummy_path",
+          docker_compose_version: "3",
+          web_app: false,
+          overwrite: false,
+          desrc: false
+        )
+        opts = Opts.new(cli_options)
         expect_raises(Exception, "Invalid container name pattern. Valid pattern -> /#{Opts::CONTAINER_PATTERN}/") do
           opts.container
         end
@@ -98,20 +173,48 @@ describe Des::Opts do
   end
   describe "#save_dir" do
     it "returns save dir path when dir path exists." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      input_opts.merge!({"save-dir" => __DIR__})
-      opts = Opts.new(input_opts)
+      cli_options = Des::CliOptions.new(
+        image: nil,
+        packages: [] of String,
+        container: nil,
+        save_dir: __DIR__,
+        rc_file: "dummy_path",
+        docker_compose_version: "3",
+        web_app: false,
+        overwrite: false,
+        desrc: false
+      )
+      opts = Opts.new(cli_options)
       opts.save_dir.should eq __DIR__
     end
     it "returns nil when input save dir path not exests in opts." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      opts = Opts.new(input_opts)
+      cli_options = Des::CliOptions.new(
+        image: nil,
+        packages: [] of String,
+        container: nil,
+        save_dir: nil,
+        rc_file: "dummy_path",
+        docker_compose_version: "3",
+        web_app: false,
+        overwrite: false,
+        desrc: false
+      )
+      opts = Opts.new(cli_options)
       opts.save_dir.should eq nil
     end
     it "raises an Exception when no such save dir." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      input_opts.merge!({"save-dir" => "#{__DIR__}/missing_dir"})
-      opts = Opts.new(input_opts)
+      cli_options = Des::CliOptions.new(
+        image: nil,
+        packages: [] of String,
+        container: nil,
+        save_dir: "#{__DIR__}/missing_dir",
+        rc_file: "dummy_path",
+        docker_compose_version: "3",
+        web_app: false,
+        overwrite: false,
+        desrc: false
+      )
+      opts = Opts.new(cli_options)
       expect_raises(Exception, "Save dir set as an option is not found. -> #{__DIR__}/missing_dir") do
         opts.save_dir
       end
@@ -119,22 +222,33 @@ describe Des::Opts do
   end
   describe "#rc_file" do
     it "returns rc file path when file exists." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      input_opts.merge!({"rc-file" => "#{__DIR__}/opts/.desrc.yml"})
-      opts = Opts.new(input_opts)
+      cli_options = Des::CliOptions.new(
+        image: nil,
+        packages: [] of String,
+        container: nil,
+        save_dir: nil,
+        rc_file: "#{__DIR__}/opts/.desrc.yml",
+        docker_compose_version: "3",
+        web_app: false,
+        overwrite: false,
+        desrc: false
+      )
+      opts = Opts.new(cli_options)
       opts.rc_file.should eq "#{__DIR__}/opts/.desrc.yml"
     end
-    it "raises an Exception when rc_file path is not set in opts." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      opts = Opts.new(input_opts)
-      expect_raises(Exception, "rc_file path is not set. See 'des --help'") do
-        opts.rc_file
-      end
-    end
     it "raises an Exception when rc_file set as an option is not found." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      input_opts.merge!({"rc-file" => "#{__DIR__}/opts/missing_rc_file.yml"})
-      opts = Opts.new(input_opts)
+      cli_options = Des::CliOptions.new(
+        image: nil,
+        packages: [] of String,
+        container: nil,
+        save_dir: nil,
+        rc_file: "#{__DIR__}/opts/missing_rc_file.yml",
+        docker_compose_version: "3",
+        web_app: false,
+        overwrite: false,
+        desrc: false
+      )
+      opts = Opts.new(cli_options)
       expect_raises(Exception, "rc_file set as an option is not found. -> #{__DIR__}/opts/missing_rc_file.yml") do
         opts.rc_file
       end
@@ -142,28 +256,36 @@ describe Des::Opts do
   end
   describe "#web_app" do
     it "returns web_app when web_app exists." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      input_opts.merge!({"web-app" => true})
-      opts = Opts.new(input_opts)
+      cli_options = Des::CliOptions.new(
+        image: nil,
+        packages: [] of String,
+        container: nil,
+        save_dir: nil,
+        rc_file: "dummy_path",
+        docker_compose_version: "3",
+        web_app: true,
+        overwrite: false,
+        desrc: false
+      )
+      opts = Opts.new(cli_options)
       opts.web_app.should eq true
-    end
-    it "returns nil when web_app not exests in opts." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      opts = Opts.new(input_opts)
-      opts.web_app.should eq nil
     end
   end
   describe "#overwrite" do
     it "returns overwrite when overwrite exists." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      input_opts.merge!({"overwrite" => true})
-      opts = Opts.new(input_opts)
+      cli_options = Des::CliOptions.new(
+        image: nil,
+        packages: [] of String,
+        container: nil,
+        save_dir: nil,
+        rc_file: "dummy_path",
+        docker_compose_version: "3",
+        web_app: false,
+        overwrite: true,
+        desrc: false
+      )
+      opts = Opts.new(cli_options)
       opts.overwrite.should eq true
-    end
-    it "returns nil when overwrite not exests in opts." do
-      input_opts = Hash(String, String | Bool | Array(String) | Nil).new
-      opts = Opts.new(input_opts)
-      opts.overwrite.should eq nil
     end
   end
 end

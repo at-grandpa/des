@@ -33,10 +33,13 @@ module Des
     end
 
     private def _find_packages
-      packages = nil
-      packages = @rc.packages unless @rc.packages.nil?
-      packages = @opts.packages unless @opts.packages.nil?
-      raise "Packages is not set. See 'des --help'" if packages.nil?
+      rc_packages = @rc.packages
+      packages = if rc_packages.nil?
+                   [] of String
+                 else
+                   rc_packages
+                 end
+      packages = @opts.packages unless @opts.packages.empty?
       packages
     end
 
