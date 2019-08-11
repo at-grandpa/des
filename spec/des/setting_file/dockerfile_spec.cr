@@ -7,8 +7,8 @@ describe Des::SettingFile::Dockerfile do
         desc:         "return dockerfile string.",
         mock_setting: {
           image:     "crystallang/crystal",
-          container: "test_container",
           packages:  ["vim", "curl"],
+          container: "test_container",
         },
         expected: <<-STRING
         FROM crystallang/crystal
@@ -25,8 +25,8 @@ describe Des::SettingFile::Dockerfile do
         desc:         "return dockerfile string other parameter version.",
         mock_setting: {
           image:     "mysql:8.0.17",
-          container: "hoge_container",
           packages:  ["ping", "git"],
+          container: "hoge_container",
         },
         expected: <<-STRING
         FROM mysql:8.0.17
@@ -43,8 +43,8 @@ describe Des::SettingFile::Dockerfile do
         desc:         "return dockerfile string with empty packages.",
         mock_setting: {
           image:     "crystallang/crystal",
-          container: "test_container",
           packages:  [] of String,
+          container: "test_container",
         },
         expected: <<-STRING
         FROM crystallang/crystal

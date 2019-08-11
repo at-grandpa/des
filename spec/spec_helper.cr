@@ -24,11 +24,19 @@ class OptionsMock
     ""
   end
 
+  def save_dir : String
+    ""
+  end
+
   def docker_compose_version : String
     ""
   end
 
   def web_app : Bool
+    false
+  end
+
+  def overwrite : Bool
     false
   end
 end
@@ -37,6 +45,8 @@ Mocks.create_mock OptionsMock do
   mock image
   mock packages
   mock container
+  mock save_dir
   mock docker_compose_version
   mock web_app
+  mock overwrite
 end
