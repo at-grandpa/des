@@ -6,7 +6,7 @@ module Des
       def initialize(@options : Des::SettingFile::OptionsInterface)
       end
 
-      ECR.def_to_s "#{__DIR__}/nginx_conf.ecr"
+      ECR.def_to_s "#{__DIR__}/nginx_conf/template.ecr"
     end
   end
 end

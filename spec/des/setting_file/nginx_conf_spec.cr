@@ -5,7 +5,7 @@ describe Des::SettingFile::NginxConf do
     it "return nginx_conf string." do
       options_mock = OptionsMock.new(Des::Options::CliOptions.new, Des::Options::DesRcFileOptions.new)
       nginx_conf = Des::SettingFile::NginxConf.new(options_mock)
-      nginx_conf.to_s.should eq <<-NGINX_CONF
+      nginx_conf.to_s.should eq <<-STRING
 
       user  nginx;
       worker_processes  1;
@@ -47,7 +47,7 @@ describe Des::SettingFile::NginxConf do
           include /etc/nginx/conf.d/*.conf;
       }
 
-      NGINX_CONF
+      STRING
     end
   end
 end

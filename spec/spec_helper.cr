@@ -12,15 +12,21 @@ class OptionsMock
   )
   end
 
-  def save_dir : String
+  def container : String
     ""
+  end
+
+  def docker_compose_version : String
+    ""
+  end
+
+  def web_app : Bool
+    false
   end
 end
 
 Mocks.create_mock OptionsMock do
-  mock image
-end
-
-Mocks.create_mock Des::SettingFile::FileCreator do
-  mock hoge
+  mock container
+  mock docker_compose_version
+  mock web_app
 end

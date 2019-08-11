@@ -1,0 +1,11 @@
+version: '<%= @options.docker_compose_version %>'
+services:
+  app:
+    build: .
+    container_name: <%= @options.container %>
+    restart: always
+    stdin_open: true
+    volumes:
+      - .:/root/<%= @options.container %>
+    ports:
+      - 3000
