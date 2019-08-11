@@ -17,3 +17,6 @@ dependencies:
   clim:
     github: at-grandpa/clim
     version: 0.8.1
+  mocks:
+    github: waterlink/mocks.cr
+    version: ~> 0.9

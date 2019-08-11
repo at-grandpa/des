@@ -2,15 +2,15 @@ require "./des"
 require "clim"
 
 module Des
-  class Cli < Clim
+  class MainCli < Clim
     main do
       desc <<-DESC
-    Creates docker environment setting files.
+      Creates docker environment setting files.
 
-        - Dockerfile
-        - Makefile
-        - docker-compose.yml
-    DESC
+          - Dockerfile
+          - Makefile
+          - docker-compose.yml
+      DESC
 
       usage "des [options]"
       option "-i IMAGE", "--image=IMAGE", type: String, desc: "Base docker image name."
@@ -65,4 +65,4 @@ module Des
   end
 end
 
-Des::Cli.start(ARGV)
+Des::MainCli.start(ARGV)
