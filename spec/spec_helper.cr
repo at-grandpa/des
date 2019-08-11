@@ -12,6 +12,14 @@ class OptionsMock
   )
   end
 
+  def image : String
+    ""
+  end
+
+  def packages : Array(String)
+    [] of String
+  end
+
   def container : String
     ""
   end
@@ -26,6 +34,8 @@ class OptionsMock
 end
 
 Mocks.create_mock OptionsMock do
+  mock image
+  mock packages
   mock container
   mock docker_compose_version
   mock web_app
