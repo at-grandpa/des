@@ -56,6 +56,15 @@ module Des
           nil
         end
       end
+
+      def desrc : Bool?
+        desrc = @cli_options[:desrc]
+        if desrc.is_a?(Bool)
+          desrc
+        else
+          nil
+        end
+      end
     end
   end
 end

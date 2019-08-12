@@ -268,4 +268,43 @@ describe Des::Options::CliOptions do
       end
     end
   end
+  describe "#desrc" do
+    [
+      {
+        desc:              "return false.",
+        cli_options_input: {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               "dummy data",
+          rc_file:                "dummy data",
+          docker_compose_version: "dummy data",
+          web_app:                false,
+          overwrite:              false,
+          desrc:                  false,
+        },
+        expected: false,
+      },
+      {
+        desc:              "return true.",
+        cli_options_input: {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               "dummy data",
+          rc_file:                "dummy data",
+          docker_compose_version: "dummy data",
+          web_app:                false,
+          overwrite:              false,
+          desrc:                  true,
+        },
+        expected: true,
+      },
+    ].each do |spec_case|
+      it spec_case["desc"] do
+        cli_options = Des::Options::CliOptions.new(spec_case["cli_options_input"])
+        cli_options.desrc.should eq spec_case["expected"]
+      end
+    end
+  end
 end
