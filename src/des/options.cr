@@ -1,3 +1,4 @@
+require "./setting_file/*"
 require "./options/*"
 
 module Des

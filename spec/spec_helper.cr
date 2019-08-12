@@ -50,3 +50,23 @@ Mocks.create_mock OptionsMock do
   mock web_app
   mock overwrite
 end
+
+Mocks.create_mock Des::Options::CliOptions do
+  mock image
+  mock packages
+  mock container
+  mock save_dir
+  mock docker_compose_version
+  mock web_app
+  mock overwrite
+end
+
+Mocks.create_mock Des::Options::DesRcFileOptions do
+  mock image
+  mock packages
+  mock container
+  mock save_dir
+  mock docker_compose_version
+  mock web_app
+  mock overwrite
+end
