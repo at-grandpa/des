@@ -50,7 +50,6 @@ describe Des::Options::Options do
       end
     end
   end
-
   describe "#packages" do
     [
       {
@@ -132,7 +131,6 @@ describe Des::Options::Options do
       end
     end
   end
-
   describe "#container" do
     [
       {

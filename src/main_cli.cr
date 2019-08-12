@@ -16,7 +16,7 @@ module Des
       option "-i IMAGE", "--image=IMAGE", type: String, desc: "Base docker image name."
       option "-p PACKAGES", "--packages=PACKAGE", type: Array(String), desc: "apt-get install packages name."
       option "-c NAME", "--container=NAME", type: String, desc: "Container name."
-      option "-s SAVE_DIR", "--save-dir=SAVE_DIR", type: String, desc: "Save dir path."
+      option "-s SAVE_DIR", "--save-dir=SAVE_DIR", type: String, desc: "Save dir path.", default: "./"
       option "-r RC_FILE", "--rc-file=RC_FILE", type: String, desc: ".descr.yml path.", default: "#{File.expand_path("~")}/.desrc.yml"
       option "--docker-compose-version=VERSION", type: String, desc: "docker-compose version.", default: "3"
       option "-w", "--web-app", type: Bool, desc: "Web app mode. (Includes nginx and mysql.)"
