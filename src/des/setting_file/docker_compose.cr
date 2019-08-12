@@ -12,6 +12,14 @@ module Des
         def initialize(@options : Des::SettingFile::OptionsInterface)
         end
 
+        def build_file_create_info : Des::Cli::FileCreateInfo
+          Des::Cli::FileCreateInfo.new(
+            "#{@options.save_dir}/docker-compose.yml",
+            to_s,
+            @options.overwrite
+          )
+        end
+
         ECR.def_to_s "#{__DIR__}/docker_compose/default_template.ecr"
       end
 
@@ -21,14 +29,22 @@ module Des
         def initialize(@options : Des::SettingFile::OptionsInterface)
         end
 
+        def build_file_create_info : Des::Cli::FileCreateInfo
+          Des::Cli::FileCreateInfo.new(
+            "#{@options.save_dir}/docker-compose.yml",
+            to_s,
+            @options.overwrite
+          )
+        end
+
         ECR.def_to_s "#{__DIR__}/docker_compose/web_app_template.ecr"
       end
 
-      def to_s : String
+      def build_file_create_info : Des::Cli::FileCreateInfo
         if @options.web_app
-          WebApp.new(@options).to_s
+          WebApp.new(@options).build_file_create_info
         else
-          Default.new(@options).to_s
+          Default.new(@options).build_file_create_info
         end
       end
     end

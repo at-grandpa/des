@@ -119,7 +119,7 @@ $ des --help
     -p PACKAGES, --packages=PACKAGE  apt-get install packages name. [type:Array(String)]
     -c NAME, --container=NAME        Container name. [type:String]
     -s SAVE_DIR, --save-dir=SAVE_DIR Save dir path. [type:String]
-    -r RC_FILE, --rc-file=RC_FILE    .descr.yml path. [type:String] [default:"/Users/y-tsuchida/.desrc.yml"]
+    -r RC_FILE, --rc-file=RC_FILE    .descr.yml path. [type:String] [default:"/home/your_name/.desrc.yml"]
     --docker-compose-version=VERSION docker-compose version. [type:String] [default:"3"]
     -w, --web-app                    Web app mode. (Includes nginx and mysql.) [type:Bool]
     -o, --overwrite                  Overwrite each file. [type:Bool]

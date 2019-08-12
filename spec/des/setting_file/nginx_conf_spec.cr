@@ -3,51 +3,79 @@ require "../../spec_helper"
 describe Des::SettingFile::NginxConf do
   describe "#to_s" do
     it "return nginx_conf string." do
-      options_mock = OptionsMock.new(Des::Options::CliOptions.new, Des::Options::DesRcFileOptions.new)
-      nginx_conf = Des::SettingFile::NginxConf.new(options_mock)
-      nginx_conf.to_s.should eq <<-STRING
-
-      user  nginx;
-      worker_processes  1;
-
-      error_log  /var/log/nginx/error.log warn;
-      pid        /var/run/nginx.pid;
-
-
-      events {
-          worker_connections  1024;
+      dummy_cli_options = {
+        image:                  nil,
+        packages:               [] of String,
+        container:              nil,
+        save_dir:               "dummy data",
+        rc_file:                "dummy data",
+        docker_compose_version: "dummy data",
+        web_app:                false,
+        overwrite:              false,
+        desrc:                  false,
       }
+      dummy_yaml_str = ""
+      options_mock = OptionsMock.new(
+        Des::Options::CliOptions.new(dummy_cli_options),
+        Des::Options::DesRcFileOptions.new(dummy_yaml_str)
+      )
+
+      allow(options_mock).to receive(save_dir).and_return("/path/to/dir")
+      allow(options_mock).to receive(overwrite).and_return(false)
+
+      file = Des::SettingFile::NginxConf.new(options_mock)
+      actual = file.build_file_create_info
+      expected = Des::Cli::FileCreateInfo.new(
+        "/path/to/dir/nginx.conf",
+        <<-STRING,
+
+        user  nginx;
+        worker_processes  1;
+
+        error_log  /var/log/nginx/error.log warn;
+        pid        /var/run/nginx.pid;
 
 
-      http {
-          include       /etc/nginx/mime.types;
-          default_type  application/octet-stream;
+        events {
+            worker_connections  1024;
+        }
 
-          log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                            '$status $body_bytes_sent "$http_referer" '
-                            '"$http_user_agent" "$http_x_forwarded_for"';
 
-          access_log  /var/log/nginx/access.log  main;
+        http {
+            include       /etc/nginx/mime.types;
+            default_type  application/octet-stream;
 
-          sendfile        on;
-          #tcp_nopush     on;
+            log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                              '$status $body_bytes_sent "$http_referer" '
+                              '"$http_user_agent" "$http_x_forwarded_for"';
 
-          keepalive_timeout  65;
+            access_log  /var/log/nginx/access.log  main;
 
-          #gzip  on;
+            sendfile        on;
+            #tcp_nopush     on;
 
-          server {
-              listen 80;
+            keepalive_timeout  65;
 
-              location / {
-                  proxy_pass http://app:3000/;
-              }
-          }
+            #gzip  on;
 
-          include /etc/nginx/conf.d/*.conf;
-      }
+            server {
+                listen 80;
 
-      STRING
+                location / {
+                    proxy_pass http://app:3000/;
+                }
+            }
+
+            include /etc/nginx/conf.d/*.conf;
+        }
+
+        STRING
+        false
+      )
+
+      actual.path.should eq expected.path
+      actual.str.should eq expected.str
+      actual.overwrite.should eq expected.overwrite
     end
   end
 end

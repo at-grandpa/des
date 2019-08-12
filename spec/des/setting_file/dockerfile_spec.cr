@@ -9,17 +9,23 @@ describe Des::SettingFile::Dockerfile do
           image:     "crystallang/crystal",
           packages:  ["vim", "curl"],
           container: "test_container",
+          save_dir:  "/path/to/dir",
+          overwrite: false,
         },
-        expected: <<-STRING
-        FROM crystallang/crystal
+        expected: Des::Cli::FileCreateInfo.new(
+          "/path/to/dir/Dockerfile",
+          <<-STRING,
+          FROM crystallang/crystal
 
-        RUN apt-get -y update
-        RUN apt-get -y upgrade
-        RUN apt-get -y install vim curl
+          RUN apt-get -y update
+          RUN apt-get -y upgrade
+          RUN apt-get -y install vim curl
 
-        WORKDIR /root/test_container
+          WORKDIR /root/test_container
 
-        STRING
+          STRING
+          false
+        ),
       },
       {
         desc:         "return dockerfile string other parameter version.",
@@ -27,17 +33,23 @@ describe Des::SettingFile::Dockerfile do
           image:     "mysql:8.0.17",
           packages:  ["ping", "git"],
           container: "hoge_container",
+          save_dir:  "/path/to/dir",
+          overwrite: false,
         },
-        expected: <<-STRING
-        FROM mysql:8.0.17
+        expected: Des::Cli::FileCreateInfo.new(
+          "/path/to/dir/Dockerfile",
+          <<-STRING,
+          FROM mysql:8.0.17
 
-        RUN apt-get -y update
-        RUN apt-get -y upgrade
-        RUN apt-get -y install ping git
+          RUN apt-get -y update
+          RUN apt-get -y upgrade
+          RUN apt-get -y install ping git
 
-        WORKDIR /root/hoge_container
+          WORKDIR /root/hoge_container
 
-        STRING
+          STRING
+          false
+        ),
       },
       {
         desc:         "return dockerfile string with empty packages.",
@@ -45,25 +57,55 @@ describe Des::SettingFile::Dockerfile do
           image:     "crystallang/crystal",
           packages:  [] of String,
           container: "test_container",
+          save_dir:  "/path/to/dir",
+          overwrite: false,
         },
-        expected: <<-STRING
-        FROM crystallang/crystal
+        expected: Des::Cli::FileCreateInfo.new(
+          "/path/to/dir/Dockerfile",
+          <<-STRING,
+          FROM crystallang/crystal
 
-        RUN apt-get -y update
-        RUN apt-get -y upgrade
+          RUN apt-get -y update
+          RUN apt-get -y upgrade
 
-        WORKDIR /root/test_container
+          WORKDIR /root/test_container
 
-        STRING
+          STRING
+          false
+        ),
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options_mock = OptionsMock.new(Des::Options::CliOptions.new, Des::Options::DesRcFileOptions.new)
+        dummy_cli_options = {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               "dummy data",
+          rc_file:                "dummy data",
+          docker_compose_version: "dummy data",
+          web_app:                false,
+          overwrite:              false,
+          desrc:                  false,
+        }
+        dummy_yaml_str = ""
+        options_mock = OptionsMock.new(
+          Des::Options::CliOptions.new(dummy_cli_options),
+          Des::Options::DesRcFileOptions.new(dummy_yaml_str)
+        )
+
         allow(options_mock).to receive(image).and_return(spec_case["mock_setting"]["image"])
         allow(options_mock).to receive(packages).and_return(spec_case["mock_setting"]["packages"])
         allow(options_mock).to receive(container).and_return(spec_case["mock_setting"]["container"])
-        dockerfile = Des::SettingFile::Dockerfile.new(options_mock)
-        dockerfile.to_s.should eq spec_case["expected"]
+        allow(options_mock).to receive(save_dir).and_return(spec_case["mock_setting"]["save_dir"])
+        allow(options_mock).to receive(overwrite).and_return(spec_case["mock_setting"]["overwrite"])
+
+        file = Des::SettingFile::Dockerfile.new(options_mock)
+        actual = file.build_file_create_info
+        expected = spec_case["expected"]
+
+        actual.path.should eq expected.path
+        actual.str.should eq expected.str
+        actual.overwrite.should eq expected.overwrite
       end
     end
   end

@@ -7,138 +7,186 @@ describe Des::SettingFile::DockerCompose do
         desc:         "return docker_compose default string.",
         mock_setting: {
           container:              "test_container",
+          save_dir:               "/path/to/dir",
           docker_compose_version: "4",
           web_app:                false,
+          overwrite:              false,
         },
-        expected: <<-STRING
-        version: '4'
-        services:
-          app:
-            build: .
-            container_name: test_container
-            restart: always
-            stdin_open: true
-            volumes:
-              - .:/root/test_container
-            ports:
-              - 3000
+        expected: Des::Cli::FileCreateInfo.new(
+          "/path/to/dir/docker-compose.yml",
+          <<-STRING,
+          version: '4'
+          services:
+            app:
+              build: .
+              container_name: test_container
+              restart: always
+              stdin_open: true
+              volumes:
+                - .:/root/test_container
+              ports:
+                - 3000
 
-        STRING
+          STRING
+          false
+        ),
       },
       {
         desc:         "return docker_compose default string other parameter version.",
         mock_setting: {
           container:              "hoge_container",
+          save_dir:               "/path/to/dir",
           docker_compose_version: "99",
           web_app:                false,
+          overwrite:              false,
         },
-        expected: <<-STRING
-        version: '99'
-        services:
-          app:
-            build: .
-            container_name: hoge_container
-            restart: always
-            stdin_open: true
-            volumes:
-              - .:/root/hoge_container
-            ports:
-              - 3000
+        expected: Des::Cli::FileCreateInfo.new(
+          "/path/to/dir/docker-compose.yml",
+          <<-STRING,
+          version: '99'
+          services:
+            app:
+              build: .
+              container_name: hoge_container
+              restart: always
+              stdin_open: true
+              volumes:
+                - .:/root/hoge_container
+              ports:
+                - 3000
 
-        STRING
+          STRING
+          false
+        ),
       },
       {
         desc:         "return docker_compose web_app string.",
         mock_setting: {
           container:              "test_container",
+          save_dir:               "/path/to/dir",
           docker_compose_version: "4",
           web_app:                true,
+          overwrite:              false,
         },
-        expected: <<-STRING
-        version: '4'
-        services:
-          app:
-            build: .
-            container_name: test_container
-            restart: always
-            stdin_open: true
-            volumes:
-              - .:/root/test_container
-            ports:
-              - 3000
-            links:
-              - mysql
-          mysql:
-            image: mysql
-            container_name: test_container-mysql
-            restart: always
-            environment:
-              MYSQL_ROOT_PASSWORD: root
-            ports:
-              - 3306
-          nginx:
-            image: nginx
-            container_name: test_container-nginx
-            restart: always
-            volumes:
-              - ./nginx.conf:/etc/nginx/nginx.conf
-            ports:
-              - 80:80
-            links:
-              - app
+        expected: Des::Cli::FileCreateInfo.new(
+          "/path/to/dir/docker-compose.yml",
+          <<-STRING,
+          version: '4'
+          services:
+            app:
+              build: .
+              container_name: test_container
+              restart: always
+              stdin_open: true
+              volumes:
+                - .:/root/test_container
+              ports:
+                - 3000
+              links:
+                - mysql
+            mysql:
+              image: mysql
+              container_name: test_container-mysql
+              restart: always
+              environment:
+                MYSQL_ROOT_PASSWORD: root
+              ports:
+                - 3306
+            nginx:
+              image: nginx
+              container_name: test_container-nginx
+              restart: always
+              volumes:
+                - ./nginx.conf:/etc/nginx/nginx.conf
+              ports:
+                - 80:80
+              links:
+                - app
 
-        STRING
+          STRING
+          false
+        ),
       },
       {
         desc:         "return docker_compose web_app string other parameter version.",
         mock_setting: {
           container:              "hoge_container",
+          save_dir:               "/hoge/dir",
           docker_compose_version: "99",
           web_app:                true,
+          overwrite:              false,
         },
-        expected: <<-STRING
-        version: '99'
-        services:
-          app:
-            build: .
-            container_name: hoge_container
-            restart: always
-            stdin_open: true
-            volumes:
-              - .:/root/hoge_container
-            ports:
-              - 3000
-            links:
-              - mysql
-          mysql:
-            image: mysql
-            container_name: hoge_container-mysql
-            restart: always
-            environment:
-              MYSQL_ROOT_PASSWORD: root
-            ports:
-              - 3306
-          nginx:
-            image: nginx
-            container_name: hoge_container-nginx
-            restart: always
-            volumes:
-              - ./nginx.conf:/etc/nginx/nginx.conf
-            ports:
-              - 80:80
-            links:
-              - app
+        expected: Des::Cli::FileCreateInfo.new(
+          "/hoge/dir/docker-compose.yml",
+          <<-STRING,
+          version: '99'
+          services:
+            app:
+              build: .
+              container_name: hoge_container
+              restart: always
+              stdin_open: true
+              volumes:
+                - .:/root/hoge_container
+              ports:
+                - 3000
+              links:
+                - mysql
+            mysql:
+              image: mysql
+              container_name: hoge_container-mysql
+              restart: always
+              environment:
+                MYSQL_ROOT_PASSWORD: root
+              ports:
+                - 3306
+            nginx:
+              image: nginx
+              container_name: hoge_container-nginx
+              restart: always
+              volumes:
+                - ./nginx.conf:/etc/nginx/nginx.conf
+              ports:
+                - 80:80
+              links:
+                - app
 
-        STRING
+          STRING
+          false
+        ),
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options_mock = OptionsMock.new(Des::Options::CliOptions.new, Des::Options::DesRcFileOptions.new)
+        dummy_cli_options = {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               "dummy data",
+          rc_file:                "dummy data",
+          docker_compose_version: "dummy data",
+          web_app:                false,
+          overwrite:              false,
+          desrc:                  false,
+        }
+        dummy_yaml_str = ""
+        options_mock = OptionsMock.new(
+          Des::Options::CliOptions.new(dummy_cli_options),
+          Des::Options::DesRcFileOptions.new(dummy_yaml_str)
+        )
+
         allow(options_mock).to receive(container).and_return(spec_case["mock_setting"]["container"])
+        allow(options_mock).to receive(save_dir).and_return(spec_case["mock_setting"]["save_dir"])
         allow(options_mock).to receive(docker_compose_version).and_return(spec_case["mock_setting"]["docker_compose_version"])
         allow(options_mock).to receive(web_app).and_return(spec_case["mock_setting"]["web_app"])
-        docker_compose = Des::SettingFile::DockerCompose.new(options_mock)
-        docker_compose.to_s.should eq spec_case["expected"]
+        allow(options_mock).to receive(overwrite).and_return(spec_case["mock_setting"]["overwrite"])
+
+        file = Des::SettingFile::DockerCompose.new(options_mock)
+        actual = file.build_file_create_info
+        expected = spec_case["expected"]
+
+        actual.path.should eq expected.path
+        actual.str.should eq expected.str
+        actual.overwrite.should eq expected.overwrite
       end
     end
   end
