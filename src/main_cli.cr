@@ -16,7 +16,7 @@ module Des
       option "-i IMAGE", "--image=IMAGE", type: String, desc: "Base docker image name."
       option "-p PACKAGES", "--packages=PACKAGE", type: Array(String), desc: "apt-get install packages name."
       option "-c NAME", "--container=NAME", type: String, desc: "Container name."
-      option "-s SAVE_DIR", "--save-dir=SAVE_DIR", type: String, desc: "Save dir path.", default: "./"
+      option "-s SAVE_DIR", "--save-dir=SAVE_DIR", type: String, desc: "Save dir path.", default: "."
       option "-r RC_FILE", "--rc-file=RC_FILE", type: String, desc: ".descr.yml path.", default: "#{File.expand_path("~")}/.desrc.yml"
       option "--docker-compose-version=VERSION", type: String, desc: "docker-compose version.", default: "3"
       option "-w", "--web-app", type: Bool, desc: "Web app mode. (Includes nginx and mysql.)"
@@ -25,41 +25,56 @@ module Des
       version "des #{Des::VERSION}", short: "-v"
       help short: "-h"
       run do |library_opts, args|
-        cli_options = Des::CliOptions.new(
-          image: library_opts.image,
-          packages: library_opts.packages,
-          container: library_opts.container,
-          save_dir: library_opts.save_dir,
-          rc_file: library_opts.rc_file,
+        cli_options = {
+          image:                  library_opts.image,
+          packages:               library_opts.packages,
+          container:              library_opts.container,
+          save_dir:               library_opts.save_dir,
+          rc_file:                library_opts.rc_file,
           docker_compose_version: library_opts.docker_compose_version,
-          web_app: library_opts.web_app,
-          overwrite: library_opts.overwrite,
-          desrc: library_opts.desrc
-        )
-        rc_file_path = cli_options.rc_file
-        if !rc_file_path.nil? && !File.exists?(rc_file_path)
-          DesrcYml.new(cli_options).create_file
-        end
+          web_app:                library_opts.web_app,
+          overwrite:              library_opts.overwrite,
+          desrc:                  library_opts.desrc,
+        }
 
-        if cli_options.desrc
+        if cli_options[:desrc]
           puts ""
-          puts "File path: #{rc_file_path}"
+          puts "File path: #{cli_options[:rc_file]}"
           puts ""
-          puts "#{File.read(rc_file_path)}"
+          puts "#{File.read(cli_options[:rc_file])}"
           exit 0
         end
 
-        des_opts = Opts.new(cli_options)
+        unless File.exists?(cli_options[:rc_file])
+          des_rc_file = Des::SettingFile::DesRcFile.new(
+            ::Des::Options::Options.new(
+              Des::Options::CliOptions.new(cli_options),
+              Des::Options::DesRcFileOptions.new("")
+            )
+          )
+          Des::Cli::FileCreator.new(des_rc_file.build_file_create_info).create
+        end
 
-        rc_file_yaml_str = File.read(des_opts.rc_file)
-        rc = Rc.from_yaml(rc_file_yaml_str)
+        des_options = ::Des::Options::Options.new(
+          Des::Options::CliOptions.new(cli_options),
+          Des::Options::DesRcFileOptions.new(
+            File.read(cli_options[:rc_file])
+          )
+        )
 
-        parameters = Parameters.new(rc, des_opts)
+        dockerfile = Des::SettingFile::Dockerfile.new(des_options)
+        Des::Cli::FileCreator.new(dockerfile.build_file_create_info).create
 
-        Dockerfile.new(parameters).create_file
-        Makefile.new(parameters).create_file
-        DockerCompose.new(parameters).create_file
-        NginxConf.new(parameters).create_file if parameters.web_app
+        makefile = Des::SettingFile::Makefile.new(des_options)
+        Des::Cli::FileCreator.new(makefile.build_file_create_info).create
+
+        docker_compose = Des::SettingFile::DockerCompose.new(des_options)
+        Des::Cli::FileCreator.new(docker_compose.build_file_create_info).create
+
+        if options.web_app
+          nginx_conf = Des::SettingFile::NginxConf.new(des_options)
+          Des::Cli::FileCreator.new(nginx_conf.build_file_create_info).create
+        end
       end
     end
   end

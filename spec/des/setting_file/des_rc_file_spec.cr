@@ -10,12 +10,13 @@ describe Des::SettingFile::DesRcFile do
           packages:               ["vim", "curl"],
           container:              "test_container",
           save_dir:               "/path/to/dir",
+          rc_file:                "/rc_file/dir/desrc.yml",
           docker_compose_version: "100",
           web_app:                false,
           overwrite:              false,
         },
         expected: Des::Cli::FileCreateInfo.new(
-          "/path/to/dir/desrc.yml",
+          "/rc_file/dir/desrc.yml",
           <<-STRING,
           default_options:
             image: crystallang/crystal
@@ -24,6 +25,7 @@ describe Des::SettingFile::DesRcFile do
               - curl
             container: test_container
             save_dir: /path/to/dir
+            rc_file: /rc_file/dir/desrc.yml
             docker_compose_version: 100
             web_app: false
             overwrite: false
@@ -39,12 +41,13 @@ describe Des::SettingFile::DesRcFile do
           packages:               ["ping", "git"],
           container:              "hoge_container",
           save_dir:               "/var/tmp",
+          rc_file:                "/rc_file/dir/desrc.yml",
           docker_compose_version: "20",
           web_app:                true,
           overwrite:              true,
         },
         expected: Des::Cli::FileCreateInfo.new(
-          "/var/tmp/desrc.yml",
+          "/rc_file/dir/desrc.yml",
           <<-STRING,
           default_options:
             image: mysql:8.0.17
@@ -53,6 +56,7 @@ describe Des::SettingFile::DesRcFile do
               - git
             container: hoge_container
             save_dir: /var/tmp
+            rc_file: /rc_file/dir/desrc.yml
             docker_compose_version: 20
             web_app: true
             overwrite: true
@@ -68,18 +72,20 @@ describe Des::SettingFile::DesRcFile do
           packages:               [] of String,
           container:              "hoge_container",
           save_dir:               "/var/tmp",
+          rc_file:                "/rc_file/dir/desrc.yml",
           docker_compose_version: "20",
           web_app:                true,
           overwrite:              true,
         },
         expected: Des::Cli::FileCreateInfo.new(
-          "/var/tmp/desrc.yml",
+          "/rc_file/dir/desrc.yml",
           <<-STRING,
           default_options:
             image: mysql:8.0.17
             packages: []
             container: hoge_container
             save_dir: /var/tmp
+            rc_file: /rc_file/dir/desrc.yml
             docker_compose_version: 20
             web_app: true
             overwrite: true
@@ -111,6 +117,7 @@ describe Des::SettingFile::DesRcFile do
         allow(options_mock).to receive(packages).and_return(spec_case["mock_setting"]["packages"])
         allow(options_mock).to receive(container).and_return(spec_case["mock_setting"]["container"])
         allow(options_mock).to receive(save_dir).and_return(spec_case["mock_setting"]["save_dir"])
+        allow(options_mock).to receive(rc_file).and_return(spec_case["mock_setting"]["rc_file"])
         allow(options_mock).to receive(docker_compose_version).and_return(spec_case["mock_setting"]["docker_compose_version"])
         allow(options_mock).to receive(web_app).and_return(spec_case["mock_setting"]["web_app"])
         allow(options_mock).to receive(overwrite).and_return(spec_case["mock_setting"]["overwrite"])

@@ -28,6 +28,7 @@ module Des
         {name: image, type: String},
         {name: container, type: String},
         {name: save_dir, type: String},
+        {name: rc_file, type: String},
         {name: docker_compose_version, type: String},
         {name: web_app, type: Bool},
         {name: overwrite, type: Bool},

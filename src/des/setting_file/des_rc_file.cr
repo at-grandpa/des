@@ -8,7 +8,7 @@ module Des
 
       def build_file_create_info : Des::Cli::FileCreateInfo
         Des::Cli::FileCreateInfo.new(
-          "#{@options.save_dir}/desrc.yml",
+          @options.rc_file,
           to_s,
           @options.overwrite
         )

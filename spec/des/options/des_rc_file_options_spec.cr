@@ -178,6 +178,47 @@ describe Des::Options::DesRcFileOptions do
       end
     end
   end
+  describe "#rc_file" do
+    [
+      {
+        desc:     "when 'default_options' is not exist, return nil.",
+        yaml_str: <<-YAML,
+        YAML
+        expected: nil,
+      },
+      {
+        desc:     "when 'rc_file' is not exist, return nil.",
+        yaml_str: <<-YAML,
+        default_options:
+          image: dummy_data
+        YAML
+        expected: nil,
+      },
+      {
+        desc:     "when 'rc_file' is exist, return string.",
+        yaml_str: <<-YAML,
+        default_options:
+          image: dummy_data
+          rc_file: /path/to/dir/desrc.yml
+        YAML
+        expected: "/path/to/dir/desrc.yml",
+      },
+      {
+        desc:     "when 'rc_file' is exist, return string other version.",
+        yaml_str: <<-YAML,
+        default_options:
+          image: dummy_data
+          rc_file: /path/to/hoge_dir/desrc.yml
+        YAML
+        expected: "/path/to/hoge_dir/desrc.yml",
+      },
+    ].each do |spec_case|
+      it spec_case["desc"] do
+        options = Des::Options::DesRcFileOptions.new(spec_case["yaml_str"])
+        options.rc_file.should eq spec_case["expected"]
+      end
+    end
+  end
   describe "#docker_compose_version" do
     [
       {

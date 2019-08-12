@@ -29,9 +29,20 @@ describe Des::Options::Options do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        cli_options_mock = Des::Options::CliOptions.new
+        dummy_cli_options = {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               "dummy data",
+          rc_file:                "dummy data",
+          docker_compose_version: "dummy data",
+          web_app:                false,
+          overwrite:              false,
+          desrc:                  false,
+        }
+        cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(image).and_return(spec_case["mock_setting"]["cli_options_return_value"])
-        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
         allow(des_rc_file_options_mock).to receive(image).and_return(spec_case["mock_setting"]["des_rc_file_options_return_value"])
 
         options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)
@@ -39,9 +50,20 @@ describe Des::Options::Options do
       end
     end
     it "when both values not exist, raises an exception." do
-      cli_options_mock = Des::Options::CliOptions.new
+      dummy_cli_options = {
+        image:                  nil,
+        packages:               [] of String,
+        container:              nil,
+        save_dir:               "dummy data",
+        rc_file:                "dummy data",
+        docker_compose_version: "dummy data",
+        web_app:                false,
+        overwrite:              false,
+        desrc:                  false,
+      }
+      cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(image).and_return(nil)
-      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
       allow(des_rc_file_options_mock).to receive(image).and_return(nil)
 
       options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)
@@ -110,9 +132,20 @@ describe Des::Options::Options do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        cli_options_mock = Des::Options::CliOptions.new
+        dummy_cli_options = {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               "dummy data",
+          rc_file:                "dummy data",
+          docker_compose_version: "dummy data",
+          web_app:                false,
+          overwrite:              false,
+          desrc:                  false,
+        }
+        cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(packages).and_return(spec_case["mock_setting"]["cli_options_return_value"])
-        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
         allow(des_rc_file_options_mock).to receive(packages).and_return(spec_case["mock_setting"]["des_rc_file_options_return_value"])
 
         options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)
@@ -120,9 +153,20 @@ describe Des::Options::Options do
       end
     end
     it "when both values not exist, raises an exception." do
-      cli_options_mock = Des::Options::CliOptions.new
+      dummy_cli_options = {
+        image:                  nil,
+        packages:               [] of String,
+        container:              nil,
+        save_dir:               "dummy data",
+        rc_file:                "dummy data",
+        docker_compose_version: "dummy data",
+        web_app:                false,
+        overwrite:              false,
+        desrc:                  false,
+      }
+      cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(packages).and_return(nil)
-      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
       allow(des_rc_file_options_mock).to receive(packages).and_return(nil)
 
       options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)
@@ -159,9 +203,20 @@ describe Des::Options::Options do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        cli_options_mock = Des::Options::CliOptions.new
+        dummy_cli_options = {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               "dummy data",
+          rc_file:                "dummy data",
+          docker_compose_version: "dummy data",
+          web_app:                false,
+          overwrite:              false,
+          desrc:                  false,
+        }
+        cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(container).and_return(spec_case["mock_setting"]["cli_options_return_value"])
-        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
         allow(des_rc_file_options_mock).to receive(container).and_return(spec_case["mock_setting"]["des_rc_file_options_return_value"])
 
         options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)
@@ -169,9 +224,20 @@ describe Des::Options::Options do
       end
     end
     it "when both values not exist, raises an exception." do
-      cli_options_mock = Des::Options::CliOptions.new
+      dummy_cli_options = {
+        image:                  nil,
+        packages:               [] of String,
+        container:              nil,
+        save_dir:               "dummy data",
+        rc_file:                "dummy data",
+        docker_compose_version: "dummy data",
+        web_app:                false,
+        overwrite:              false,
+        desrc:                  false,
+      }
+      cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(container).and_return(nil)
-      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
       allow(des_rc_file_options_mock).to receive(container).and_return(nil)
 
       options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)
@@ -208,9 +274,20 @@ describe Des::Options::Options do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        cli_options_mock = Des::Options::CliOptions.new
+        dummy_cli_options = {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               "dummy data",
+          rc_file:                "dummy data",
+          docker_compose_version: "dummy data",
+          web_app:                false,
+          overwrite:              false,
+          desrc:                  false,
+        }
+        cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(save_dir).and_return(spec_case["mock_setting"]["cli_options_return_value"])
-        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
         allow(des_rc_file_options_mock).to receive(save_dir).and_return(spec_case["mock_setting"]["des_rc_file_options_return_value"])
 
         options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)
@@ -218,9 +295,20 @@ describe Des::Options::Options do
       end
     end
     it "when both values not exist, raises an exception." do
-      cli_options_mock = Des::Options::CliOptions.new
+      dummy_cli_options = {
+        image:                  nil,
+        packages:               [] of String,
+        container:              nil,
+        save_dir:               "dummy data",
+        rc_file:                "dummy data",
+        docker_compose_version: "dummy data",
+        web_app:                false,
+        overwrite:              false,
+        desrc:                  false,
+      }
+      cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(save_dir).and_return(nil)
-      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
       allow(des_rc_file_options_mock).to receive(save_dir).and_return(nil)
 
       options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)
@@ -257,9 +345,20 @@ describe Des::Options::Options do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        cli_options_mock = Des::Options::CliOptions.new
+        dummy_cli_options = {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               "dummy data",
+          rc_file:                "dummy data",
+          docker_compose_version: "dummy data",
+          web_app:                false,
+          overwrite:              false,
+          desrc:                  false,
+        }
+        cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(docker_compose_version).and_return(spec_case["mock_setting"]["cli_options_return_value"])
-        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
         allow(des_rc_file_options_mock).to receive(docker_compose_version).and_return(spec_case["mock_setting"]["des_rc_file_options_return_value"])
 
         options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)
@@ -267,9 +366,20 @@ describe Des::Options::Options do
       end
     end
     it "when both values not exist, raises an exception." do
-      cli_options_mock = Des::Options::CliOptions.new
+      dummy_cli_options = {
+        image:                  nil,
+        packages:               [] of String,
+        container:              nil,
+        save_dir:               "dummy data",
+        rc_file:                "dummy data",
+        docker_compose_version: "dummy data",
+        web_app:                false,
+        overwrite:              false,
+        desrc:                  false,
+      }
+      cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(docker_compose_version).and_return(nil)
-      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
       allow(des_rc_file_options_mock).to receive(docker_compose_version).and_return(nil)
 
       options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)
@@ -306,9 +416,20 @@ describe Des::Options::Options do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        cli_options_mock = Des::Options::CliOptions.new
+        dummy_cli_options = {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               "dummy data",
+          rc_file:                "dummy data",
+          docker_compose_version: "dummy data",
+          web_app:                false,
+          overwrite:              false,
+          desrc:                  false,
+        }
+        cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(web_app).and_return(spec_case["mock_setting"]["cli_options_return_value"])
-        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
         allow(des_rc_file_options_mock).to receive(web_app).and_return(spec_case["mock_setting"]["des_rc_file_options_return_value"])
 
         options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)
@@ -316,9 +437,20 @@ describe Des::Options::Options do
       end
     end
     it "when both values not exist, raises an exception." do
-      cli_options_mock = Des::Options::CliOptions.new
+      dummy_cli_options = {
+        image:                  nil,
+        packages:               [] of String,
+        container:              nil,
+        save_dir:               "dummy data",
+        rc_file:                "dummy data",
+        docker_compose_version: "dummy data",
+        web_app:                false,
+        overwrite:              false,
+        desrc:                  false,
+      }
+      cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(web_app).and_return(nil)
-      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
       allow(des_rc_file_options_mock).to receive(web_app).and_return(nil)
 
       options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)
@@ -355,9 +487,20 @@ describe Des::Options::Options do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        cli_options_mock = Des::Options::CliOptions.new
+        dummy_cli_options = {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               "dummy data",
+          rc_file:                "dummy data",
+          docker_compose_version: "dummy data",
+          web_app:                false,
+          overwrite:              false,
+          desrc:                  false,
+        }
+        cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(overwrite).and_return(spec_case["mock_setting"]["cli_options_return_value"])
-        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+        des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
         allow(des_rc_file_options_mock).to receive(overwrite).and_return(spec_case["mock_setting"]["des_rc_file_options_return_value"])
 
         options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)
@@ -365,9 +508,20 @@ describe Des::Options::Options do
       end
     end
     it "when both values not exist, raises an exception." do
-      cli_options_mock = Des::Options::CliOptions.new
+      dummy_cli_options = {
+        image:                  nil,
+        packages:               [] of String,
+        container:              nil,
+        save_dir:               "dummy data",
+        rc_file:                "dummy data",
+        docker_compose_version: "dummy data",
+        web_app:                false,
+        overwrite:              false,
+        desrc:                  false,
+      }
+      cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(overwrite).and_return(nil)
-      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new
+      des_rc_file_options_mock = Des::Options::DesRcFileOptions.new("")
       allow(des_rc_file_options_mock).to receive(overwrite).and_return(nil)
 
       options = Des::Options::Options.new(cli_options_mock, des_rc_file_options_mock)

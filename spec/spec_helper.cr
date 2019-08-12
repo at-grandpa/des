@@ -28,6 +28,10 @@ class OptionsMock
     ""
   end
 
+  def rc_file : String
+    ""
+  end
+
   def docker_compose_version : String
     ""
   end
@@ -46,6 +50,7 @@ Mocks.create_mock OptionsMock do
   mock packages
   mock container
   mock save_dir
+  mock rc_file
   mock docker_compose_version
   mock web_app
   mock overwrite
@@ -56,6 +61,7 @@ Mocks.create_mock Des::Options::CliOptions do
   mock packages
   mock container
   mock save_dir
+  mock rc_file
   mock docker_compose_version
   mock web_app
   mock overwrite
@@ -66,6 +72,7 @@ Mocks.create_mock Des::Options::DesRcFileOptions do
   mock packages
   mock container
   mock save_dir
+  mock rc_file
   mock docker_compose_version
   mock web_app
   mock overwrite
