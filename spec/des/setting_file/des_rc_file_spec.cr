@@ -15,7 +15,7 @@ describe Des::SettingFile::DesRcFile do
           overwrite:              false,
         },
         expected: <<-STRING
-        default_param:
+        default_options:
           image: crystallang/crystal
           packages:
             - vim
@@ -40,7 +40,7 @@ describe Des::SettingFile::DesRcFile do
           overwrite:              true,
         },
         expected: <<-STRING
-        default_param:
+        default_options:
           image: mysql:8.0.17
           packages:
             - ping
@@ -65,7 +65,7 @@ describe Des::SettingFile::DesRcFile do
           overwrite:              true,
         },
         expected: <<-STRING
-        default_param:
+        default_options:
           image: mysql:8.0.17
           packages: []
           container: hoge_container

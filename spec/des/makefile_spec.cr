@@ -6,7 +6,7 @@ describe Des::Makefile do
       SpecCase.new(
         describe: "create Makefile with rc_file parameter when there is no opts parameters.",
         rc_file_yaml: "
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -61,7 +61,7 @@ describe Des::Makefile do
       SpecCase.new(
         describe: "create Makefile overwrited 'container' with the opts parameter when opts has an 'container'.",
         rc_file_yaml: "
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1

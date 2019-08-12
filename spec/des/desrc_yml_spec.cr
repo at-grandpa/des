@@ -17,7 +17,7 @@ describe Des::DesrcYml do
           desrc: false
         ),
         expect: <<-EXPECT
-        default_param:
+        default_options:
           image: ubuntu:16.04
           packages:
             - curl
@@ -43,7 +43,7 @@ describe Des::DesrcYml do
           desrc: false
         ),
         expect: <<-EXPECT
-        default_param:
+        default_options:
           image: crystallang/crystal
           packages:
             - curl
@@ -69,7 +69,7 @@ describe Des::DesrcYml do
           desrc: false
         ),
         expect: <<-EXPECT
-        default_param:
+        default_options:
           image: crystallang/crystal
           packages:
             - wget
@@ -95,7 +95,7 @@ describe Des::DesrcYml do
           desrc: false
         ),
         expect: <<-EXPECT
-        default_param:
+        default_options:
           image: crystallang/crystal
           packages:
           container: my_container
@@ -119,7 +119,7 @@ describe Des::DesrcYml do
           desrc: false
         ),
         expect: <<-EXPECT
-        default_param:
+        default_options:
           image: crystallang/crystal
           packages:
             - wget
@@ -145,7 +145,7 @@ describe Des::DesrcYml do
           desrc: false
         ),
         expect: <<-EXPECT
-        default_param:
+        default_options:
           image: crystallang/crystal
           packages:
             - wget
@@ -171,7 +171,7 @@ describe Des::DesrcYml do
           desrc: false
         ),
         expect: <<-EXPECT
-        default_param:
+        default_options:
           image: crystallang/crystal
           packages:
             - wget
@@ -197,7 +197,7 @@ describe Des::DesrcYml do
           desrc: false
         ),
         expect: <<-EXPECT
-        default_param:
+        default_options:
           image: crystallang/crystal
           packages:
             - wget

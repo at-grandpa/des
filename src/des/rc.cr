@@ -50,7 +50,7 @@ module Des
 
   class Rc
     YAML.mapping(
-      default_param: {
+      default_options: {
         type:    RcParameters,
         nilable: true,
         default: nil,

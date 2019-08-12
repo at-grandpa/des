@@ -6,7 +6,7 @@ describe Des::Dockerfile do
       SpecCase.new(
         describe: "create Dockerfile with rc_file parameter when there is no opts parameters.",
         rc_file_yaml: "
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -42,7 +42,7 @@ describe Des::Dockerfile do
       SpecCase.new(
         describe: "create Dockerfile overwrited 'image' with the opts parameter when opts has an 'image'.",
         rc_file_yaml: "
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -78,7 +78,7 @@ describe Des::Dockerfile do
       SpecCase.new(
         describe: "create Dockerfile overwrited 'packages' with the opts parameter when opts has an 'packages'.",
         rc_file_yaml: "
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -114,7 +114,7 @@ describe Des::Dockerfile do
       SpecCase.new(
         describe: "create Dockerfile overwrited 'container' with the opts parameter when opts has an 'container'.",
         rc_file_yaml: "
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -150,7 +150,7 @@ describe Des::Dockerfile do
       SpecCase.new(
         describe: "create Dockerfile overwrited 'save_dir' with the opts parameter when opts has an 'save_dir'.",
         rc_file_yaml: "
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -186,7 +186,7 @@ describe Des::Dockerfile do
       SpecCase.new(
         describe: "create Dockerfile overwrited 'web_app' with the opts parameter when opts has an 'web_app'.",
         rc_file_yaml: "
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -222,7 +222,7 @@ describe Des::Dockerfile do
       SpecCase.new(
         describe: "create Dockerfile overwrited all parameters with the opts parameter when opts has an all parameters.",
         rc_file_yaml: "
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1

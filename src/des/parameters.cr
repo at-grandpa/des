@@ -27,14 +27,14 @@ module Des
     macro find_parameter(*parameters)
       {% for parameter in parameters %}
         private def _find_{{parameter}}
-          rc_default_param = @rc.default_param
+          rc_default_options = @rc.default_options
 
-          rc_parameter = if rc_default_param.nil?
+          rc_parameter = if rc_default_options.nil?
                            nil
-                         elsif rc_default_param.{{parameter}}.nil?
+                         elsif rc_default_options.{{parameter}}.nil?
                            nil
                          else
-                           rc_default_param.{{parameter}}
+                           rc_default_options.{{parameter}}
                          end
 
           opts_parameter = @opts.{{parameter}}
@@ -50,12 +50,12 @@ module Des
     find_parameter image, container, save_dir, docker_compose_version, web_app, overwrite
 
     private def _find_packages
-      rc_default_param = @rc.default_param
+      rc_default_options = @rc.default_options
 
-      rc_packages = if rc_default_param.nil?
+      rc_packages = if rc_default_options.nil?
                       [] of String
                     else
-                      rc_default_param.packages
+                      rc_default_options.packages
                     end
 
       opts_packages = @opts.packages

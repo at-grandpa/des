@@ -5,7 +5,7 @@ describe Des::Parameters do
     describe "(about 'image')" do
       it "raises an Exception when 'image' key not exists in rc_file and opts." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           packages:
             - rc_file_package1
             - rc_file_package2
@@ -36,7 +36,7 @@ describe Des::Parameters do
       end
       it "set rc_file image when opts image not exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -67,7 +67,7 @@ describe Des::Parameters do
       end
       it "overwrite rc_file image with opts image when opts image exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -100,7 +100,7 @@ describe Des::Parameters do
     describe "(about 'packages')" do
       it "set rc_file packages when opts packages not exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -131,7 +131,7 @@ describe Des::Parameters do
       end
       it "overwrite rc_file packages with opts packages when opts packages exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -164,7 +164,7 @@ describe Des::Parameters do
     describe "(about 'container')" do
       it "raises an Exception when 'container' key not exists in rc_file and opts." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -195,7 +195,7 @@ describe Des::Parameters do
       end
       it "set rc_file container when opts container not exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -226,7 +226,7 @@ describe Des::Parameters do
       end
       it "overwrite rc_file container with opts container when opts container exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -259,7 +259,7 @@ describe Des::Parameters do
     describe "(about 'save_dir')" do
       it "raises an Exception when 'save_dir' key not exists in rc_file and opts." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -287,7 +287,7 @@ describe Des::Parameters do
       end
       it "set rc_file save_dir when opts save_dir not exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -318,7 +318,7 @@ describe Des::Parameters do
       end
       it "overwrite rc_file save_dir with opts save_dir when opts save_dir exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -352,7 +352,7 @@ describe Des::Parameters do
     describe "(about 'docker_compose_version')" do
       it "set rc_file docker_compose_version when opts docker_compose_version not exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -383,7 +383,7 @@ describe Des::Parameters do
       end
       it "overwrite rc_file docker_compose_version with opts docker_compose_version when opts docker_compose_version exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -417,7 +417,7 @@ describe Des::Parameters do
     describe "(about 'web_app')" do
       it "set rc_file web_app when opts web_app not exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -448,7 +448,7 @@ describe Des::Parameters do
       end
       it "overwrite rc_file web_app with opts web_app when opts web_app exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -482,7 +482,7 @@ describe Des::Parameters do
     describe "(about 'overwrite')" do
       it "set rc_file overwrite when opts overwrite not exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1
@@ -513,7 +513,7 @@ describe Des::Parameters do
       end
       it "overwrite rc_file overwrite with opts overwrite when opts overwrite exists." do
         yaml_str = <<-YAML_STR
-        default_param:
+        default_options:
           image: rc_file_image
           packages:
             - rc_file_package1

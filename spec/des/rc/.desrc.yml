@@ -1,4 +1,4 @@
-default_param:
+default_options:
   image: crystallang/crystal
   packages:
     - curl
