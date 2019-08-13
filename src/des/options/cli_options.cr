@@ -5,11 +5,11 @@ module Des
         image: String | Nil,
         packages: Array(String),
         container: String | Nil,
-        save_dir: String,
-        rc_file: String,
-        docker_compose_version: String,
-        web_app: Bool,
-        overwrite: Bool,
+        save_dir: String | Nil,
+        rc_file: String | Nil,
+        docker_compose_version: String | Nil,
+        web_app: String | Nil,
+        overwrite: String | Nil,
         desrc: Bool)
 
       def initialize(@cli_options : CliOptionsType)
@@ -41,29 +41,34 @@ module Des
 
       def web_app : Bool?
         web_app = @cli_options[:web_app]
-        if web_app.is_a?(Bool)
-          web_app
-        else
+        case web_app
+        when "true"
+          true
+        when "false"
+          false
+        when nil
           nil
+        else
+          raise "web-app option only allows 'true' or 'false'. See 'des --help'"
         end
       end
 
       def overwrite : Bool?
         overwrite = @cli_options[:overwrite]
-        if overwrite.is_a?(Bool)
-          overwrite
-        else
+        case overwrite
+        when "true"
+          true
+        when "false"
+          false
+        when nil
           nil
+        else
+          raise "overwrite option only allows 'true' or 'false'. See 'des --help'"
         end
       end
 
-      def desrc : Bool?
-        desrc = @cli_options[:desrc]
-        if desrc.is_a?(Bool)
-          desrc
-        else
-          nil
-        end
+      def desrc : Bool
+        @cli_options[:desrc]
       end
     end
   end
