@@ -30,7 +30,7 @@ module Des
           packages:               library_opts.packages,
           container:              library_opts.container,
           save_dir:               library_opts.save_dir,
-          rc_file:                library_opts.rc_file,
+          desrc_path:             library_opts.desrc_path,
           docker_compose_version: library_opts.docker_compose_version,
           web_app:                library_opts.web_app,
           overwrite:              library_opts.overwrite,
@@ -39,26 +39,26 @@ module Des
 
         if cli_options[:desrc]
           puts ""
-          puts "File path: #{cli_options[:rc_file]}"
+          puts "File path: #{cli_options[:desrc_path]}"
           puts ""
-          puts "#{File.read(cli_options[:rc_file])}"
+          puts "#{File.read(cli_options[:desrc_path])}"
           exit 0
         end
 
-        unless File.exists?(cli_options[:rc_file])
-          des_rc_file = Des::SettingFile::DesRcFile.new(
+        unless File.exists?(cli_options[:desrc_path])
+          desrc_file = Des::SettingFile::DesrcFile.new(
             ::Des::Options::Options.new(
               Des::Options::CliOptions.new(cli_options),
-              Des::Options::DesRcFileOptions.new("")
+              Des::Options::DesrcFileOptions.new("")
             )
           )
-          Des::Cli::FileCreator.new(des_rc_file.build_file_create_info).create
+          Des::Cli::FileCreator.new(desrc_file.build_file_create_info).create
         end
 
         des_options = ::Des::Options::Options.new(
           Des::Options::CliOptions.new(cli_options),
-          Des::Options::DesRcFileOptions.new(
-            File.read(cli_options[:rc_file])
+          Des::Options::DesrcFileOptions.new(
+            File.read(cli_options[:desrc_path])
           )
         )
 

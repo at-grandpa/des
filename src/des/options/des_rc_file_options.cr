@@ -2,7 +2,7 @@ require "yaml"
 
 module Des
   module Options
-    class DesRcFileOptions
+    class DesrcFileOptions
       class DefaultOptionType
         YAML.mapping(
           default_options: {
@@ -35,7 +35,7 @@ module Des
             nilable: true,
             default: nil,
           },
-          rc_file: {
+          desrc_path: {
             type:    String,
             nilable: true,
             default: nil,
@@ -80,7 +80,7 @@ module Des
         {name: packages, type: Array(String)?},
         {name: container, type: String?},
         {name: save_dir, type: String?},
-        {name: rc_file, type: String?},
+        {name: desrc_path, type: String?},
         {name: docker_compose_version, type: String?},
         {name: web_app, type: Bool?},
         {name: overwrite, type: Bool?},

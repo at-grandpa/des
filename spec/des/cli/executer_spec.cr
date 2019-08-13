@@ -21,14 +21,14 @@ describe Des::Cli::Executer do
           packages:               ["vim", "ping"],
           container:              "test_container",
           save_dir:               "#{__DIR__}/var/spec_dir",
-          rc_file:                "#{__DIR__}/var/spec_dir/desrc.yml",
+          desrc_path:             "#{__DIR__}/var/spec_dir/desrc.yml",
           docker_compose_version: "3",
           web_app:                "false",
           overwrite:              "false",
           desrc:                  false,
         },
         files_to_create_before_testing: [] of NamedTuple(path: String, string: String),
-        rc_file_str:                    <<-STRING,
+        desrc_path_str:                 <<-STRING,
         STRING
         prompt_input_str: "",
         expected:         {
@@ -121,13 +121,13 @@ describe Des::Cli::Executer do
         },
       },
       {
-        desc:        "when an rc_file exists, it is not created.",
+        desc:        "when an desrc_path exists, it is not created.",
         cli_options: {
           image:                  "test_image",
           packages:               ["vim", "ping"],
           container:              "test_container",
           save_dir:               "#{__DIR__}/var/spec_dir",
-          rc_file:                "#{__DIR__}/var/spec_dir/desrc.yml",
+          desrc_path:             "#{__DIR__}/var/spec_dir/desrc.yml",
           docker_compose_version: "3",
           web_app:                "false",
           overwrite:              "false",
@@ -139,7 +139,7 @@ describe Des::Cli::Executer do
             string: "hoge",
           },
         ],
-        rc_file_str: <<-STRING,
+        desrc_path_str: <<-STRING,
         STRING
         prompt_input_str: "",
         expected:         {
@@ -226,7 +226,7 @@ describe Des::Cli::Executer do
           packages:               ["vim", "ping"],
           container:              "test_container",
           save_dir:               "#{__DIR__}/var/spec_dir",
-          rc_file:                "#{__DIR__}/var/spec_dir/desrc.yml",
+          desrc_path:             "#{__DIR__}/var/spec_dir/desrc.yml",
           docker_compose_version: "3",
           web_app:                "false",
           overwrite:              "false",
@@ -246,7 +246,7 @@ describe Des::Cli::Executer do
             string: "Default Makefile",
           },
         ],
-        rc_file_str: <<-STRING,
+        desrc_path_str: <<-STRING,
         STRING
         prompt_input_str: "y\nn",
         expected:         {
@@ -312,7 +312,7 @@ describe Des::Cli::Executer do
           packages:               ["vim", "ping"],
           container:              "test_container",
           save_dir:               "#{__DIR__}/var/spec_dir",
-          rc_file:                "#{__DIR__}/var/spec_dir/desrc.yml",
+          desrc_path:             "#{__DIR__}/var/spec_dir/desrc.yml",
           docker_compose_version: "3",
           web_app:                "false",
           overwrite:              "true",
@@ -332,7 +332,7 @@ describe Des::Cli::Executer do
             string: "Default Makefile",
           },
         ],
-        rc_file_str: <<-STRING,
+        desrc_path_str: <<-STRING,
         STRING
         prompt_input_str: "",
         expected:         {
@@ -419,7 +419,7 @@ describe Des::Cli::Executer do
           packages:               ["vim", "ping"],
           container:              "test_container",
           save_dir:               "#{__DIR__}/var/spec_dir",
-          rc_file:                "#{__DIR__}/var/spec_dir/desrc.yml",
+          desrc_path:             "#{__DIR__}/var/spec_dir/desrc.yml",
           docker_compose_version: "3",
           web_app:                "true",
           overwrite:              "false",
@@ -431,7 +431,7 @@ describe Des::Cli::Executer do
             string: "",
           },
         ],
-        rc_file_str: <<-STRING,
+        desrc_path_str: <<-STRING,
         STRING
         prompt_input_str: "",
         expected:         {
@@ -585,7 +585,7 @@ describe Des::Cli::Executer do
           packages:               ["vim", "ping"],
           container:              "test_container",
           save_dir:               "#{__DIR__}/var/spec_dir",
-          rc_file:                "#{__DIR__}/var/spec_dir/desrc.yml",
+          desrc_path:             "#{__DIR__}/var/spec_dir/desrc.yml",
           docker_compose_version: "3",
           web_app:                "false",
           overwrite:              "false",
@@ -597,7 +597,7 @@ describe Des::Cli::Executer do
             string: "Hello, World!!",
           },
         ],
-        rc_file_str: <<-STRING,
+        desrc_path_str: <<-STRING,
         STRING
         prompt_input_str: "",
         expected:         {
@@ -618,28 +618,28 @@ describe Des::Cli::Executer do
           STRING
         },
       },
-      # cli_optionsはすべてnilable
-      # desrcにはrc_fileを書かない
-      # rc_fileという名称は統一的にdesrc_pathにする
+      # xx cli_optionsはすべてnilable
+      # xx desrcにはdesrc_pathを書かない
+      # desrc_pathという名称は統一的にdesrc_pathにする
       # rcfileの作成時にデフォルトを設定する（そのときに内容の出力もしてあげる
-      # rc_file_strが反映されるケース
-      # rc_file_strが反映されるケース(bool系)
+      # desrc_path_strが反映されるケース
+      # desrc_path_strが反映されるケース(bool系)
       # その他のエラーのケース
     ].each do |spec_case|
       it spec_case["desc"] do
         des_options = ::Des::Options::Options.new(
           Des::Options::CliOptions.new(spec_case["cli_options"]),
-          Des::Options::DesRcFileOptions.new(spec_case["rc_file_str"])
+          Des::Options::DesrcFileOptions.new(spec_case["desrc_path_str"])
         )
 
         writer = IO::Memory.new
         reader = IO::Memory.new spec_case["prompt_input_str"]
         file_creator = Des::Cli::FileCreator.new(writer, reader)
 
-        des_rc_file = Des::SettingFile::DesRcFile.new(
+        desrc_file = Des::SettingFile::DesrcFile.new(
           Des::Options::Options.new(
             Des::Options::CliOptions.new(spec_case["cli_options"]),
-            Des::Options::DesRcFileOptions.new("")
+            Des::Options::DesrcFileOptions.new("")
           )
         )
 
@@ -655,7 +655,7 @@ describe Des::Cli::Executer do
           File.write(file[:path], file[:string])
         end
 
-        executer = Des::Cli::Executer.new(des_options, file_creator, des_rc_file, dockerfile, makefile, docker_compose, nginx_conf, writer)
+        executer = Des::Cli::Executer.new(des_options, file_creator, desrc_file, dockerfile, makefile, docker_compose, nginx_conf, writer)
         executer.execute
 
         spec_case["expected"]["file_expected_list"].each do |file|

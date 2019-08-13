@@ -8,7 +8,7 @@ class OptionsMock
 
   def initialize(
     @cli_options : Des::Options::CliOptions,
-    @des_rc_file_options : Des::Options::DesRcFileOptions
+    @desrc_file_options : Des::Options::DesrcFileOptions
   )
   end
 
@@ -28,7 +28,7 @@ class OptionsMock
     ""
   end
 
-  def rc_file : String
+  def desrc_path : String
     ""
   end
 
@@ -50,7 +50,7 @@ Mocks.create_mock OptionsMock do
   mock packages
   mock container
   mock save_dir
-  mock rc_file
+  mock desrc_path
   mock docker_compose_version
   mock web_app
   mock overwrite
@@ -61,18 +61,18 @@ Mocks.create_mock Des::Options::CliOptions do
   mock packages
   mock container
   mock save_dir
-  mock rc_file
+  mock desrc_path
   mock docker_compose_version
   mock web_app
   mock overwrite
 end
 
-Mocks.create_mock Des::Options::DesRcFileOptions do
+Mocks.create_mock Des::Options::DesrcFileOptions do
   mock image
   mock packages
   mock container
   mock save_dir
-  mock rc_file
+  mock desrc_path
   mock docker_compose_version
   mock web_app
   mock overwrite

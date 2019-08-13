@@ -5,7 +5,7 @@ module Des
 
       def initialize(
         @cli_options : Des::Options::CliOptions,
-        @des_rc_file_options : Des::Options::DesRcFileOptions
+        @desrc_file_options : Des::Options::DesrcFileOptions
       )
       end
 
@@ -13,10 +13,10 @@ module Des
         {% for option in options %}
           def {{option[:name]}} : {{option[:type]}}
             cli_value = @cli_options.{{option[:name]}}
-            des_rc_file_value = @des_rc_file_options.{{option[:name]}}
+            desrc_file_value = @desrc_file_options.{{option[:name]}}
 
             return_value = nil
-            return_value = des_rc_file_value unless des_rc_file_value.nil?
+            return_value = desrc_file_value unless desrc_file_value.nil?
             return_value = cli_value unless cli_value.nil?
             raise "{{option[:name]}} option is not set. See 'des --help'" if return_value.nil?
             return_value
@@ -28,7 +28,7 @@ module Des
         {name: image, type: String},
         {name: container, type: String},
         {name: save_dir, type: String},
-        {name: rc_file, type: String},
+        {name: desrc_path, type: String},
         {name: docker_compose_version, type: String},
         {name: web_app, type: Bool},
         {name: overwrite, type: Bool},
@@ -36,13 +36,13 @@ module Des
 
       def packages : Array(String)
         cli_value = @cli_options.packages
-        des_rc_file_value = @des_rc_file_options.packages
+        desrc_file_value = @desrc_file_options.packages
 
         return_value = nil
-        return_value = des_rc_file_value unless des_rc_file_value.nil?
+        return_value = desrc_file_value unless desrc_file_value.nil?
         return_value = cli_value unless cli_value.nil?
-        if !cli_value.nil? && cli_value.empty? && !des_rc_file_value.nil?
-          return_value = des_rc_file_value
+        if !cli_value.nil? && cli_value.empty? && !desrc_file_value.nil?
+          return_value = desrc_file_value
         end
         raise "packages option is not set. See 'des --help'" if return_value.nil?
         return_value

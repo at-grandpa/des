@@ -1,6 +1,6 @@
 module Des
   module SettingFile
-    class DesRcFile
+    class DesrcFile
       include Des::Cli::SettingFileInterface
 
       def initialize(@options : Des::SettingFile::OptionsInterface)
@@ -8,13 +8,13 @@ module Des
 
       def build_file_create_info : Des::Cli::FileCreateInfo
         Des::Cli::FileCreateInfo.new(
-          @options.rc_file,
+          @options.desrc_path,
           to_s,
           @options.overwrite
         )
       end
 
-      ECR.def_to_s "#{__DIR__}/des_rc_file/template.ecr"
+      ECR.def_to_s "#{__DIR__}/desrc_file/template.ecr"
     end
   end
 end

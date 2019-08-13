@@ -9,7 +9,7 @@ module Des
       def initialize(
         @des_options : Des::Options::Options,
         @file_creator : Des::Cli::FileCreator,
-        @des_rc_file : Des::SettingFile::DesRcFile,
+        @desrc_file : Des::SettingFile::DesrcFile,
         @dockerfile : Des::SettingFile::Dockerfile,
         @makefile : Des::SettingFile::Makefile,
         @docker_compose : Des::SettingFile::DockerCompose,
@@ -21,14 +21,14 @@ module Des
       def execute
         if @des_options.desrc
           @writer.puts ""
-          @writer.puts "File path: #{@des_options.rc_file}"
+          @writer.puts "File path: #{@des_options.desrc_path}"
           @writer.puts ""
-          @writer.puts "#{File.read(@des_options.rc_file)}"
+          @writer.puts "#{File.read(@des_options.desrc_path)}"
           return
         end
 
-        unless File.exists?(@des_options.rc_file)
-          @file_creator.create(@des_rc_file.build_file_create_info)
+        unless File.exists?(@des_options.desrc_path)
+          @file_creator.create(@desrc_file.build_file_create_info)
         end
 
         @file_creator.create(@dockerfile.build_file_create_info)

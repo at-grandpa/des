@@ -10,7 +10,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
@@ -25,7 +25,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
@@ -49,7 +49,7 @@ describe Des::Options::CliOptions do
           packages:               ["vim", "curl"],
           container:              nil,
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
@@ -64,7 +64,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
@@ -88,7 +88,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              "test_container",
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
@@ -103,7 +103,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
@@ -127,7 +127,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              nil,
           save_dir:               "/path/to/test_dir",
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
@@ -142,7 +142,7 @@ describe Des::Options::CliOptions do
       end
     end
   end
-  describe "#rc_file" do
+  describe "#desrc_path" do
     [
       {
         desc:              "return string.",
@@ -151,7 +151,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          rc_file:                "/path/to/file_path",
+          desrc_path:                "/path/to/file_path",
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
@@ -162,7 +162,7 @@ describe Des::Options::CliOptions do
     ].each do |spec_case|
       it spec_case["desc"] do
         cli_options = Des::Options::CliOptions.new(spec_case["cli_options_input"])
-        cli_options.rc_file.should eq spec_case["expected"]
+        cli_options.desrc_path.should eq spec_case["expected"]
       end
     end
   end
@@ -175,7 +175,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: "100",
           web_app:                nil,
           overwrite:              nil,
@@ -199,7 +199,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: nil,
           web_app:                "false",
           overwrite:              nil,
@@ -214,7 +214,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: nil,
           web_app:                "true",
           overwrite:              nil,
@@ -238,7 +238,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              "false",
@@ -253,7 +253,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              "true",
@@ -277,7 +277,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
@@ -292,7 +292,7 @@ describe Des::Options::CliOptions do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:                nil,
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,

@@ -48,13 +48,13 @@ module Des
       expand_save_dir
     end
 
-    def rc_file
-      rc_file = @opts.rc_file
-      raise "rc_file path is not set. See 'des --help'" if rc_file.nil?
-      rc_file_str = rc_file.as(String)
-      rc_file_realpath = File.expand_path(rc_file_str)
-      raise "rc_file set as an option is not found. -> #{rc_file_str}" unless File.exists?(rc_file_realpath)
-      rc_file_realpath
+    def desrc_path
+      desrc_path = @opts.desrc_path
+      raise "desrc_path path is not set. See 'des --help'" if desrc_path.nil?
+      desrc_path_str = desrc_path.as(String)
+      desrc_path_realpath = File.expand_path(desrc_path_str)
+      raise "desrc_path set as an option is not found. -> #{desrc_path_str}" unless File.exists?(desrc_path_realpath)
+      desrc_path_realpath
     end
 
     def docker_compose_version

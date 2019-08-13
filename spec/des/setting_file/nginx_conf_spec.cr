@@ -8,7 +8,7 @@ describe Des::SettingFile::NginxConf do
         packages:               [] of String,
         container:              nil,
         save_dir:               nil,
-        rc_file:                nil,
+        desrc_path:             nil,
         docker_compose_version: nil,
         web_app:                nil,
         overwrite:              nil,
@@ -17,7 +17,7 @@ describe Des::SettingFile::NginxConf do
       dummy_yaml_str = ""
       options_mock = OptionsMock.new(
         Des::Options::CliOptions.new(dummy_cli_options),
-        Des::Options::DesRcFileOptions.new(dummy_yaml_str)
+        Des::Options::DesrcFileOptions.new(dummy_yaml_str)
       )
 
       allow(options_mock).to receive(save_dir).and_return("/path/to/dir")

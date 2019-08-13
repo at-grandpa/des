@@ -6,7 +6,7 @@ module Des
         packages: Array(String),
         container: String | Nil,
         save_dir: String | Nil,
-        rc_file: String | Nil,
+        desrc_path: String | Nil,
         docker_compose_version: String | Nil,
         web_app: String | Nil,
         overwrite: String | Nil,
@@ -31,8 +31,8 @@ module Des
         @cli_options[:save_dir] ? @cli_options[:save_dir] : nil
       end
 
-      def rc_file : String?
-        @cli_options[:rc_file] ? @cli_options[:rc_file] : nil
+      def desrc_path : String?
+        @cli_options[:desrc_path] ? @cli_options[:desrc_path] : nil
       end
 
       def docker_compose_version : String?

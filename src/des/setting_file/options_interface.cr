@@ -3,7 +3,7 @@ module Des
     module OptionsInterface
       abstract def initialize(
         @cli_options : Des::Options::CliOptions,
-        @des_rc_file_options : Des::Options::DesRcFileOptions
+        @desrc_file_options : Des::Options::DesrcFileOptions
       )
       abstract def image : String
       abstract def packages : Array(String)

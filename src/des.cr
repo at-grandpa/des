@@ -6,7 +6,7 @@ module Des
     packages : Array(String),
     container : String | Nil,
     save_dir : String | Nil,
-    rc_file : String,
+    desrc_path : String,
     docker_compose_version : String,
     web_app : Bool,
     overwrite : Bool,

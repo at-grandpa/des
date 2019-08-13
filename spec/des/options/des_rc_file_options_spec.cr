@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-describe Des::Options::DesRcFileOptions do
+describe Des::Options::DesrcFileOptions do
   describe "#image" do
     [
       {
@@ -37,7 +37,7 @@ describe Des::Options::DesRcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesRcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
         options.image.should eq spec_case["expected"]
       end
     end
@@ -91,7 +91,7 @@ describe Des::Options::DesRcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesRcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
         options.packages.should eq spec_case["expected"]
       end
     end
@@ -132,7 +132,7 @@ describe Des::Options::DesRcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesRcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
         options.container.should eq spec_case["expected"]
       end
     end
@@ -173,12 +173,12 @@ describe Des::Options::DesRcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesRcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
         options.save_dir.should eq spec_case["expected"]
       end
     end
   end
-  describe "#rc_file" do
+  describe "#desrc_path" do
     [
       {
         desc:     "when 'default_options' is not exist, return nil.",
@@ -187,7 +187,7 @@ describe Des::Options::DesRcFileOptions do
         expected: nil,
       },
       {
-        desc:     "when 'rc_file' is not exist, return nil.",
+        desc:     "when 'desrc_path' is not exist, return nil.",
         yaml_str: <<-YAML,
         default_options:
           image: dummy_data
@@ -195,27 +195,27 @@ describe Des::Options::DesRcFileOptions do
         expected: nil,
       },
       {
-        desc:     "when 'rc_file' is exist, return string.",
+        desc:     "when 'desrc_path' is exist, return string.",
         yaml_str: <<-YAML,
         default_options:
           image: dummy_data
-          rc_file: /path/to/dir/desrc.yml
+          desrc_path: /path/to/dir/desrc.yml
         YAML
         expected: "/path/to/dir/desrc.yml",
       },
       {
-        desc:     "when 'rc_file' is exist, return string other version.",
+        desc:     "when 'desrc_path' is exist, return string other version.",
         yaml_str: <<-YAML,
         default_options:
           image: dummy_data
-          rc_file: /path/to/hoge_dir/desrc.yml
+          desrc_path: /path/to/hoge_dir/desrc.yml
         YAML
         expected: "/path/to/hoge_dir/desrc.yml",
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesRcFileOptions.new(spec_case["yaml_str"])
-        options.rc_file.should eq spec_case["expected"]
+        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
+        options.desrc_path.should eq spec_case["expected"]
       end
     end
   end
@@ -255,7 +255,7 @@ describe Des::Options::DesRcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesRcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
         options.docker_compose_version.should eq spec_case["expected"]
       end
     end
@@ -296,7 +296,7 @@ describe Des::Options::DesRcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesRcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
         options.web_app.should eq spec_case["expected"]
       end
     end
@@ -337,7 +337,7 @@ describe Des::Options::DesRcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesRcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
         options.overwrite.should eq spec_case["expected"]
       end
     end

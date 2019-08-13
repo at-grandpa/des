@@ -1,22 +1,22 @@
 require "../../spec_helper"
 
-describe Des::SettingFile::DesRcFile do
+describe Des::SettingFile::DesrcFile do
   describe "#build_file_create_info" do
     [
       {
-        desc:         "return des_rc_file string.",
+        desc:         "return desrc_file string.",
         mock_setting: {
           image:                  "crystallang/crystal",
           packages:               ["vim", "curl"],
           container:              "test_container",
           save_dir:               "/path/to/dir",
-          rc_file:                "/rc_file/dir/desrc.yml",
+          desrc_path:             "/desrc_path/dir/desrc.yml",
           docker_compose_version: "100",
           web_app:                false,
           overwrite:              false,
         },
         expected: Des::Cli::FileCreateInfo.new(
-          "/rc_file/dir/desrc.yml",
+          "/desrc_path/dir/desrc.yml",
           <<-STRING,
           default_options:
             image: crystallang/crystal
@@ -34,19 +34,19 @@ describe Des::SettingFile::DesRcFile do
         ),
       },
       {
-        desc:         "return des_rc_file string other parameter version.",
+        desc:         "return desrc_file string other parameter version.",
         mock_setting: {
           image:                  "mysql:8.0.17",
           packages:               ["ping", "git"],
           container:              "hoge_container",
           save_dir:               "/var/tmp",
-          rc_file:                "/rc_file/dir/desrc.yml",
+          desrc_path:             "/desrc_path/dir/desrc.yml",
           docker_compose_version: "20",
           web_app:                true,
           overwrite:              true,
         },
         expected: Des::Cli::FileCreateInfo.new(
-          "/rc_file/dir/desrc.yml",
+          "/desrc_path/dir/desrc.yml",
           <<-STRING,
           default_options:
             image: mysql:8.0.17
@@ -64,19 +64,19 @@ describe Des::SettingFile::DesRcFile do
         ),
       },
       {
-        desc:         "return des_rc_file string when packages is empty.",
+        desc:         "return desrc_file string when packages is empty.",
         mock_setting: {
           image:                  "mysql:8.0.17",
           packages:               [] of String,
           container:              "hoge_container",
           save_dir:               "/var/tmp",
-          rc_file:                "/rc_file/dir/desrc.yml",
+          desrc_path:             "/desrc_path/dir/desrc.yml",
           docker_compose_version: "20",
           web_app:                true,
           overwrite:              true,
         },
         expected: Des::Cli::FileCreateInfo.new(
-          "/rc_file/dir/desrc.yml",
+          "/desrc_path/dir/desrc.yml",
           <<-STRING,
           default_options:
             image: mysql:8.0.17
@@ -98,7 +98,7 @@ describe Des::SettingFile::DesRcFile do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          rc_file:                nil,
+          desrc_path:             nil,
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
@@ -107,19 +107,19 @@ describe Des::SettingFile::DesRcFile do
         dummy_yaml_str = ""
         options_mock = OptionsMock.new(
           Des::Options::CliOptions.new(dummy_cli_options),
-          Des::Options::DesRcFileOptions.new(dummy_yaml_str)
+          Des::Options::DesrcFileOptions.new(dummy_yaml_str)
         )
 
         allow(options_mock).to receive(image).and_return(spec_case["mock_setting"]["image"])
         allow(options_mock).to receive(packages).and_return(spec_case["mock_setting"]["packages"])
         allow(options_mock).to receive(container).and_return(spec_case["mock_setting"]["container"])
         allow(options_mock).to receive(save_dir).and_return(spec_case["mock_setting"]["save_dir"])
-        allow(options_mock).to receive(rc_file).and_return(spec_case["mock_setting"]["rc_file"])
+        allow(options_mock).to receive(desrc_path).and_return(spec_case["mock_setting"]["desrc_path"])
         allow(options_mock).to receive(docker_compose_version).and_return(spec_case["mock_setting"]["docker_compose_version"])
         allow(options_mock).to receive(web_app).and_return(spec_case["mock_setting"]["web_app"])
         allow(options_mock).to receive(overwrite).and_return(spec_case["mock_setting"]["overwrite"])
 
-        file = Des::SettingFile::DesRcFile.new(options_mock)
+        file = Des::SettingFile::DesrcFile.new(options_mock)
         actual = file.build_file_create_info
         expected = spec_case["expected"]
 
