@@ -97,11 +97,11 @@ describe Des::SettingFile::DesRcFile do
           image:                  nil,
           packages:               [] of String,
           container:              nil,
-          save_dir:               "dummy data",
-          rc_file:                "dummy data",
-          docker_compose_version: "dummy data",
-          web_app:                false,
-          overwrite:              false,
+          save_dir:               nil,
+          rc_file:                nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
           desrc:                  false,
         }
         dummy_yaml_str = ""

@@ -23,8 +23,8 @@ describe Des::Cli::Executer do
           save_dir:               "#{__DIR__}/var/spec_dir",
           rc_file:                "#{__DIR__}/var/spec_dir/desrc.yml",
           docker_compose_version: "3",
-          web_app:                false,
-          overwrite:              false,
+          web_app:                "false",
+          overwrite:              "false",
           desrc:                  false,
         },
         files_to_create_before_testing: [] of NamedTuple(path: String, string: String),
@@ -104,7 +104,6 @@ describe Des::Cli::Executer do
                   - ping
                 container: test_container
                 save_dir: \\/.+?\\/var\\/spec_dir
-                rc_file: \\/.+?\\/var\\/spec_dir\\/desrc.yml
                 docker_compose_version: 3
                 web_app: false
                 overwrite: false
@@ -130,8 +129,8 @@ describe Des::Cli::Executer do
           save_dir:               "#{__DIR__}/var/spec_dir",
           rc_file:                "#{__DIR__}/var/spec_dir/desrc.yml",
           docker_compose_version: "3",
-          web_app:                false,
-          overwrite:              false,
+          web_app:                "false",
+          overwrite:              "false",
           desrc:                  false,
         },
         files_to_create_before_testing: [
@@ -229,8 +228,8 @@ describe Des::Cli::Executer do
           save_dir:               "#{__DIR__}/var/spec_dir",
           rc_file:                "#{__DIR__}/var/spec_dir/desrc.yml",
           docker_compose_version: "3",
-          web_app:                false,
-          overwrite:              false,
+          web_app:                "false",
+          overwrite:              "false",
           desrc:                  false,
         },
         files_to_create_before_testing: [
@@ -315,8 +314,8 @@ describe Des::Cli::Executer do
           save_dir:               "#{__DIR__}/var/spec_dir",
           rc_file:                "#{__DIR__}/var/spec_dir/desrc.yml",
           docker_compose_version: "3",
-          web_app:                false,
-          overwrite:              true,
+          web_app:                "false",
+          overwrite:              "true",
           desrc:                  false,
         },
         files_to_create_before_testing: [
@@ -422,8 +421,8 @@ describe Des::Cli::Executer do
           save_dir:               "#{__DIR__}/var/spec_dir",
           rc_file:                "#{__DIR__}/var/spec_dir/desrc.yml",
           docker_compose_version: "3",
-          web_app:                true,
-          overwrite:              false,
+          web_app:                "true",
+          overwrite:              "false",
           desrc:                  false,
         },
         files_to_create_before_testing: [
@@ -588,8 +587,8 @@ describe Des::Cli::Executer do
           save_dir:               "#{__DIR__}/var/spec_dir",
           rc_file:                "#{__DIR__}/var/spec_dir/desrc.yml",
           docker_compose_version: "3",
-          web_app:                false,
-          overwrite:              false,
+          web_app:                "false",
+          overwrite:              "false",
           desrc:                  true,
         },
         files_to_create_before_testing: [
@@ -619,7 +618,12 @@ describe Des::Cli::Executer do
           STRING
         },
       },
+      # cli_optionsはすべてnilable
+      # desrcにはrc_fileを書かない
+      # rc_fileという名称は統一的にdesrc_pathにする
+      # rcfileの作成時にデフォルトを設定する（そのときに内容の出力もしてあげる
       # rc_file_strが反映されるケース
+      # rc_file_strが反映されるケース(bool系)
       # その他のエラーのケース
     ].each do |spec_case|
       it spec_case["desc"] do
