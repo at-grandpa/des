@@ -12,6 +12,7 @@ module Des
       abstract def docker_compose_version : String
       abstract def web_app : Bool
       abstract def overwrite : Bool
+      abstract def to_named_tuple : Des::Options::CliOptions::CliOptionsType
     end
   end
 end

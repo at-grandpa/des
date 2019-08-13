@@ -12,35 +12,35 @@ module Des
         overwrite: String | Nil,
         desrc: Bool)
 
-      def initialize(@cli_options : CliOptionsType)
+      def initialize(@named_tuple : CliOptionsType)
       end
 
       def image : String?
-        @cli_options[:image] ? @cli_options[:image] : nil
+        @named_tuple[:image] ? @named_tuple[:image] : nil
       end
 
       def packages : Array(String)?
-        @cli_options[:packages] ? @cli_options[:packages] : nil
+        @named_tuple[:packages] ? @named_tuple[:packages] : nil
       end
 
       def container : String?
-        @cli_options[:container] ? @cli_options[:container] : nil
+        @named_tuple[:container] ? @named_tuple[:container] : nil
       end
 
       def save_dir : String?
-        @cli_options[:save_dir] ? @cli_options[:save_dir] : nil
+        @named_tuple[:save_dir] ? @named_tuple[:save_dir] : nil
       end
 
       def desrc_path : String?
-        @cli_options[:desrc_path] ? @cli_options[:desrc_path] : nil
+        @named_tuple[:desrc_path] ? @named_tuple[:desrc_path] : nil
       end
 
       def docker_compose_version : String?
-        @cli_options[:docker_compose_version] ? @cli_options[:docker_compose_version] : nil
+        @named_tuple[:docker_compose_version] ? @named_tuple[:docker_compose_version] : nil
       end
 
       def web_app : Bool?
-        web_app = @cli_options[:web_app]
+        web_app = @named_tuple[:web_app]
         case web_app
         when "true"
           true
@@ -54,7 +54,7 @@ module Des
       end
 
       def overwrite : Bool?
-        overwrite = @cli_options[:overwrite]
+        overwrite = @named_tuple[:overwrite]
         case overwrite
         when "true"
           true
@@ -68,7 +68,11 @@ module Des
       end
 
       def desrc : Bool
-        @cli_options[:desrc]
+        @named_tuple[:desrc]
+      end
+
+      def to_named_tuple
+        @named_tuple
       end
     end
   end

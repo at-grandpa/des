@@ -620,8 +620,8 @@ describe Des::Cli::Executer do
       },
       # xx cli_optionsはすべてnilable
       # xx desrcにはdesrc_pathを書かない
-      # desrc_pathという名称は統一的にdesrc_pathにする
-      # rcfileの作成時にデフォルトを設定する（そのときに内容の出力もしてあげる
+      # xx desrc_pathという名称は統一的にdesrc_pathにする
+      # desrc_fileの作成時にデフォルトを設定する（そのときに内容の出力もしてあげる
       # desrc_path_strが反映されるケース
       # desrc_path_strが反映されるケース(bool系)
       # その他のエラーのケース

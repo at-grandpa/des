@@ -43,6 +43,20 @@ class OptionsMock
   def overwrite : Bool
     false
   end
+
+  def to_named_tuple : Des::Options::CliOptions::CliOptionsType
+    {
+      image:                  nil,
+      packages:               [] of String,
+      container:              nil,
+      save_dir:               nil,
+      desrc_path:             nil,
+      docker_compose_version: nil,
+      web_app:                nil,
+      overwrite:              nil,
+      desrc:                  false,
+    }
+  end
 end
 
 Mocks.create_mock OptionsMock do
