@@ -7,42 +7,40 @@ module Des
       getter writer
 
       def initialize(
-        @create_info : FileCreateInfo,
         @writer : IO = STDOUT,
-        @reader : IO = STDIN,
-        @silent : Bool = false
+        @reader : IO = STDIN
       )
       end
 
-      def create
-        path = @create_info.path
-        overwrite_flag = @create_info.overwrite
+      def create(create_info : FileCreateInfo)
+        path = create_info.path
+        overwrite_flag = create_info.overwrite
 
-        return write unless File.exists?(path)
-        return overwrite if overwrite_flag
-        return overwrite if overwrite_prompt
+        return write(create_info) unless File.exists?(path)
+        return overwrite(create_info) if overwrite_flag
+        return overwrite(create_info) if overwrite_prompt(create_info)
         not_write
       end
 
-      private def write
-        File.write(@create_info.path, @create_info.str)
-        @writer.puts "#{"Create".colorize(:light_green)} #{@create_info.path}" unless @silent
+      private def write(create_info)
+        File.write(create_info.path, create_info.str)
+        @writer.puts "#{"Create".colorize(:light_green)} #{create_info.path}"
       end
 
-      private def overwrite
-        File.write(@create_info.path, @create_info.str)
-        @writer.puts "#{"Overwrite".colorize(:light_green)} #{@create_info.path}" unless @silent
+      private def overwrite(create_info)
+        File.write(create_info.path, create_info.str)
+        @writer.puts "#{"Overwrite".colorize(:light_green)} #{create_info.path}"
       end
 
       private def not_write
-        @writer.puts "#{"Did not overwrite.".colorize(:light_yellow)}" unless @silent
+        @writer.puts "#{"Did not overwrite.".colorize(:light_yellow)}"
       end
 
-      private def overwrite_prompt
+      private def overwrite_prompt(create_info)
         ans = ""
         loop do
           @writer.puts ""
-          @writer.puts "#{@create_info.path}"
+          @writer.puts "#{create_info.path}"
           @writer.print "Overwrite? (y or n) > "
           ans = @reader.gets
           break if ans == "y" || ans == "n"

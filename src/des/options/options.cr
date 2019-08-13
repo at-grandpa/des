@@ -47,6 +47,10 @@ module Des
         raise "packages option is not set. See 'des --help'" if return_value.nil?
         return_value
       end
+
+      def desrc
+        @cli_options.desrc
+      end
     end
   end
 end

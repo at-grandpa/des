@@ -87,8 +87,8 @@ describe Des::Cli::FileCreator do
 
         writer = IO::Memory.new
         reader = IO::Memory.new spec_case["prompt_input_str"]
-        file_creator = Des::Cli::FileCreator.new(file_create_info, writer, reader)
-        file_creator.create
+        file_creator = Des::Cli::FileCreator.new(writer, reader)
+        file_creator.create(file_create_info)
 
         File.read(file_create_info.path).should eq spec_case["file_expected"]
         File.delete(file_create_info.path) if File.exists?(file_create_info.path)
