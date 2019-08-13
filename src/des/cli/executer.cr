@@ -24,7 +24,7 @@ module Des
           @writer.puts "File path: #{@des_options.rc_file}"
           @writer.puts ""
           @writer.puts "#{File.read(@des_options.rc_file)}"
-          exit 0
+          return
         end
 
         unless File.exists?(@des_options.rc_file)

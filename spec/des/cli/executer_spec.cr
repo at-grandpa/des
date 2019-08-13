@@ -11,9 +11,6 @@ def delete_dir(path)
   end
 end
 
-# files_to_create_before_testing: [
-#       "#{__DIR__}/var/spec_dir/Dockerfile",
-# ],
 describe Des::Cli::Executer do
   describe "#execute" do
     [
@@ -338,7 +335,7 @@ describe Des::Cli::Executer do
         ],
         rc_file_str: <<-STRING,
         STRING
-        prompt_input_str: "y\nn",
+        prompt_input_str: "",
         expected:         {
           file_expected_list: [
             {
@@ -437,7 +434,7 @@ describe Des::Cli::Executer do
         ],
         rc_file_str: <<-STRING,
         STRING
-        prompt_input_str: "y\nn",
+        prompt_input_str: "",
         expected:         {
           file_expected_list: [
             {
@@ -582,8 +579,47 @@ describe Des::Cli::Executer do
           STRING
         },
       },
+      {
+        desc:        "when desrc flag is true, display desrc file.",
+        cli_options: {
+          image:                  "test_image",
+          packages:               ["vim", "ping"],
+          container:              "test_container",
+          save_dir:               "#{__DIR__}/var/spec_dir",
+          rc_file:                "#{__DIR__}/var/spec_dir/desrc.yml",
+          docker_compose_version: "3",
+          web_app:                false,
+          overwrite:              false,
+          desrc:                  true,
+        },
+        files_to_create_before_testing: [
+          {
+            path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+            string: "Hello, World!!",
+          },
+        ],
+        rc_file_str: <<-STRING,
+        STRING
+        prompt_input_str: "",
+        expected:         {
+          file_expected_list: [
+            {
+              path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+              string: <<-STRING,
+              \\AHello, World!!\\z
+              STRING
+            },
+          ],
+          output_message: <<-STRING,
+          \\A
+          File path: \\/.+?\\/var\\/spec_dir\\/desrc.yml
+
+          Hello, World!!
+          \\z
+          STRING
+        },
+      },
       # rc_file_strが反映されるケース
-      # desrcのケース
       # その他のエラーのケース
     ].each do |spec_case|
       it spec_case["desc"] do
@@ -622,7 +658,7 @@ describe Des::Cli::Executer do
           File.read(file["path"]).should match /#{file["string"]}/
         end
 
-        # delete_dir(des_options.save_dir)
+        delete_dir(des_options.save_dir)
         executer.writer.to_s.should match /#{spec_case["expected"]["output_message"]}/
       end
     end
