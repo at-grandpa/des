@@ -25,7 +25,6 @@ describe Des::SettingFile::DesRcFile do
               - curl
             container: test_container
             save_dir: /path/to/dir
-            rc_file: /rc_file/dir/desrc.yml
             docker_compose_version: 100
             web_app: false
             overwrite: false
@@ -56,7 +55,6 @@ describe Des::SettingFile::DesRcFile do
               - git
             container: hoge_container
             save_dir: /var/tmp
-            rc_file: /rc_file/dir/desrc.yml
             docker_compose_version: 20
             web_app: true
             overwrite: true
@@ -85,7 +83,6 @@ describe Des::SettingFile::DesRcFile do
             packages: []
             container: hoge_container
             save_dir: /var/tmp
-            rc_file: /rc_file/dir/desrc.yml
             docker_compose_version: 20
             web_app: true
             overwrite: true
