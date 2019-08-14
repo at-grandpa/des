@@ -14,60 +14,48 @@ module Des
       def initialize(@named_tuple : CliOptionsType)
       end
 
-      def image : String?
-        @named_tuple[:image] ? @named_tuple[:image] : nil
+      macro define_options_method(*options)
+        {% for option in options %}
+          def {{option[:name]}} : {{option[:type]}}
+            @named_tuple[:{{option[:name].id}}] ? @named_tuple[:{{option[:name].id}}] : nil
+          end
+        {% end %}
       end
 
-      def packages : Array(String)?
-        @named_tuple[:packages] ? @named_tuple[:packages] : nil
+      define_options_method(
+        {name: image, type: String?},
+        {name: packages, type: Array(String)?},
+        {name: container, type: String?},
+        {name: save_dir, type: String?},
+        {name: desrc_path, type: String?},
+        {name: docker_compose_version, type: String?},
+      )
+
+      macro define_options_method_for_bool(*options)
+        {% for option in options %}
+          def {{option[:name]}} : {{option[:type]}}
+            overwrite = @named_tuple[:{{option[:name].id}}]
+            case overwrite
+            when "true"
+              true
+            when "false"
+              false
+            when nil
+              nil
+            else
+              raise "{{option[:name]}} option only allows 'true' or 'false'. See 'des --help'"
+            end
+          end
+        {% end %}
       end
 
-      def container : String?
-        @named_tuple[:container] ? @named_tuple[:container] : nil
-      end
+      define_options_method_for_bool(
+        {name: web_app, type: Bool?},
+        {name: overwrite, type: Bool?},
+      )
 
-      def save_dir : String?
-        @named_tuple[:save_dir] ? @named_tuple[:save_dir] : nil
-      end
-
-      def desrc_path : String?
-        @named_tuple[:desrc_path] ? @named_tuple[:desrc_path] : nil
-      end
-
-      def docker_compose_version : String?
-        @named_tuple[:docker_compose_version] ? @named_tuple[:docker_compose_version] : nil
-      end
-
-      def web_app : Bool?
-        web_app = @named_tuple[:web_app]
-        case web_app
-        when "true"
-          true
-        when "false"
-          false
-        when nil
-          nil
-        else
-          raise "web-app option only allows 'true' or 'false'. See 'des --help'"
-        end
-      end
-
-      def overwrite : Bool?
-        overwrite = @named_tuple[:overwrite]
-        case overwrite
-        when "true"
-          true
-        when "false"
-          false
-        when nil
-          nil
-        else
-          raise "overwrite option only allows 'true' or 'false'. See 'des --help'"
-        end
-      end
-
-      def to_named_tuple
-        @named_tuple
+      def overwrite_values(other : self, target : Array(Object) = [] of Object) : self
+        self
       end
     end
   end
