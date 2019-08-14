@@ -13,7 +13,6 @@ module Des
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
-          desrc:                  false,
         }
       end
 

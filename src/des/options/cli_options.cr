@@ -9,8 +9,7 @@ module Des
         desrc_path: String | Nil,
         docker_compose_version: String | Nil,
         web_app: String | Nil,
-        overwrite: String | Nil,
-        desrc: Bool)
+        overwrite: String | Nil)
 
       def initialize(@named_tuple : CliOptionsType)
       end
@@ -65,10 +64,6 @@ module Des
         else
           raise "overwrite option only allows 'true' or 'false'. See 'des --help'"
         end
-      end
-
-      def desrc : Bool
-        @named_tuple[:desrc]
       end
 
       def to_named_tuple

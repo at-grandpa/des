@@ -17,11 +17,10 @@ module Des
       option "-p PACKAGES", "--packages=PACKAGE", type: Array(String), desc: "apt-get install packages name."
       option "-c NAME", "--container=NAME", type: String, desc: "Container name."
       option "-s SAVE_DIR", "--save-dir=SAVE_DIR", type: String, desc: "Save dir path."
-      option "-r RC_FILE", "--rc-file=RC_FILE", type: String, desc: ".descr.yml path."
+      option "-d DESRC_PATH", "--desrc-path=DESRC_PATH", type: String, desc: ".descr.yml path."
       option "--docker-compose-version=VERSION", type: String, desc: "docker-compose version."
       option "-w FLAG", "--web-app=FLAG", type: String, desc: "Web app mode(true or false). Includes nginx and mysql."
       option "-o FLAG", "--overwrite=FLAG", type: String, desc: "Overwrite each file flag(true or false)."
-      option "-d", "--desrc", type: Bool, desc: "Dispray .descr.yml setting."
       version "des #{Des::VERSION}", short: "-v"
       help short: "-h"
       run do |library_opts, args|
@@ -34,7 +33,6 @@ module Des
           docker_compose_version: library_opts.docker_compose_version,
           web_app:                library_opts.web_app,
           overwrite:              library_opts.overwrite,
-          desrc:                  library_opts.desrc,
         }
 
         if cli_options[:desrc]
@@ -47,7 +45,7 @@ module Des
 
         unless File.exists?(cli_options[:desrc_path])
           desrc_file = Des::SettingFile::DesrcFile.new(
-            ::Des::Options::Options.new(
+            Des::Options::Options.new(
               Des::Options::CliOptions.new(cli_options),
               Des::Options::DesrcFileOptions.new("")
             )
