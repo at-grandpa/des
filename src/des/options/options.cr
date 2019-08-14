@@ -48,10 +48,6 @@ module Des
         return_value
       end
 
-      def desrc
-        @cli_options.desrc
-      end
-
       def to_named_tuple : Des::Options::CliOptions::CliOptionsType
         @cli_options.to_named_tuple
       end

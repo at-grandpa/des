@@ -38,7 +38,6 @@ describe Des::Options::Options do
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
-          desrc:                  false,
         }
         cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(image).and_return(spec_case["mock_setting"]["cli_options_return_value"])
@@ -59,7 +58,6 @@ describe Des::Options::Options do
         docker_compose_version: nil,
         web_app:                nil,
         overwrite:              nil,
-        desrc:                  false,
       }
       cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(image).and_return(nil)
@@ -141,7 +139,6 @@ describe Des::Options::Options do
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
-          desrc:                  false,
         }
         cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(packages).and_return(spec_case["mock_setting"]["cli_options_return_value"])
@@ -162,7 +159,6 @@ describe Des::Options::Options do
         docker_compose_version: nil,
         web_app:                nil,
         overwrite:              nil,
-        desrc:                  false,
       }
       cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(packages).and_return(nil)
@@ -212,7 +208,6 @@ describe Des::Options::Options do
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
-          desrc:                  false,
         }
         cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(container).and_return(spec_case["mock_setting"]["cli_options_return_value"])
@@ -233,7 +228,6 @@ describe Des::Options::Options do
         docker_compose_version: nil,
         web_app:                nil,
         overwrite:              nil,
-        desrc:                  false,
       }
       cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(container).and_return(nil)
@@ -283,7 +277,6 @@ describe Des::Options::Options do
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
-          desrc:                  false,
         }
         cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(save_dir).and_return(spec_case["mock_setting"]["cli_options_return_value"])
@@ -304,7 +297,6 @@ describe Des::Options::Options do
         docker_compose_version: nil,
         web_app:                nil,
         overwrite:              nil,
-        desrc:                  false,
       }
       cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(save_dir).and_return(nil)
@@ -354,7 +346,6 @@ describe Des::Options::Options do
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
-          desrc:                  false,
         }
         cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(docker_compose_version).and_return(spec_case["mock_setting"]["cli_options_return_value"])
@@ -375,7 +366,6 @@ describe Des::Options::Options do
         docker_compose_version: nil,
         web_app:                nil,
         overwrite:              nil,
-        desrc:                  false,
       }
       cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(docker_compose_version).and_return(nil)
@@ -425,7 +415,6 @@ describe Des::Options::Options do
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
-          desrc:                  false,
         }
         cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(web_app).and_return(spec_case["mock_setting"]["cli_options_return_value"])
@@ -446,7 +435,6 @@ describe Des::Options::Options do
         docker_compose_version: nil,
         web_app:                nil,
         overwrite:              nil,
-        desrc:                  false,
       }
       cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(web_app).and_return(nil)
@@ -496,7 +484,6 @@ describe Des::Options::Options do
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
-          desrc:                  false,
         }
         cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
         allow(cli_options_mock).to receive(overwrite).and_return(spec_case["mock_setting"]["cli_options_return_value"])
@@ -517,7 +504,6 @@ describe Des::Options::Options do
         docker_compose_version: nil,
         web_app:                nil,
         overwrite:              nil,
-        desrc:                  false,
       }
       cli_options_mock = Des::Options::CliOptions.new(dummy_cli_options)
       allow(cli_options_mock).to receive(overwrite).and_return(nil)

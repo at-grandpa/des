@@ -19,13 +19,13 @@ module Des
       end
 
       def execute
-        if @des_options.desrc
-          @writer.puts ""
-          @writer.puts "File path: #{@des_options.desrc_path}"
-          @writer.puts ""
-          @writer.puts "#{File.read(@des_options.desrc_path)}"
-          return
-        end
+        # if @des_options.desrc
+        #   @writer.puts ""
+        #   @writer.puts "File path: #{@des_options.desrc_path}"
+        #   @writer.puts ""
+        #   @writer.puts "#{File.read(@des_options.desrc_path)}"
+        #   return
+        # end
 
         unless File.exists?(@des_options.desrc_path)
           @file_creator.create(@desrc_file.build_file_create_info)

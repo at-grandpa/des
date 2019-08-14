@@ -166,7 +166,6 @@ describe Des::SettingFile::DockerCompose do
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,
-          desrc:                  false,
         }
         dummy_yaml_str = ""
         options_mock = OptionsMock.new(

@@ -25,7 +25,6 @@ describe Des::Cli::Executer do
           docker_compose_version: "3",
           web_app:                "false",
           overwrite:              "false",
-          desrc:                  false,
         },
         files_to_create_before_testing: [] of NamedTuple(path: String, string: String),
         desrc_path_str:                 <<-STRING,
@@ -131,7 +130,6 @@ describe Des::Cli::Executer do
           docker_compose_version: "3",
           web_app:                "false",
           overwrite:              "false",
-          desrc:                  false,
         },
         files_to_create_before_testing: [
           {
@@ -230,7 +228,6 @@ describe Des::Cli::Executer do
           docker_compose_version: "3",
           web_app:                "false",
           overwrite:              "false",
-          desrc:                  false,
         },
         files_to_create_before_testing: [
           {
@@ -316,7 +313,6 @@ describe Des::Cli::Executer do
           docker_compose_version: "3",
           web_app:                "false",
           overwrite:              "true",
-          desrc:                  false,
         },
         files_to_create_before_testing: [
           {
@@ -423,7 +419,6 @@ describe Des::Cli::Executer do
           docker_compose_version: "3",
           web_app:                "true",
           overwrite:              "false",
-          desrc:                  false,
         },
         files_to_create_before_testing: [
           {
@@ -574,46 +569,6 @@ describe Des::Cli::Executer do
           \\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/Makefile
           \\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/docker-compose.yml
           \\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/nginx.conf
-          \\z
-          STRING
-        },
-      },
-      {
-        desc:        "when desrc flag is true, display desrc file.",
-        cli_options: {
-          image:                  "test_image",
-          packages:               ["vim", "ping"],
-          container:              "test_container",
-          save_dir:               "#{__DIR__}/var/spec_dir",
-          desrc_path:             "#{__DIR__}/var/spec_dir/desrc.yml",
-          docker_compose_version: "3",
-          web_app:                "false",
-          overwrite:              "false",
-          desrc:                  true,
-        },
-        files_to_create_before_testing: [
-          {
-            path:   "#{__DIR__}/var/spec_dir/desrc.yml",
-            string: "Hello, World!!",
-          },
-        ],
-        desrc_path_str: <<-STRING,
-        STRING
-        prompt_input_str: "",
-        expected:         {
-          file_expected_list: [
-            {
-              path:   "#{__DIR__}/var/spec_dir/desrc.yml",
-              string: <<-STRING,
-              \\AHello, World!!\\z
-              STRING
-            },
-          ],
-          output_message: <<-STRING,
-          \\A
-          File path: \\/.+?\\/var\\/spec_dir\\/desrc.yml
-
-          Hello, World!!
           \\z
           STRING
         },
