@@ -91,6 +91,36 @@ describe Des::SettingFile::DesrcFile do
           true
         ),
       },
+      {
+        desc:              "if null exists, it is overridden by default.",
+        cli_options_input: {
+          image:                  nil,
+          packages:               ["vim", "git"],
+          container:              "hoge_container",
+          save_dir:               nil,
+          desrc_path:             "/desrc_path/dir/desrc.yml",
+          docker_compose_version: "20",
+          web_app:                nil,
+          overwrite:              "true",
+        },
+        expected: Des::Cli::FileCreateInfo.new(
+          "/desrc_path/dir/desrc.yml",
+          <<-STRING,
+          default_options:
+            image: ubuntu:18.04
+            packages:
+              - vim
+              - git
+            container: hoge_container
+            save_dir: .
+            docker_compose_version: 20
+            web_app: false
+            overwrite: true
+
+          STRING
+          true
+        ),
+      },
     ].each do |spec_case|
       it spec_case["desc"] do
         options = Des::Options::Options.new(
