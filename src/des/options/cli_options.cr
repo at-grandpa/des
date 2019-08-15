@@ -57,6 +57,13 @@ module Des
       def overwrite_values(other : self, target : Array(Object) = [] of Object) : self
         self
       end
+
+      def ==(other : self)
+        {% for key, type in CliOptionsType %}
+          return false unless self.{{key}} == other.{{key}}
+        {% end %}
+        true
+      end
     end
   end
 end

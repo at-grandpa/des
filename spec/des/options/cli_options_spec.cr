@@ -255,10 +255,10 @@ describe Des::Options::CliOptions do
       end
     end
   end
-  describe "#overwrite_values" do
+  describe "#==" do
     [
       {
-        desc:              "return false.",
+        desc:              "returns true for the nil values.",
         cli_options_input: Des::Options::CliOptions.new({
           image:                  nil,
           packages:               [] of String,
@@ -270,17 +270,6 @@ describe Des::Options::CliOptions do
           overwrite:              nil,
         }),
         other_options_input: Des::Options::CliOptions.new({
-          image:                  "default image",
-          packages:               ["default package"],
-          container:              "default ",
-          save_dir:               "default ",
-          desrc_path:             "default ",
-          docker_compose_version: nil,
-          web_app:                nil,
-          overwrite:              nil,
-        }),
-        target:   [nil],
-        expected: Des::Options::CliOptions.new({
           image:                  nil,
           packages:               [] of String,
           container:              nil,
@@ -290,11 +279,270 @@ describe Des::Options::CliOptions do
           web_app:                nil,
           overwrite:              nil,
         }),
+        expected: true,
+      },
+      {
+        desc:              "returns true for the same values.",
+        cli_options_input: Des::Options::CliOptions.new({
+          image:                  "test_image",
+          packages:               ["test_package"],
+          container:              "test_conatiner",
+          save_dir:               "test_save_dir",
+          desrc_path:             "test_desrc_path",
+          docker_compose_version: "test_docker_compose_version",
+          web_app:                "true",
+          overwrite:              "true",
+        }),
+        other_options_input: Des::Options::CliOptions.new({
+          image:                  "test_image",
+          packages:               ["test_package"],
+          container:              "test_conatiner",
+          save_dir:               "test_save_dir",
+          desrc_path:             "test_desrc_path",
+          docker_compose_version: "test_docker_compose_version",
+          web_app:                "true",
+          overwrite:              "true",
+        }),
+        expected: true,
+      },
+      {
+        desc:              "returns false for the different image value.",
+        cli_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               nil,
+          desrc_path:             nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        other_options_input: Des::Options::CliOptions.new({
+          image:                  "abx",
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               nil,
+          desrc_path:             nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        expected: false,
+      },
+      {
+        desc:              "returns false for the different packages value.",
+        cli_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abc"],
+          container:              nil,
+          save_dir:               nil,
+          desrc_path:             nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        other_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abx"],
+          container:              nil,
+          save_dir:               nil,
+          desrc_path:             nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        expected: false,
+      },
+      {
+        desc:              "returns false for the different container value.",
+        cli_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abc"],
+          container:              "abc",
+          save_dir:               nil,
+          desrc_path:             nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        other_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abc"],
+          container:              "abx",
+          save_dir:               nil,
+          desrc_path:             nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        expected: false,
+      },
+      {
+        desc:              "returns false for the different save_dir value.",
+        cli_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abc"],
+          container:              "abc",
+          save_dir:               "abc",
+          desrc_path:             nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        other_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abc"],
+          container:              "abc",
+          save_dir:               "abx",
+          desrc_path:             nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        expected: false,
+      },
+      {
+        desc:              "returns false for the different desrc_path value.",
+        cli_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abc"],
+          container:              "abc",
+          save_dir:               "abc",
+          desrc_path:             "abc",
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        other_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abc"],
+          container:              "abc",
+          save_dir:               "abc",
+          desrc_path:             "abx",
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        expected: false,
+      },
+      {
+        desc:              "returns false for the different docker_compose_version value.",
+        cli_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abc"],
+          container:              "abc",
+          save_dir:               "abc",
+          desrc_path:             "abc",
+          docker_compose_version: "abc",
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        other_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abc"],
+          container:              "abc",
+          save_dir:               "abc",
+          desrc_path:             "abc",
+          docker_compose_version: "abx",
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        expected: false,
+      },
+      {
+        desc:              "returns false for the different web_app value.",
+        cli_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abc"],
+          container:              "abc",
+          save_dir:               "abc",
+          desrc_path:             "abc",
+          docker_compose_version: "abc",
+          web_app:                "true",
+          overwrite:              nil,
+        }),
+        other_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abc"],
+          container:              "abc",
+          save_dir:               "abc",
+          desrc_path:             "abc",
+          docker_compose_version: "abc",
+          web_app:                "false",
+          overwrite:              nil,
+        }),
+        expected: false,
+      },
+      {
+        desc:              "returns false for the different overwrite value.",
+        cli_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abc"],
+          container:              "abc",
+          save_dir:               "abc",
+          desrc_path:             "abc",
+          docker_compose_version: "abc",
+          web_app:                "true",
+          overwrite:              "true",
+        }),
+        other_options_input: Des::Options::CliOptions.new({
+          image:                  "abc",
+          packages:               ["abc"],
+          container:              "abc",
+          save_dir:               "abc",
+          desrc_path:             "abc",
+          docker_compose_version: "abc",
+          web_app:                "true",
+          overwrite:              "false",
+        }),
+        expected: false,
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        spec_case["cli_options_input"].overwrite_values(spec_case["other_options_input"], spec_case["target"]).should eq spec_case["expected"]
+        (spec_case["cli_options_input"] == spec_case["other_options_input"]).should eq spec_case["expected"]
       end
     end
   end
+  # describe "#overwrite_values" do
+  # [
+  # {
+  # desc:              "return false.",
+  # cli_options_input: Des::Options::CliOptions.new({
+  # image:                  nil,
+  # packages:               [] of String,
+  # container:              nil,
+  # save_dir:               nil,
+  # desrc_path:             nil,
+  # docker_compose_version: nil,
+  # web_app:                nil,
+  # overwrite:              nil,
+  # }),
+  # other_options_input: Des::Options::CliOptions.new({
+  # image:                  "default image",
+  # packages:               ["default package"],
+  # container:              "default ",
+  # save_dir:               "default ",
+  # desrc_path:             "default ",
+  # docker_compose_version: nil,
+  # web_app:                nil,
+  # overwrite:              nil,
+  # }),
+  # target:   [nil],
+  # expected: Des::Options::CliOptions.new({
+  # image:                  nil,
+  # packages:               [] of String,
+  # container:              nil,
+  # save_dir:               nil,
+  # desrc_path:             nil,
+  # docker_compose_version: nil,
+  # web_app:                nil,
+  # overwrite:              nil,
+  # }),
+  # },
+  # ].each do |spec_case|
+  # it spec_case["desc"] do
+  # spec_case["cli_options_input"].overwrite_values(spec_case["other_options_input"], spec_case["target"]).should eq spec_case["expected"]
+  # end
+  # end
+  # end
 end
