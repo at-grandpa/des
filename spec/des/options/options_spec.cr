@@ -516,4 +516,133 @@ describe Des::Options::Options do
       end
     end
   end
+  describe "#overwrite_cli_options!" do
+    [
+      {
+        desc:           "Only elements in the specified target are overwritten.(case1)",
+        before_options: Des::Options::Options.new(
+          Des::Options::CliOptions.new({
+            image:                  nil,
+            packages:               [] of String,
+            container:              nil,
+            save_dir:               nil,
+            desrc_path:             nil,
+            docker_compose_version: nil,
+            web_app:                nil,
+            overwrite:              nil,
+          }),
+          Des::Options::DesrcFileOptions.new("")
+        ),
+        other_cli_options: Des::Options::CliOptions.new({
+          image:                  "default image",
+          packages:               ["default package"],
+          container:              "default container",
+          save_dir:               "default save_dir",
+          desrc_path:             "default desrc_path",
+          docker_compose_version: "default docker_compose_version",
+          web_app:                "true",
+          overwrite:              "true",
+        }),
+        target:   [nil, [] of String],
+        expected: Des::Options::Options.new(
+          Des::Options::CliOptions.new({
+            image:                  "default image",
+            packages:               ["default package"],
+            container:              "default container",
+            save_dir:               "default save_dir",
+            desrc_path:             "default desrc_path",
+            docker_compose_version: "default docker_compose_version",
+            web_app:                "true",
+            overwrite:              "true",
+          }),
+          Des::Options::DesrcFileOptions.new("")
+        ),
+      },
+      {
+        desc:           "Only elements in the specified target are overwritten.(case2)",
+        before_options: Des::Options::Options.new(
+          Des::Options::CliOptions.new({
+            image:                  "input image",
+            packages:               [] of String,
+            container:              nil,
+            save_dir:               "input save_dir",
+            desrc_path:             nil,
+            docker_compose_version: "input docker_compose_version",
+            web_app:                nil,
+            overwrite:              "false",
+          }),
+          Des::Options::DesrcFileOptions.new("")
+        ),
+        other_cli_options: Des::Options::CliOptions.new({
+          image:                  "default image",
+          packages:               ["default package"],
+          container:              "default container",
+          save_dir:               "default save_dir",
+          desrc_path:             "default desrc_path",
+          docker_compose_version: "default docker_compose_version",
+          web_app:                "true",
+          overwrite:              "true",
+        }),
+        target:   [nil, [] of String],
+        expected: Des::Options::Options.new(
+          Des::Options::CliOptions.new({
+            image:                  "input image",
+            packages:               ["default package"],
+            container:              "default container",
+            save_dir:               "input save_dir",
+            desrc_path:             "default desrc_path",
+            docker_compose_version: "input docker_compose_version",
+            web_app:                "true",
+            overwrite:              "false",
+          }),
+          Des::Options::DesrcFileOptions.new("")
+        ),
+      },
+      {
+        desc:           "Only elements in the specified target are overwritten.(case3)",
+        before_options: Des::Options::Options.new(
+          Des::Options::CliOptions.new({
+            image:                  "input image",
+            packages:               [] of String,
+            container:              nil,
+            save_dir:               "input save_dir",
+            desrc_path:             nil,
+            docker_compose_version: "input docker_compose_version",
+            web_app:                nil,
+            overwrite:              "false",
+          }),
+          Des::Options::DesrcFileOptions.new("")
+        ),
+        other_cli_options: Des::Options::CliOptions.new({
+          image:                  "default image",
+          packages:               ["default package"],
+          container:              "default container",
+          save_dir:               "default save_dir",
+          desrc_path:             "default desrc_path",
+          docker_compose_version: "default docker_compose_version",
+          web_app:                "true",
+          overwrite:              "true",
+        }),
+        target:   [nil, "input save_dir"],
+        expected: Des::Options::Options.new(
+          Des::Options::CliOptions.new({
+            image:                  "input image",
+            packages:               [] of String,
+            container:              "default container",
+            save_dir:               "default save_dir",
+            desrc_path:             "default desrc_path",
+            docker_compose_version: "input docker_compose_version",
+            web_app:                "true",
+            overwrite:              "false",
+          }),
+          Des::Options::DesrcFileOptions.new("")
+        ),
+      },
+    ].each do |spec_case|
+      it spec_case["desc"] do
+        spec_case["before_options"].overwrite_cli_options!(spec_case["other_cli_options"], spec_case["target"])
+        spec_case["before_options"].should eq spec_case["expected"]
+      end
+    end
+  end
 end

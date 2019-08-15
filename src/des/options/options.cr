@@ -3,6 +3,18 @@ module Des
     class Options
       include Des::SettingFile::OptionsInterface
 
+      alias OptionsType = NamedTuple(
+        image: String,
+        packages: Array(String),
+        container: String,
+        save_dir: String,
+        desrc_path: String,
+        docker_compose_version: String,
+        web_app: Bool,
+        overwrite: Bool)
+
+      getter cli_options
+
       def initialize(
         @cli_options : Des::Options::CliOptions,
         @desrc_file_options : Des::Options::DesrcFileOptions
@@ -47,6 +59,21 @@ module Des
         raise "packages option is not set. See 'des --help'" if return_value.nil?
         return_value
       end
+
+      def ==(other : self)
+        {% for key, type in OptionsType %}
+          return false unless self.{{key}} == other.{{key}}
+        {% end %}
+        true
+      end
+
+      macro def_overwrite_cli_options
+        def overwrite_cli_options!(other_cli_options : Des::Options::CliOptions, target : Array( {% for key, type in Des::Options::CliOptions::CliOptionsType %} {{type}} | {% end %} Nil) = [] of {% for key, type in Des::Options::CliOptions::CliOptionsType %} {{type}} | {% end %} Nil)
+          @cli_options = @cli_options.overwrite_values(other_cli_options, target)
+        end
+      end
+
+      def_overwrite_cli_options
     end
   end
 end

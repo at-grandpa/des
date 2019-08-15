@@ -4,16 +4,17 @@ module Des
       include Des::Cli::SettingFileInterface
 
       def initialize(@options : Des::SettingFile::OptionsInterface)
-        desrc_default_option = {
-          image:                  nil,
+        default_cli_options = Des::Options::CliOptions.new({
+          image:                  "input image",
           packages:               [] of String,
-          container:              nil,
-          save_dir:               nil,
-          desrc_path:             nil,
-          docker_compose_version: nil,
-          web_app:                nil,
-          overwrite:              nil,
-        }
+          container:              "default container",
+          save_dir:               "default save_dir",
+          desrc_path:             "default desrc_path",
+          docker_compose_version: "input docker_compose_version",
+          web_app:                "true",
+          overwrite:              "false",
+        })
+        @options.overwrite_cli_options!(default_cli_options)
       end
 
       def build_file_create_info : Des::Cli::FileCreateInfo

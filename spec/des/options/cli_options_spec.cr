@@ -540,7 +540,7 @@ describe Des::Options::CliOptions do
         }),
       },
       {
-        desc:              "Only elements in the specified target are overwritten.(case1)",
+        desc:              "Only elements in the specified target are overwritten.(case2)",
         cli_options_input: Des::Options::CliOptions.new({
           image:                  "input image",
           packages:               [] of String,
@@ -574,7 +574,7 @@ describe Des::Options::CliOptions do
         }),
       },
       {
-        desc:              "Only elements in the specified target are overwritten.(case2)",
+        desc:              "Only elements in the specified target are overwritten.(case3)",
         cli_options_input: Des::Options::CliOptions.new({
           image:                  "input image",
           packages:               [] of String,

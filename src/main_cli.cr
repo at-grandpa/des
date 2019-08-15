@@ -53,7 +53,7 @@ module Des
           Des::Cli::FileCreator.new(desrc_file.build_file_create_info).create
         end
 
-        des_options = ::Des::Options::Options.new(
+        des_options = Des::Options::Options.new(
           Des::Options::CliOptions.new(cli_options),
           Des::Options::DesrcFileOptions.new(
             File.read(cli_options[:desrc_path])
