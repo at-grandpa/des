@@ -503,46 +503,46 @@ describe Des::Options::CliOptions do
       end
     end
   end
-  # describe "#overwrite_values" do
-  # [
-  # {
-  # desc:              "return false.",
-  # cli_options_input: Des::Options::CliOptions.new({
-  # image:                  nil,
-  # packages:               [] of String,
-  # container:              nil,
-  # save_dir:               nil,
-  # desrc_path:             nil,
-  # docker_compose_version: nil,
-  # web_app:                nil,
-  # overwrite:              nil,
-  # }),
-  # other_options_input: Des::Options::CliOptions.new({
-  # image:                  "default image",
-  # packages:               ["default package"],
-  # container:              "default ",
-  # save_dir:               "default ",
-  # desrc_path:             "default ",
-  # docker_compose_version: nil,
-  # web_app:                nil,
-  # overwrite:              nil,
-  # }),
-  # target:   [nil],
-  # expected: Des::Options::CliOptions.new({
-  # image:                  nil,
-  # packages:               [] of String,
-  # container:              nil,
-  # save_dir:               nil,
-  # desrc_path:             nil,
-  # docker_compose_version: nil,
-  # web_app:                nil,
-  # overwrite:              nil,
-  # }),
-  # },
-  # ].each do |spec_case|
-  # it spec_case["desc"] do
-  # spec_case["cli_options_input"].overwrite_values(spec_case["other_options_input"], spec_case["target"]).should eq spec_case["expected"]
-  # end
-  # end
-  # end
+  describe "#overwrite_values" do
+    [
+      {
+        desc:              "return false.",
+        cli_options_input: Des::Options::CliOptions.new({
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               nil,
+          desrc_path:             nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        other_options_input: Des::Options::CliOptions.new({
+          image:                  "default image",
+          packages:               ["default package"],
+          container:              "default container",
+          save_dir:               "default save_dir",
+          desrc_path:             "default desrc_path",
+          docker_compose_version: "default docker_compose_version",
+          web_app:                "true",
+          overwrite:              "true",
+        }),
+        target:   [nil, [] of String],
+        expected: Des::Options::CliOptions.new({
+          image:                  "default image",
+          packages:               ["default package"],
+          container:              "default container",
+          save_dir:               "default save_dir",
+          desrc_path:             "default desrc_path",
+          docker_compose_version: "default docker_compose_version",
+          web_app:                "true",
+          overwrite:              "true",
+        }),
+      },
+    ].each do |spec_case|
+      it spec_case["desc"] do
+        spec_case["cli_options_input"].overwrite_values(spec_case["other_options_input"], spec_case["target"]).should eq spec_case["expected"]
+      end
+    end
+  end
 end
