@@ -47,10 +47,6 @@ module Des
         raise "packages option is not set. See 'des --help'" if return_value.nil?
         return_value
       end
-
-      def to_named_tuple : Des::Options::CliOptions::CliOptionsType
-        @cli_options.to_named_tuple
-      end
     end
   end
 end
