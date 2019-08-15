@@ -14,7 +14,7 @@ spec:
 build:
 	rm -rf ./bin/*
 	shards update
-	$(CRYSTAL_BIN) build --release -o $(OUTPUT_BIN) src/main_cli.cr $(CRFLAGS)
+	$(CRYSTAL_BIN) build --release -o $(OUTPUT_BIN) src/main_cli.cr $(CRFLAGS) --error-trace
 
 clean:
 	rm -f ./bin/des

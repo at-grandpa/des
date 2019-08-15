@@ -35,43 +35,74 @@ module Des
           overwrite:              library_opts.overwrite,
         }
 
-        if cli_options[:desrc]
-          puts ""
-          puts "File path: #{cli_options[:desrc_path]}"
-          puts ""
-          puts "#{File.read(cli_options[:desrc_path])}"
-          exit 0
-        end
+        desrc_path = cli_options[:desrc_path]
+        desrc_file_str = if desrc_path.nil?
+                           ""
+                         else
+                           File.read(desrc_path)
+                         end
 
-        unless File.exists?(cli_options[:desrc_path])
-          desrc_file = Des::SettingFile::DesrcFile.new(
-            Des::Options::Options.new(
-              Des::Options::CliOptions.new(cli_options),
-              Des::Options::DesrcFileOptions.new("")
-            )
-          )
-          Des::Cli::FileCreator.new(desrc_file.build_file_create_info).create
-        end
-
-        des_options = Des::Options::Options.new(
+        des_options = ::Des::Options::Options.new(
           Des::Options::CliOptions.new(cli_options),
-          Des::Options::DesrcFileOptions.new(
-            File.read(cli_options[:desrc_path])
-          )
+          Des::Options::DesrcFileOptions.new(desrc_file_str)
         )
 
+        file_creator = Des::Cli::FileCreator.new
+
+        # desrc_file = Des::SettingFile::DesrcFile.new(
+        # Des::Options::Options.new(
+        # Des::Options::CliOptions.new(cli_options),
+        # Des::Options::DesrcFileOptions.new("")
+        # )
+        # )
+
+        desrc_file = Des::SettingFile::DesrcFile.new(des_options)
         dockerfile = Des::SettingFile::Dockerfile.new(des_options)
-        Des::Cli::FileCreator.new(dockerfile.build_file_create_info).create
-
         makefile = Des::SettingFile::Makefile.new(des_options)
-        Des::Cli::FileCreator.new(makefile.build_file_create_info).create
-
         docker_compose = Des::SettingFile::DockerCompose.new(des_options)
-        Des::Cli::FileCreator.new(docker_compose.build_file_create_info).create
+        nginx_conf = Des::SettingFile::NginxConf.new(des_options)
 
-        if options.web_app
-          nginx_conf = Des::SettingFile::NginxConf.new(des_options)
-          Des::Cli::FileCreator.new(nginx_conf.build_file_create_info).create
+        executer = Des::Cli::Executer.new(
+          des_options,
+          file_creator,
+          desrc_file,
+          dockerfile,
+          makefile,
+          docker_compose,
+          nginx_conf
+        )
+
+        executer.execute
+      end
+      sub "desrc" do
+        desc "Creates or Display desrc file."
+        usage "des desrc [sub_command]"
+        help short: "-h"
+        run do |library_opts, args|
+          puts library_opts.help_string
+        end
+        sub "create" do
+          desc "Creates desrc file."
+          usage "des desrc create [options]"
+          help short: "-h"
+          run do |library_opts, args|
+            puts "create!"
+          end
+        end
+        sub "display" do
+          desc "Display desrc file."
+          usage "des desrc display"
+          help short: "-h"
+          run do |library_opts, args|
+            # if @des_options.desrc
+            # @writer.puts ""
+            # @writer.puts "File path: #{@des_options.desrc_path}"
+            # @writer.puts ""
+            # @writer.puts "#{File.read(@des_options.desrc_path)}"
+            # return
+            # end
+            puts "display!"
+          end
         end
       end
     end

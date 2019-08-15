@@ -23,7 +23,7 @@ module Des
       end
 
       private def write(create_info)
-        File.write(create_info.path, create_info.str)
+        File.write(File.expand_path(create_info.path), create_info.str)
         @writer.puts "#{"Create".colorize(:light_green)} #{create_info.path}"
       end
 
