@@ -8,7 +8,6 @@ describe Des::SettingFile::NginxConf do
         packages:               [] of String,
         container:              nil,
         save_dir:               nil,
-        desrc_path:             nil,
         docker_compose_version: nil,
         web_app:                nil,
         overwrite:              nil,
@@ -34,11 +33,9 @@ describe Des::SettingFile::NginxConf do
         error_log  /var/log/nginx/error.log warn;
         pid        /var/run/nginx.pid;
 
-
         events {
             worker_connections  1024;
         }
-
 
         http {
             include       /etc/nginx/mime.types;

@@ -178,47 +178,6 @@ describe Des::Options::DesrcFileOptions do
       end
     end
   end
-  describe "#desrc_path" do
-    [
-      {
-        desc:     "when 'default_options' is not exist, return nil.",
-        yaml_str: <<-YAML,
-        YAML
-        expected: nil,
-      },
-      {
-        desc:     "when 'desrc_path' is not exist, return nil.",
-        yaml_str: <<-YAML,
-        default_options:
-          image: dummy_data
-        YAML
-        expected: nil,
-      },
-      {
-        desc:     "when 'desrc_path' is exist, return string.",
-        yaml_str: <<-YAML,
-        default_options:
-          image: dummy_data
-          desrc_path: /path/to/dir/desrc.yml
-        YAML
-        expected: "/path/to/dir/desrc.yml",
-      },
-      {
-        desc:     "when 'desrc_path' is exist, return string other version.",
-        yaml_str: <<-YAML,
-        default_options:
-          image: dummy_data
-          desrc_path: /path/to/hoge_dir/desrc.yml
-        YAML
-        expected: "/path/to/hoge_dir/desrc.yml",
-      },
-    ].each do |spec_case|
-      it spec_case["desc"] do
-        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
-        options.desrc_path.should eq spec_case["expected"]
-      end
-    end
-  end
   describe "#docker_compose_version" do
     [
       {

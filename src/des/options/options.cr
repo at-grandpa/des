@@ -8,7 +8,6 @@ module Des
         packages: Array(String),
         container: String,
         save_dir: String,
-        desrc_path: String,
         docker_compose_version: String,
         web_app: Bool,
         overwrite: Bool)
@@ -40,7 +39,6 @@ module Des
         {name: image, type: String},
         {name: container, type: String},
         {name: save_dir, type: String},
-        {name: desrc_path, type: String},
         {name: docker_compose_version, type: String},
         {name: web_app, type: Bool},
         {name: overwrite, type: Bool},

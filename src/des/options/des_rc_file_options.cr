@@ -35,11 +35,6 @@ module Des
             nilable: true,
             default: nil,
           },
-          desrc_path: {
-            type:    String,
-            nilable: true,
-            default: nil,
-          },
           docker_compose_version: {
             type:    String,
             nilable: true,
@@ -80,7 +75,6 @@ module Des
         {name: packages, type: Array(String)?},
         {name: container, type: String?},
         {name: save_dir, type: String?},
-        {name: desrc_path, type: String?},
         {name: docker_compose_version, type: String?},
         {name: web_app, type: Bool?},
         {name: overwrite, type: Bool?},

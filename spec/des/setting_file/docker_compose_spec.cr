@@ -162,7 +162,6 @@ describe Des::SettingFile::DockerCompose do
           packages:               [] of String,
           container:              nil,
           save_dir:               nil,
-          desrc_path:             nil,
           docker_compose_version: nil,
           web_app:                nil,
           overwrite:              nil,

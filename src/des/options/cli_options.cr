@@ -6,7 +6,6 @@ module Des
         packages: Array(String),
         container: String | Nil,
         save_dir: String | Nil,
-        desrc_path: String | Nil,
         docker_compose_version: String | Nil,
         web_app: String | Nil,
         overwrite: String | Nil)
@@ -27,7 +26,6 @@ module Des
         {name: packages, type: Array(String)?},
         {name: container, type: String?},
         {name: save_dir, type: String?},
-        {name: desrc_path, type: String?},
         {name: docker_compose_version, type: String?},
       )
 

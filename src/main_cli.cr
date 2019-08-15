@@ -29,18 +29,10 @@ module Des
           packages:               library_opts.packages,
           container:              library_opts.container,
           save_dir:               library_opts.save_dir,
-          desrc_path:             library_opts.desrc_path,
           docker_compose_version: library_opts.docker_compose_version,
           web_app:                library_opts.web_app,
           overwrite:              library_opts.overwrite,
         }
-
-        desrc_path = cli_options[:desrc_path]
-        desrc_file_str = if desrc_path.nil?
-                           ""
-                         else
-                           File.read(desrc_path)
-                         end
 
         des_options = ::Des::Options::Options.new(
           Des::Options::CliOptions.new(cli_options),
@@ -48,13 +40,6 @@ module Des
         )
 
         file_creator = Des::Cli::FileCreator.new
-
-        # desrc_file = Des::SettingFile::DesrcFile.new(
-        # Des::Options::Options.new(
-        # Des::Options::CliOptions.new(cli_options),
-        # Des::Options::DesrcFileOptions.new("")
-        # )
-        # )
 
         desrc_file = Des::SettingFile::DesrcFile.new(des_options)
         dockerfile = Des::SettingFile::Dockerfile.new(des_options)

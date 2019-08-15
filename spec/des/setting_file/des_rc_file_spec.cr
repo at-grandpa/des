@@ -10,12 +10,12 @@ describe Des::SettingFile::DesrcFile do
           packages:               ["vim", "curl"],
           container:              "test_container",
           save_dir:               "/path/to/dir",
-          desrc_path:             "/desrc_path/dir/desrc.yml",
           docker_compose_version: "100",
           web_app:                "false",
           overwrite:              "false",
         },
-        expected: Des::Cli::FileCreateInfo.new(
+        desrc_file_path: "/desrc_path/dir/desrc.yml",
+        expected:        Des::Cli::FileCreateInfo.new(
           "/desrc_path/dir/desrc.yml",
           <<-STRING,
           default_options:
@@ -40,12 +40,12 @@ describe Des::SettingFile::DesrcFile do
           packages:               ["ping", "git"],
           container:              "hoge_container",
           save_dir:               "/var/tmp",
-          desrc_path:             "/desrc_path/dir/desrc.yml",
           docker_compose_version: "20",
           web_app:                "true",
           overwrite:              "true",
         },
-        expected: Des::Cli::FileCreateInfo.new(
+        desrc_file_path: "/desrc_path/dir/desrc.yml",
+        expected:        Des::Cli::FileCreateInfo.new(
           "/desrc_path/dir/desrc.yml",
           <<-STRING,
           default_options:
@@ -70,12 +70,12 @@ describe Des::SettingFile::DesrcFile do
           packages:               [] of String,
           container:              "hoge_container",
           save_dir:               "/var/tmp",
-          desrc_path:             "/desrc_path/dir/desrc.yml",
           docker_compose_version: "20",
           web_app:                "true",
           overwrite:              "true",
         },
-        expected: Des::Cli::FileCreateInfo.new(
+        desrc_file_path: "/desrc_path/dir/desrc.yml",
+        expected:        Des::Cli::FileCreateInfo.new(
           "/desrc_path/dir/desrc.yml",
           <<-STRING,
           default_options:
@@ -98,12 +98,12 @@ describe Des::SettingFile::DesrcFile do
           packages:               ["vim", "git"],
           container:              "hoge_container",
           save_dir:               nil,
-          desrc_path:             "/desrc_path/dir/desrc.yml",
           docker_compose_version: "20",
           web_app:                nil,
           overwrite:              "true",
         },
-        expected: Des::Cli::FileCreateInfo.new(
+        desrc_file_path: "/desrc_path/dir/desrc.yml",
+        expected:        Des::Cli::FileCreateInfo.new(
           "/desrc_path/dir/desrc.yml",
           <<-STRING,
           default_options:
@@ -128,7 +128,7 @@ describe Des::SettingFile::DesrcFile do
           Des::Options::DesrcFileOptions.new("")
         )
 
-        file = Des::SettingFile::DesrcFile.new(options)
+        file = Des::SettingFile::DesrcFile.new(options, spec_case["desrc_file_path"])
         actual = file.build_file_create_info
         expected = spec_case["expected"]
 

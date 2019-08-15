@@ -28,10 +28,6 @@ class OptionsMock
     ""
   end
 
-  def desrc_path : String
-    ""
-  end
-
   def docker_compose_version : String
     ""
   end
@@ -55,7 +51,6 @@ class OptionsMock
         packages:               [] of String,
         container:              nil,
         save_dir:               nil,
-        desrc_path:             nil,
         docker_compose_version: nil,
         web_app:                nil,
         overwrite:              nil,
@@ -71,7 +66,6 @@ Mocks.create_mock OptionsMock do
   mock packages
   mock container
   mock save_dir
-  mock desrc_path
   mock docker_compose_version
   mock web_app
   mock overwrite
@@ -82,7 +76,6 @@ Mocks.create_mock Des::Options::CliOptions do
   mock packages
   mock container
   mock save_dir
-  mock desrc_path
   mock docker_compose_version
   mock web_app
   mock overwrite
@@ -93,7 +86,6 @@ Mocks.create_mock Des::Options::DesrcFileOptions do
   mock packages
   mock container
   mock save_dir
-  mock desrc_path
   mock docker_compose_version
   mock web_app
   mock overwrite

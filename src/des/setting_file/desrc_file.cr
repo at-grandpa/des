@@ -3,13 +3,14 @@ module Des
     class DesrcFile
       include Des::Cli::SettingFileInterface
 
-      def initialize(@options : Des::SettingFile::OptionsInterface)
+      DESRC_FILE_PATH = File.expand_path("~/.desrc.yml")
+
+      def initialize(@options : Des::SettingFile::OptionsInterface, @desrc_file_path : String = DESRC_FILE_PATH)
         default_cli_options = Des::Options::CliOptions.new({
           image:                  "ubuntu:18.04",
           packages:               [] of String,
           container:              "default_container",
           save_dir:               ".",
-          desrc_path:             "~/.desrc.yml",
           docker_compose_version: "3",
           web_app:                "false",
           overwrite:              "false",
@@ -19,7 +20,7 @@ module Des
 
       def build_file_create_info : Des::Cli::FileCreateInfo
         Des::Cli::FileCreateInfo.new(
-          @options.desrc_path,
+          @desrc_file_path,
           to_s,
           @options.overwrite
         )
