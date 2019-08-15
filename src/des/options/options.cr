@@ -60,7 +60,7 @@ module Des
         return_value
       end
 
-      def ==(other : self)
+      def ==(other : self) : Bool
         {% for key, type in OptionsType %}
           return false unless self.{{key}} == other.{{key}}
         {% end %}

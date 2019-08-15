@@ -44,18 +44,26 @@ class OptionsMock
     false
   end
 
-  def to_named_tuple : Des::Options::CliOptions::CliOptionsType
-    {
-      image:                  nil,
-      packages:               [] of String,
-      container:              nil,
-      save_dir:               nil,
-      desrc_path:             nil,
-      docker_compose_version: nil,
-      web_app:                nil,
-      overwrite:              nil,
-    }
+  def ==(other : self) : Bool
+    true
   end
+
+  macro def_overwrite_cli_options
+    def overwrite_cli_options!(other_cli_options : Des::Options::CliOptions, target : Array( {% for key, type in Des::Options::CliOptions::CliOptionsType %} {{type}} | {% end %} Nil) = [] of {% for key, type in Des::Options::CliOptions::CliOptionsType %} {{type}} | {% end %} Nil)
+      Des::Options::CliOptions.new({
+        image:                  nil,
+        packages:               [] of String,
+        container:              nil,
+        save_dir:               nil,
+        desrc_path:             nil,
+        docker_compose_version: nil,
+        web_app:                nil,
+        overwrite:              nil,
+      })
+    end
+  end
+
+  def_overwrite_cli_options
 end
 
 Mocks.create_mock OptionsMock do

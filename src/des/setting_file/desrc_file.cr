@@ -5,16 +5,16 @@ module Des
 
       def initialize(@options : Des::SettingFile::OptionsInterface)
         default_cli_options = Des::Options::CliOptions.new({
-          image:                  "input image",
+          image:                  "ubuntu:18.04",
           packages:               [] of String,
-          container:              "default container",
-          save_dir:               "default save_dir",
-          desrc_path:             "default desrc_path",
-          docker_compose_version: "input docker_compose_version",
-          web_app:                "true",
+          container:              "default_container",
+          save_dir:               ".",
+          desrc_path:             "~/.desrc.yml",
+          docker_compose_version: "3",
+          web_app:                "false",
           overwrite:              "false",
         })
-        @options.overwrite_cli_options!(default_cli_options)
+        @options.overwrite_cli_options!(default_cli_options, [nil])
       end
 
       def build_file_create_info : Des::Cli::FileCreateInfo
