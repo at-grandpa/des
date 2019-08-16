@@ -18,6 +18,19 @@ module Des
         @cli_options : Des::Options::CliOptions,
         @desrc_file_options : Des::Options::DesrcFileOptions
       )
+        default_desrc_options = Des::Options::DesrcFileOptions.from_yaml(
+          <<-STRING
+          default_options:
+            image: ubuntu:18.04
+            packages: []
+            container: my_container
+            save_dir: .
+            docker_compose_version: 3
+            web_app: false
+            overwrite: false
+          STRING
+        )
+        @desrc_file_options = @desrc_file_options.overwrite_values(default_desrc_options, [nil])
       end
 
       macro define_options_method(*options)
@@ -64,14 +77,6 @@ module Des
         {% end %}
         true
       end
-
-      macro def_overwrite_cli_options
-        def overwrite_cli_options!(other_cli_options : Des::Options::CliOptions, target : Array( {% for key, type in Des::Options::CliOptions::CliOptionsType %} {{type}} | {% end %} Nil) = [] of {% for key, type in Des::Options::CliOptions::CliOptionsType %} {{type}} | {% end %} Nil)
-          @cli_options = @cli_options.overwrite_values(other_cli_options, target)
-        end
-      end
-
-      def_overwrite_cli_options
     end
   end
 end

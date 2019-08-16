@@ -15,7 +15,7 @@ describe Des::SettingFile::NginxConf do
       dummy_yaml_str = ""
       options_mock = OptionsMock.new(
         Des::Options::CliOptions.new(dummy_cli_options),
-        Des::Options::DesrcFileOptions.new(dummy_yaml_str)
+        Des::Options::DesrcFileOptions.from_yaml(dummy_yaml_str)
       )
 
       allow(options_mock).to receive(save_dir).and_return("/path/to/dir")

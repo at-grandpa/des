@@ -88,7 +88,7 @@ describe Des::SettingFile::Dockerfile do
         dummy_yaml_str = ""
         options_mock = OptionsMock.new(
           Des::Options::CliOptions.new(dummy_cli_options),
-          Des::Options::DesrcFileOptions.new(dummy_yaml_str)
+          Des::Options::DesrcFileOptions.from_yaml(dummy_yaml_str)
         )
 
         allow(options_mock).to receive(image).and_return(spec_case["mock_setting"]["image"])

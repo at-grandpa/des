@@ -597,13 +597,13 @@ describe Des::Cli::Executer do
             {
               path:   "#{__DIR__}/var/spec_dir/Dockerfile",
               string: <<-STRING,
-              \\AFROM test_image
+              \\AFROM desrc_image
 
               RUN apt-get -y update
               RUN apt-get -y upgrade
-              RUN apt-get -y install vim ping
+              RUN apt-get -y install desrc_package1 desrc_package2
 
-              WORKDIR \\/root\\/test_container
+              WORKDIR \\/root\\/desrc_container
               \\z
               STRING
             },
@@ -612,7 +612,7 @@ describe Des::Cli::Executer do
               string: <<-STRING,
               \\ADOCKER_COMPOSE := docker-compose -f \\.\\/docker-compose\\.yml
               DOCKER_EXEC := docker exec -it
-              CONTAINER_NAME := test_container
+              CONTAINER_NAME := desrc_container
 
               ps:
               	\\$\\(DOCKER_COMPOSE\\) ps
@@ -641,22 +641,22 @@ describe Des::Cli::Executer do
             {
               path:   "#{__DIR__}/var/spec_dir/docker-compose.yml",
               string: <<-STRING,
-              \\Aversion: '3'
+              \\Aversion: '99'
               services:
                 app:
                   build: .
-                  container_name: test_container
+                  container_name: desrc_container
                   restart: always
                   stdin_open: true
                   volumes:
-                    - .:/root/test_container
+                    - .:/root/desrc_container
                   ports:
                     - 3000
                   links:
                     - mysql
                 mysql:
                   image: mysql
-                  container_name: test_container-mysql
+                  container_name: desrc_container-mysql
                   restart: always
                   environment:
                     MYSQL_ROOT_PASSWORD: root
@@ -664,7 +664,7 @@ describe Des::Cli::Executer do
                     - 3306
                 nginx:
                   image: nginx
-                  container_name: test_container-nginx
+                  container_name: desrc_container-nginx
                   restart: always
                   volumes:
                     - ./nginx.conf:/etc/nginx/nginx.conf
@@ -737,7 +737,8 @@ describe Des::Cli::Executer do
             },
           ],
           output_message: <<-STRING,
-          \\A\\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/Dockerfile
+          \\A\\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/desrc.yml
+          \\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/Dockerfile
           \\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/Makefile
           \\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/docker-compose.yml
           \\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/nginx.conf
@@ -749,7 +750,7 @@ describe Des::Cli::Executer do
       it spec_case["desc"] do
         des_options = ::Des::Options::Options.new(
           Des::Options::CliOptions.new(spec_case["cli_options"]),
-          Des::Options::DesrcFileOptions.new(spec_case["desrc_path_str"])
+          Des::Options::DesrcFileOptions.from_yaml(spec_case["desrc_path_str"])
         )
 
         writer = IO::Memory.new

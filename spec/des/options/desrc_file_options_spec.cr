@@ -37,7 +37,7 @@ describe Des::Options::DesrcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.from_yaml(spec_case["yaml_str"])
         options.image.should eq spec_case["expected"]
       end
     end
@@ -91,7 +91,7 @@ describe Des::Options::DesrcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.from_yaml(spec_case["yaml_str"])
         options.packages.should eq spec_case["expected"]
       end
     end
@@ -132,7 +132,7 @@ describe Des::Options::DesrcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.from_yaml(spec_case["yaml_str"])
         options.container.should eq spec_case["expected"]
       end
     end
@@ -173,7 +173,7 @@ describe Des::Options::DesrcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.from_yaml(spec_case["yaml_str"])
         options.save_dir.should eq spec_case["expected"]
       end
     end
@@ -214,7 +214,7 @@ describe Des::Options::DesrcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.from_yaml(spec_case["yaml_str"])
         options.docker_compose_version.should eq spec_case["expected"]
       end
     end
@@ -255,7 +255,7 @@ describe Des::Options::DesrcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.from_yaml(spec_case["yaml_str"])
         options.web_app.should eq spec_case["expected"]
       end
     end
@@ -296,7 +296,7 @@ describe Des::Options::DesrcFileOptions do
       },
     ].each do |spec_case|
       it spec_case["desc"] do
-        options = Des::Options::DesrcFileOptions.new(spec_case["yaml_str"])
+        options = Des::Options::DesrcFileOptions.from_yaml(spec_case["yaml_str"])
         options.overwrite.should eq spec_case["expected"]
       end
     end
@@ -306,11 +306,11 @@ describe Des::Options::DesrcFileOptions do
     [
       {
         desc:          "returns true for the nil values.",
-        options_input: Des::Options::DesrcFileOptions.new(
+        options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           STRING
         ),
-        other_options_input: Des::Options::DesrcFileOptions.new(
+        other_options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           STRING
         ),
@@ -318,7 +318,7 @@ describe Des::Options::DesrcFileOptions do
       },
       {
         desc:          "returns true for the same values.",
-        options_input: Des::Options::DesrcFileOptions.new(
+        options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -332,7 +332,7 @@ describe Des::Options::DesrcFileOptions do
             overwrite: true
           STRING
         ),
-        other_options_input: Des::Options::DesrcFileOptions.new(
+        other_options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -350,13 +350,13 @@ describe Des::Options::DesrcFileOptions do
       },
       {
         desc:          "returns false for the different image value.",
-        options_input: Des::Options::DesrcFileOptions.new(
+        options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
           STRING
         ),
-        other_options_input: Des::Options::DesrcFileOptions.new(
+        other_options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: other_image
@@ -366,7 +366,7 @@ describe Des::Options::DesrcFileOptions do
       },
       {
         desc:          "returns false for the different packages value.",
-        options_input: Des::Options::DesrcFileOptions.new(
+        options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -375,7 +375,7 @@ describe Des::Options::DesrcFileOptions do
               - desrc_package2
           STRING
         ),
-        other_options_input: Des::Options::DesrcFileOptions.new(
+        other_options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -388,7 +388,7 @@ describe Des::Options::DesrcFileOptions do
       },
       {
         desc:          "returns false for the different container value.",
-        options_input: Des::Options::DesrcFileOptions.new(
+        options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -398,7 +398,7 @@ describe Des::Options::DesrcFileOptions do
             container: desrc_container
           STRING
         ),
-        other_options_input: Des::Options::DesrcFileOptions.new(
+        other_options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -412,7 +412,7 @@ describe Des::Options::DesrcFileOptions do
       },
       {
         desc:          "returns false for the different save_dir value.",
-        options_input: Des::Options::DesrcFileOptions.new(
+        options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -423,7 +423,7 @@ describe Des::Options::DesrcFileOptions do
             save_dir: /path/to/dir
           STRING
         ),
-        other_options_input: Des::Options::DesrcFileOptions.new(
+        other_options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -438,7 +438,7 @@ describe Des::Options::DesrcFileOptions do
       },
       {
         desc:          "returns false for the different docker_compose_version value.",
-        options_input: Des::Options::DesrcFileOptions.new(
+        options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -450,7 +450,7 @@ describe Des::Options::DesrcFileOptions do
             docker_compose_version: 99
           STRING
         ),
-        other_options_input: Des::Options::DesrcFileOptions.new(
+        other_options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -466,7 +466,7 @@ describe Des::Options::DesrcFileOptions do
       },
       {
         desc:          "returns false for the different web_app value.",
-        options_input: Des::Options::DesrcFileOptions.new(
+        options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -479,7 +479,7 @@ describe Des::Options::DesrcFileOptions do
             web_app: true
           STRING
         ),
-        other_options_input: Des::Options::DesrcFileOptions.new(
+        other_options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -496,7 +496,7 @@ describe Des::Options::DesrcFileOptions do
       },
       {
         desc:          "returns false for the different overwrite value.",
-        options_input: Des::Options::DesrcFileOptions.new(
+        options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -510,7 +510,7 @@ describe Des::Options::DesrcFileOptions do
             overwrite: true
           STRING
         ),
-        other_options_input: Des::Options::DesrcFileOptions.new(
+        other_options_input: Des::Options::DesrcFileOptions.from_yaml(
           <<-STRING
           default_options:
             image: desrc_image
@@ -532,110 +532,125 @@ describe Des::Options::DesrcFileOptions do
       end
     end
   end
-  # describe "#overwrite_values" do
-  #   [
-  #     {
-  #       desc:          "Only elements in the specified target are overwritten.(case1)",
-  #       options_input: Des::Options::DesrcFileOptions.new(
-  #         <<-STRING
-  #         STRING
-  #       ),
-  #       other_options_input: Des::Options::DesrcFileOptions.new(
-  #         <<-STRING
-  #         default_options:
-  #           image: desrc_image
-  #           packages:
-  #             - desrc_package1
-  #             - desrc_package2
-  #           container: desrc_container
-  #           save_dir: /path/to/dir
-  #           docker_compose_version: 99
-  #           web_app: true
-  #           overwrite: false
-  #         STRING
-  #       ),
-  #       target:   [nil, [] of String],
-  #       expected: Des::Options::DesrcFileOptions.new(
-  #         <<-STRING
-  #         default_options:
-  #           image: desrc_image
-  #           packages:
-  #             - desrc_package1
-  #             - desrc_package2
-  #           container: desrc_container
-  #           save_dir: /path/to/dir
-  #           docker_compose_version: 99
-  #           web_app: true
-  #           overwrite: false
-  #         STRING
-  #       ),
-  #     },
-  # {
-  #   desc:              "Only elements in the specified target are overwritten.(case2)",
-  #   options_input: Des::Options::DesrcFileOptions.new({
-  #     image:                  "input image",
-  #     packages:               [] of String,
-  #     container:              nil,
-  #     save_dir:               "input save_dir",
-  #     docker_compose_version: "input docker_compose_version",
-  #     web_app:                nil,
-  #     overwrite:              "false",
-  #   }),
-  #   other_options_input: Des::Options::DesrcFileOptions.new({
-  #     image:                  "default image",
-  #     packages:               ["default package"],
-  #     container:              "default container",
-  #     save_dir:               "default save_dir",
-  #     docker_compose_version: "default docker_compose_version",
-  #     web_app:                "true",
-  #     overwrite:              "true",
-  #   }),
-  #   target:   [nil, [] of String],
-  #   expected: Des::Options::DesrcFileOptions.new({
-  #     image:                  "input image",
-  #     packages:               ["default package"],
-  #     container:              "default container",
-  #     save_dir:               "input save_dir",
-  #     docker_compose_version: "input docker_compose_version",
-  #     web_app:                "true",
-  #     overwrite:              "false",
-  #   }),
-  # },
-  # {
-  #   desc:              "Only elements in the specified target are overwritten.(case3)",
-  #   options_input: Des::Options::DesrcFileOptions.new({
-  #     image:                  "input image",
-  #     packages:               [] of String,
-  #     container:              nil,
-  #     save_dir:               "input save_dir",
-  #     docker_compose_version: "input docker_compose_version",
-  #     web_app:                nil,
-  #     overwrite:              "false",
-  #   }),
-  #   other_options_input: Des::Options::DesrcFileOptions.new({
-  #     image:                  "default image",
-  #     packages:               ["default package"],
-  #     container:              "default container",
-  #     save_dir:               "default save_dir",
-  #     docker_compose_version: "default docker_compose_version",
-  #     web_app:                "true",
-  #     overwrite:              "true",
-  #   }),
-  #   target:   [nil, "input save_dir"],
-  #   expected: Des::Options::DesrcFileOptions.new({
-  #     image:                  "input image",
-  #     packages:               [] of String,
-  #     container:              "default container",
-  #     save_dir:               "default save_dir",
-  #     docker_compose_version: "input docker_compose_version",
-  #     web_app:                "true",
-  #     overwrite:              "false",
-  #   }),
-  # },
-  #   ].each do |spec_case|
-  #     it spec_case["desc"] do
-  #       spec_case["options_input"].overwrite_values(spec_case["other_options_input"], spec_case["target"]).should eq spec_case["expected"]
-  #     end
-  #   end
-  # end
+  describe "#overwrite_values" do
+    [
+      {
+        desc:          "Only elements in the specified target are overwritten.(case1)",
+        options_input: Des::Options::DesrcFileOptions.from_yaml(
+          <<-STRING
+          STRING
+        ),
+        other_options_input: Des::Options::DesrcFileOptions.from_yaml(
+          <<-STRING
+          default_options:
+            image: desrc_image
+            packages:
+              - desrc_package1
+              - desrc_package2
+            container: desrc_container
+            save_dir: /path/to/dir
+            docker_compose_version: 99
+            web_app: true
+            overwrite: false
+          STRING
+        ),
+        target:   [nil, [] of String],
+        expected: Des::Options::DesrcFileOptions.from_yaml(
+          <<-STRING
+          default_options:
+            image: desrc_image
+            packages:
+              - desrc_package1
+              - desrc_package2
+            container: desrc_container
+            save_dir: /path/to/dir
+            docker_compose_version: 99
+            web_app: true
+            overwrite: false
+          STRING
+        ),
+      },
+      {
+        desc:          "Only elements in the specified target are overwritten.(case2)",
+        options_input: Des::Options::DesrcFileOptions.from_yaml(
+          <<-STRING
+          default_options:
+            packages: []
+            save_dir: /path/to/dir
+            web_app: true
+          STRING
+        ),
+        other_options_input: Des::Options::DesrcFileOptions.from_yaml(
+          <<-STRING
+          default_options:
+            image: overwrite_image
+            packages:
+              - desrc_package1
+              - desrc_package2
+            save_dir: /path/to/dir
+            docker_compose_version: 10000
+            web_app: true
+            overwrite: false
+          STRING
+        ),
+        target:   [nil, [] of String],
+        expected: Des::Options::DesrcFileOptions.from_yaml(
+          <<-STRING
+          default_options:
+            image: overwrite_image
+            packages:
+              - desrc_package1
+              - desrc_package2
+            save_dir: /path/to/dir
+            docker_compose_version: 10000
+            web_app: true
+            overwrite: false
+          STRING
+        ),
+      },
+      {
+        desc:          "Only elements in the specified target are overwritten.(case3)",
+        options_input: Des::Options::DesrcFileOptions.from_yaml(
+          <<-STRING
+          default_options:
+            image: input_image
+            packages: []
+            save_dir: /path/to/dir
+            web_app: true
+          STRING
+        ),
+        other_options_input: Des::Options::DesrcFileOptions.from_yaml(
+          <<-STRING
+          default_options:
+            image: overwrite_image
+            packages:
+              - desrc_package1
+              - desrc_package2
+            container: overwrite_container
+            save_dir: /overwrite/path/to/dir
+            docker_compose_version: 10000
+            web_app: true
+            overwrite: false
+          STRING
+        ),
+        target:   [nil, "input_image"],
+        expected: Des::Options::DesrcFileOptions.from_yaml(
+          <<-STRING
+          default_options:
+            image: overwrite_image
+            packages: []
+            container: overwrite_container
+            save_dir: /path/to/dir
+            docker_compose_version: 10000
+            web_app: true
+            overwrite: false
+          STRING
+        ),
+      },
+    ].each do |spec_case|
+      it spec_case["desc"] do
+        spec_case["options_input"].overwrite_values(spec_case["other_options_input"], spec_case["target"]).should eq spec_case["expected"]
+      end
+    end
+  end
 end

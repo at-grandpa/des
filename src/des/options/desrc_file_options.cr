@@ -62,13 +62,14 @@ module Des
         web_app: Bool?,
         overwrite: Bool?)
 
-      @options : DesrcFileOptionsType
+      def initialize(@named_tuple : DesrcFileOptionsType)
+      end
 
-      def initialize(yaml_str : String)
+      def self.from_yaml(yaml_str : String) : self
         yaml = DefaultOptionType.from_yaml(yaml_str)
         default_options = yaml.default_options
         if default_options.nil?
-          @options = {
+          named_tuple = {
             image:                  nil,
             packages:               nil,
             container:              nil,
@@ -78,7 +79,7 @@ module Des
             overwrite:              nil,
           }
         else
-          @options = {
+          named_tuple = {
             image:                  default_options.image,
             packages:               default_options.packages,
             container:              default_options.container,
@@ -88,12 +89,13 @@ module Des
             overwrite:              default_options.overwrite,
           }
         end
+        new(named_tuple)
       end
 
       macro define_options_method
         {% for key, type in DesrcFileOptionsType %}
           def {{key}} : {{type}}
-            @options[:{{key}}]
+            @named_tuple[:{{key}}]
           end
         {% end %}
       end
@@ -120,7 +122,7 @@ module Des
       def_overwrite_values
 
       def to_named_tuple
-        @options
+        @named_tuple
       end
     end
   end

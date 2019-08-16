@@ -169,7 +169,7 @@ describe Des::SettingFile::DockerCompose do
         dummy_yaml_str = ""
         options_mock = OptionsMock.new(
           Des::Options::CliOptions.new(dummy_cli_options),
-          Des::Options::DesrcFileOptions.new(dummy_yaml_str)
+          Des::Options::DesrcFileOptions.from_yaml(dummy_yaml_str)
         )
 
         allow(options_mock).to receive(container).and_return(spec_case["mock_setting"]["container"])

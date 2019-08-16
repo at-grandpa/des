@@ -125,7 +125,7 @@ describe Des::SettingFile::DesrcFile do
       it spec_case["desc"] do
         options = Des::Options::Options.new(
           Des::Options::CliOptions.new(spec_case["cli_options_input"]),
-          Des::Options::DesrcFileOptions.new("")
+          Des::Options::DesrcFileOptions.from_yaml("")
         )
 
         file = Des::SettingFile::DesrcFile.new(options, spec_case["desrc_file_path"])

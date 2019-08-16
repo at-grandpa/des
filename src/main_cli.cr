@@ -44,7 +44,7 @@ module Des
 
         des_options = ::Des::Options::Options.new(
           Des::Options::CliOptions.new(cli_options),
-          Des::Options::DesrcFileOptions.new(desrc_file_str)
+          Des::Options::DesrcFileOptions.from_yaml(desrc_file_str)
         )
 
         desrc_file = Des::SettingFile::DesrcFile.new(des_options)
