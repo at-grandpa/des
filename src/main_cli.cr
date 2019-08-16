@@ -34,12 +34,18 @@ module Des
           overwrite:              library_opts.overwrite,
         }
 
+        file_creator = Des::Cli::FileCreator.new
+
+        desrc_file_str = if File.exists?(Des::SettingFile::DesrcFile::DESRC_FILE_PATH)
+                           File.read(Des::SettingFile::DesrcFile::DESRC_FILE_PATH)
+                         else
+                           ""
+                         end
+
         des_options = ::Des::Options::Options.new(
           Des::Options::CliOptions.new(cli_options),
           Des::Options::DesrcFileOptions.new(desrc_file_str)
         )
-
-        file_creator = Des::Cli::FileCreator.new
 
         desrc_file = Des::SettingFile::DesrcFile.new(des_options)
         dockerfile = Des::SettingFile::Dockerfile.new(des_options)

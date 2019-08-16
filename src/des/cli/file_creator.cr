@@ -1,4 +1,3 @@
-require "ecr"
 require "colorize"
 
 module Des
