@@ -567,6 +567,184 @@ describe Des::Cli::Executer do
           STRING
         },
       },
+      {
+        desc:        "if a desrc.yml exists, the value of the desrc.yml is used for options that are not specified in cli_options.",
+        cli_options: {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        },
+        files_to_create_before_testing: [] of NamedTuple(path: String, string: String),
+        desrc_path_str:                 <<-STRING,
+        default_options:
+          image: desrc_image
+          packages:
+            - desrc_package1
+            - desrc_package2
+          container: desrc_container
+          save_dir: #{__DIR__}/var/spec_dir
+          docker_compose_version: 99
+          web_app: true
+          overwrite: true
+        STRING
+        prompt_input_str: "",
+        expected:         {
+          file_expected_list: [
+            {
+              path:   "#{__DIR__}/var/spec_dir/Dockerfile",
+              string: <<-STRING,
+              \\AFROM test_image
+
+              RUN apt-get -y update
+              RUN apt-get -y upgrade
+              RUN apt-get -y install vim ping
+
+              WORKDIR \\/root\\/test_container
+              \\z
+              STRING
+            },
+            {
+              path:   "#{__DIR__}/var/spec_dir/Makefile",
+              string: <<-STRING,
+              \\ADOCKER_COMPOSE := docker-compose -f \\.\\/docker-compose\\.yml
+              DOCKER_EXEC := docker exec -it
+              CONTAINER_NAME := test_container
+
+              ps:
+              	\\$\\(DOCKER_COMPOSE\\) ps
+
+              setup: build up
+
+              build:
+              	\\$\\(DOCKER_COMPOSE\\) build
+
+              up:
+              	\\$\\(DOCKER_COMPOSE\\) up -d
+
+              clean: stop rm
+
+              stop:
+              	\\$\\(DOCKER_COMPOSE\\) stop
+
+              rm:
+              	\\$\\(DOCKER_COMPOSE\\) rm -f
+
+              attach:
+              	\\$\\(DOCKER_EXEC\\) \\$\\(CONTAINER_NAME\\) \\/bin\\/bash
+              \\z
+              STRING
+            },
+            {
+              path:   "#{__DIR__}/var/spec_dir/docker-compose.yml",
+              string: <<-STRING,
+              \\Aversion: '3'
+              services:
+                app:
+                  build: .
+                  container_name: test_container
+                  restart: always
+                  stdin_open: true
+                  volumes:
+                    - .:/root/test_container
+                  ports:
+                    - 3000
+                  links:
+                    - mysql
+                mysql:
+                  image: mysql
+                  container_name: test_container-mysql
+                  restart: always
+                  environment:
+                    MYSQL_ROOT_PASSWORD: root
+                  ports:
+                    - 3306
+                nginx:
+                  image: nginx
+                  container_name: test_container-nginx
+                  restart: always
+                  volumes:
+                    - ./nginx.conf:/etc/nginx/nginx.conf
+                  ports:
+                    - 80:80
+                  links:
+                    - app
+              \\z
+              STRING
+            },
+            {
+              path:   "#{__DIR__}/var/spec_dir/nginx.conf",
+              string: <<-STRING,
+
+              user  nginx;
+              worker_processes  1;
+
+              error_log  \\/var\\/log\\/nginx\\/error\\.log warn;
+              pid        \\/var\\/run\\/nginx\\.pid;
+
+              events \\{
+                  worker_connections  1024;
+              \\}
+
+              http \\{
+                  include       \\/etc\\/nginx\\/mime\\.types;
+                  default_type  application\\/octet-stream;
+
+                  log_format  main  '\\$remote_addr - \\$remote_user \\[\\$time_local\\] "\\$request" '
+                                    '\\$status \\$body_bytes_sent "\\$http_referer" '
+                                    '"\\$http_user_agent" "\\$http_x_forwarded_for"';
+
+                  access_log  \\/var\\/log\\/nginx\\/access\\.log  main;
+
+                  sendfile        on;
+                  #tcp_nopush     on;
+
+                  keepalive_timeout  65;
+
+                  #gzip  on;
+
+                  server \\{
+                      listen 80;
+
+                      location \\/ \\{
+                          proxy_pass http:\\/\\/app:3000\\/;
+                      \\}
+                  \\}
+
+                  include \\/etc\\/nginx\\/conf\\.d\\/\\*\\.conf;
+              \\}
+
+              STRING
+            },
+            {
+              path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+              string: <<-STRING,
+              default_options:
+                image: desrc_image
+                packages:
+                  - desrc_package1
+                  - desrc_package2
+                container: desrc_container
+                save_dir: #{__DIR__}/var/spec_dir
+                docker_compose_version: 99
+                web_app: true
+                overwrite: true
+
+              STRING
+            },
+          ],
+          output_message: <<-STRING,
+          \\A\\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/Dockerfile
+          \\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/Makefile
+          \\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/docker-compose.yml
+          \\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/nginx.conf
+          \\z
+          STRING
+        },
+      },
     ].each do |spec_case|
       it spec_case["desc"] do
         des_options = ::Des::Options::Options.new(
@@ -578,7 +756,7 @@ describe Des::Cli::Executer do
         reader = IO::Memory.new spec_case["prompt_input_str"]
         file_creator = Des::Cli::FileCreator.new(writer, reader)
 
-        desrc_file = Des::SettingFile::DesrcFile.new(des_options, "#{spec_case["cli_options"]["save_dir"]}/desrc.yml")
+        desrc_file = Des::SettingFile::DesrcFile.new(des_options, "#{des_options.save_dir}/desrc.yml")
         dockerfile = Des::SettingFile::Dockerfile.new(des_options)
         makefile = Des::SettingFile::Makefile.new(des_options)
         docker_compose = Des::SettingFile::DockerCompose.new(des_options)

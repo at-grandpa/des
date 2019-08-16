@@ -2,13 +2,13 @@ module Des
   module Options
     class CliOptions
       alias CliOptionsType = NamedTuple(
-        image: String | Nil,
+        image: String?,
         packages: Array(String),
-        container: String | Nil,
-        save_dir: String | Nil,
-        docker_compose_version: String | Nil,
-        web_app: String | Nil,
-        overwrite: String | Nil)
+        container: String?,
+        save_dir: String?,
+        docker_compose_version: String?,
+        web_app: String?,
+        overwrite: String?)
 
       def initialize(@named_tuple : CliOptionsType)
       end
