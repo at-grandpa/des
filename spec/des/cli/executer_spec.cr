@@ -1111,4 +1111,86 @@ describe Des::Cli::Executer do
       end
     end
   end
+  describe "#display_desrc_file" do
+    [
+      {
+        desc:        "display errors, if desrc.yml is not exist.",
+        files_to_create_before_testing: {
+          path:   nil,
+          string: nil,
+        },
+        prompt_input_str: "",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        desrc_file_path: "#{__DIR__}/var/spec_dir/desrc.yml",
+        expected:         {
+          output_message: <<-STRING,
+          \\A\\/.+?\\/var\\/spec_dir\\/desrc.yml not found.
+          \\z
+          STRING
+        },
+      },
+      {
+        desc:        "if desrc.yml is not exist and cli_options is nil, create desrc.yml.",
+        files_to_create_before_testing: {
+          path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+          string:                 <<-STRING,
+          default_options:
+            image: hoge_image
+            packages:
+              - hoge_packages1
+              - hoge_packages2
+            container: hoge_container
+            save_dir: /hoge/dir
+            docker_compose_version: 100
+            web_app: true
+            overwrite: true
+          STRING
+        },
+        prompt_input_str: "",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        desrc_file_path: "#{__DIR__}/var/spec_dir/desrc.yml",
+        expected:         {
+          output_message: <<-STRING,
+          \\A
+          path: \\/.+?\\/var\\/spec_dir\\/desrc.yml
+
+          default_options:
+            image: hoge_image
+            packages:
+              - hoge_packages1
+              - hoge_packages2
+            container: hoge_container
+            save_dir: \\/hoge\\/dir
+            docker_compose_version: 100
+            web_app: true
+            overwrite: true
+
+          \\z
+          STRING
+        },
+      },
+    ].each do |spec_case|
+      it spec_case["desc"] do
+        delete_dir(spec_case["spec_dir"])
+        Dir.mkdir(spec_case["spec_dir"]) unless Dir.exists?(spec_case["spec_dir"])
+
+        file_before_test = spec_case["files_to_create_before_testing"]
+        path_before_test = file_before_test[:path]
+        string_before_test = file_before_test[:string]
+        if !path_before_test.nil? && !string_before_test.nil?
+          File.write(path_before_test, string_before_test)
+        end
+
+        writer = IO::Memory.new
+        reader = IO::Memory.new spec_case["prompt_input_str"]
+        file_creator = Des::Cli::FileCreator.new(writer, reader)
+
+        executer = Des::Cli::Executer.new(file_creator, writer)
+        executer.display_desrc_file(spec_case["desrc_file_path"])
+
+        delete_dir(spec_case["spec_dir"])
+        writer.to_s.should match /#{spec_case["expected"]["output_message"]}/
+      end
+    end
+  end
 end

@@ -51,7 +51,7 @@ module Des
           @writer.puts File.read(desrc_file_path)
           @writer.puts ""
         else
-          @writer.puts "#{desrc_file_path} is not found."
+          @writer.puts "#{desrc_file_path} not found."
         end
       end
     end
