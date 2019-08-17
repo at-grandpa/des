@@ -65,6 +65,7 @@ module Des
         end
         sub "create" do
           desc "Creates desrc file."
+          alias_name "update"
           usage "des desrc create [options]"
           option "-i IMAGE", "--image=IMAGE", type: String, desc: "Base docker image name."
           option "-p PACKAGES", "--packages=PACKAGE", type: Array(String), desc: "apt-get install packages name."
