@@ -795,9 +795,10 @@ describe Des::Cli::Executer do
           web_app:                nil,
           overwrite:              nil,
         },
-        files_to_create_before_testing: [] of NamedTuple(path: String, string: String),
-        desrc_path_str:                 <<-STRING,
-        STRING
+        files_to_create_before_testing: {
+          path:   nil,
+          string: nil,
+        },
         prompt_input_str: "",
         spec_dir: "#{__DIR__}/var/spec_dir",
         expected:         {
@@ -835,11 +836,261 @@ describe Des::Cli::Executer do
           STRING
         },
       },
+      {
+        desc:        "if desrc.yml is not exist and cli_options specified, overwritten desrc.yml by cli_options.",
+        cli_options: {
+          image:                  "cli_options_image",
+          packages:               ["cli_options_package1"],
+          container:              "cli_options_container",
+          save_dir:               "/path/to/cli_options_dir",
+          docker_compose_version: "999",
+          web_app:                "true",
+          overwrite:              "true",
+        },
+        files_to_create_before_testing: {
+          path:   nil,
+          string: nil,
+        },
+        prompt_input_str: "",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        expected:         {
+          file_expected_list: [
+            {
+              path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+              string: <<-STRING,
+              \\Adefault_options:
+                image: cli_options_image
+                packages:
+                  - cli_options_package1
+                container: cli_options_container
+                save_dir: \\/path\\/to\\/cli_options_dir
+                docker_compose_version: 999
+                web_app: true
+                overwrite: true
+              \\z
+              STRING
+            },
+          ],
+          output_message: <<-STRING,
+          \\A
+          path: \\/.+?\\/var\\/spec_dir\\/desrc.yml
+
+          default_options:
+            image: cli_options_image
+            packages:
+              - cli_options_package1
+            container: cli_options_container
+            save_dir: \\/path\\/to\\/cli_options_dir
+            docker_compose_version: 999
+            web_app: true
+            overwrite: true
+
+          \\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/desrc.yml
+          \\z
+          STRING
+        },
+      },
+      {
+        desc:        "if desrc.yml missing any option is exist, overwritten desrc.yml by default.",
+        cli_options: {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        },
+        files_to_create_before_testing: {
+          path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+          string:                 <<-STRING,
+          default_options:
+            packages:
+              - desrc_options_package1
+            container: desrc_options_container
+            web_app: true
+          STRING
+        },
+        prompt_input_str: "y",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        expected:         {
+          file_expected_list: [
+            {
+              path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+              string: <<-STRING,
+              \\Adefault_options:
+                image: ubuntu:18.04
+                packages:
+                  - desrc_options_package1
+                container: desrc_options_container
+                save_dir: .
+                docker_compose_version: 3
+                web_app: true
+                overwrite: false
+              \\z
+              STRING
+            },
+          ],
+          output_message: <<-STRING,
+          \\A
+          path: \\/.+?\\/var\\/spec_dir\\/desrc.yml
+
+          default_options:
+            image: ubuntu:18.04
+            packages:
+              - desrc_options_package1
+            container: desrc_options_container
+            save_dir: .
+            docker_compose_version: 3
+            web_app: true
+            overwrite: false
+
+
+          \\/.+?\\/var\\/spec_dir\\/desrc.yml
+          Overwrite\\? \\(y or n\\) > \\e\\[92mOverwrite\\e\\[0m \\/.+?\\/var\\/spec_dir\\/desrc.yml
+          \\z
+          STRING
+        },
+      },
+      {
+        desc:        "if desrc.yml is not overwritten, the file is not overwritten.",
+        cli_options: {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        },
+        files_to_create_before_testing: {
+          path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+          string:                 <<-STRING,
+          default_options:
+            packages:
+              - desrc_options_package1
+            container: desrc_options_container
+            web_app: true
+          STRING
+        },
+        prompt_input_str: "n",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        expected:         {
+          file_expected_list: [
+            {
+              path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+              string: <<-STRING,
+              \\Adefault_options:
+                packages:
+                  - desrc_options_package1
+                container: desrc_options_container
+                web_app: true\\z
+              STRING
+            },
+          ],
+          output_message: <<-STRING,
+          \\A
+          path: \\/.+?\\/var\\/spec_dir\\/desrc.yml
+
+          default_options:
+            image: ubuntu:18.04
+            packages:
+              - desrc_options_package1
+            container: desrc_options_container
+            save_dir: .
+            docker_compose_version: 3
+            web_app: true
+            overwrite: false
+
+
+          \\/.+?\\/var\\/spec_dir\\/desrc.yml
+          Overwrite\\? \\(y or n\\) > \\e\\[93mDid not overwrite.\\e\\[0m
+          \\z
+          STRING
+        },
+      },
+      {
+        desc:        "mix options overwrite.",
+        cli_options: {
+          image:                  "cli_image",
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               "/path/to/cli_options_dir",
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              "true",
+        },
+        files_to_create_before_testing: {
+          path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+          string:                 <<-STRING,
+          default_options:
+            packages:
+              - desrc_options_package1
+            docker_compose_version: 999
+          STRING
+        },
+        prompt_input_str: "y",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        expected:         {
+          file_expected_list: [
+            {
+              path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+              string: <<-STRING,
+              \\Adefault_options:
+                image: cli_image
+                packages:
+                  - desrc_options_package1
+                container: my_container
+                save_dir: \\/path\\/to\\/cli_options_dir
+                docker_compose_version: 999
+                web_app: false
+                overwrite: true
+              \\z
+              STRING
+            },
+          ],
+          output_message: <<-STRING,
+          \\A
+          path: \\/.+?\\/var\\/spec_dir\\/desrc.yml
+
+          default_options:
+            image: cli_image
+            packages:
+              - desrc_options_package1
+            container: my_container
+            save_dir: \\/path\\/to\\/cli_options_dir
+            docker_compose_version: 999
+            web_app: false
+            overwrite: true
+
+
+          \\/.+?\\/var\\/spec_dir\\/desrc.yml
+          Overwrite\\? \\(y or n\\) > \\e\\[92mOverwrite\\e\\[0m \\/.+?\\/var\\/spec_dir\\/desrc.yml
+          \\z
+          STRING
+        },
+      },
     ].each do |spec_case|
       it spec_case["desc"] do
+        delete_dir(spec_case["spec_dir"])
+        Dir.mkdir(spec_case["spec_dir"]) unless Dir.exists?(spec_case["spec_dir"])
+
+        file_before_test = spec_case["files_to_create_before_testing"]
+        path_before_test = file_before_test[:path]
+        string_before_test = file_before_test[:string]
+        if !path_before_test.nil? && !string_before_test.nil?
+          File.write(path_before_test, string_before_test)
+        end
+
+        desrc_file_yaml_str = if !path_before_test.nil? && File.exists?(path_before_test)
+                                File.read(path_before_test)
+                              else
+                                ""
+                              end
+
         des_options = ::Des::Options::Options.new(
           Des::Options::CliOptions.new(spec_case["cli_options"]),
-          Des::Options::DesrcFileOptions.from_yaml(spec_case["desrc_path_str"])
+          Des::Options::DesrcFileOptions.from_yaml(desrc_file_yaml_str)
         )
 
         writer = IO::Memory.new
@@ -847,13 +1098,6 @@ describe Des::Cli::Executer do
         file_creator = Des::Cli::FileCreator.new(writer, reader)
 
         desrc_file = Des::SettingFile::DesrcFile.new(des_options, "#{spec_case["spec_dir"]}/desrc.yml")
-
-        delete_dir(spec_case["spec_dir"])
-        Dir.mkdir(spec_case["spec_dir"]) unless Dir.exists?(spec_case["spec_dir"])
-
-        spec_case["files_to_create_before_testing"].each do |file|
-          File.write(file[:path], file[:string])
-        end
 
         executer = Des::Cli::Executer.new(file_creator, writer)
         executer.create(desrc_file)
