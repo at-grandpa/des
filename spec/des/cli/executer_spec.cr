@@ -12,7 +12,7 @@ def delete_dir(path)
 end
 
 describe Des::Cli::Executer do
-  describe "#execute" do
+  describe "#create all" do
     [
       {
         desc:        "create all file.",
@@ -770,15 +770,15 @@ describe Des::Cli::Executer do
           File.write(file[:path], file[:string])
         end
 
-        executer = Des::Cli::Executer.new(des_options, file_creator, desrc_file, dockerfile, makefile, docker_compose, nginx_conf, writer)
-        executer.execute
+        executer = Des::Cli::Executer.new(file_creator)
+        executer.create(des_options, desrc_file, dockerfile, makefile, docker_compose, nginx_conf)
 
         spec_case["expected"]["file_expected_list"].each do |file|
           File.read(file["path"]).should match /#{file["string"]}/
         end
 
         delete_dir(des_options.save_dir)
-        executer.writer.to_s.should match /#{spec_case["expected"]["output_message"]}/
+        writer.to_s.should match /#{spec_case["expected"]["output_message"]}/
       end
     end
   end

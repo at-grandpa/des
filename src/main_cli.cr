@@ -36,15 +36,15 @@ module Des
 
         file_creator = Des::Cli::FileCreator.new
 
-        desrc_file_str = if File.exists?(Des::SettingFile::DesrcFile::DESRC_FILE_PATH)
-                           File.read(Des::SettingFile::DesrcFile::DESRC_FILE_PATH)
-                         else
-                           ""
-                         end
+        desrc_file_yaml_str = if File.exists?(Des::SettingFile::DesrcFile::DESRC_FILE_PATH)
+                                File.read(Des::SettingFile::DesrcFile::DESRC_FILE_PATH)
+                              else
+                                ""
+                              end
 
-        des_options = ::Des::Options::Options.new(
+        des_options = Des::Options::Options.new(
           Des::Options::CliOptions.new(cli_options),
-          Des::Options::DesrcFileOptions.from_yaml(desrc_file_str)
+          Des::Options::DesrcFileOptions.from_yaml(desrc_file_yaml_str)
         )
 
         desrc_file = Des::SettingFile::DesrcFile.new(des_options)
@@ -53,17 +53,8 @@ module Des
         docker_compose = Des::SettingFile::DockerCompose.new(des_options)
         nginx_conf = Des::SettingFile::NginxConf.new(des_options)
 
-        executer = Des::Cli::Executer.new(
-          des_options,
-          file_creator,
-          desrc_file,
-          dockerfile,
-          makefile,
-          docker_compose,
-          nginx_conf
-        )
-
-        executer.execute
+        executer = Des::Cli::Executer.new(file_creator)
+        executer.create(des_options, desrc_file, dockerfile, makefile, docker_compose, nginx_conf)
       end
       sub "desrc" do
         desc "Creates or Display desrc file."
@@ -75,9 +66,42 @@ module Des
         sub "create" do
           desc "Creates desrc file."
           usage "des desrc create [options]"
+          option "-i IMAGE", "--image=IMAGE", type: String, desc: "Base docker image name."
+          option "-p PACKAGES", "--packages=PACKAGE", type: Array(String), desc: "apt-get install packages name."
+          option "-c NAME", "--container=NAME", type: String, desc: "Container name."
+          option "-s SAVE_DIR", "--save-dir=SAVE_DIR", type: String, desc: "Save dir path."
+          option "-d DESRC_PATH", "--desrc-path=DESRC_PATH", type: String, desc: ".descr.yml path."
+          option "--docker-compose-version=VERSION", type: String, desc: "docker-compose version."
+          option "-w FLAG", "--web-app=FLAG", type: String, desc: "Web app mode(true or false). Includes nginx and mysql."
+          option "-o FLAG", "--overwrite=FLAG", type: String, desc: "Overwrite each file flag(true or false)."
           help short: "-h"
           run do |library_opts, args|
-            puts "create!"
+            cli_options = {
+              image:                  library_opts.image,
+              packages:               library_opts.packages,
+              container:              library_opts.container,
+              save_dir:               library_opts.save_dir,
+              docker_compose_version: library_opts.docker_compose_version,
+              web_app:                library_opts.web_app,
+              overwrite:              library_opts.overwrite,
+            }
+
+            file_creator = Des::Cli::FileCreator.new
+
+            desrc_file_yaml_str = if File.exists?(Des::SettingFile::DesrcFile::DESRC_FILE_PATH)
+                                    File.read(Des::SettingFile::DesrcFile::DESRC_FILE_PATH)
+                                  else
+                                    ""
+                                  end
+
+            des_options = ::Des::Options::Options.new(
+              Des::Options::CliOptions.new(cli_options),
+              Des::Options::DesrcFileOptions.from_yaml(desrc_file_yaml_str)
+            )
+
+            desrc_file = Des::SettingFile::DesrcFile.new(des_options)
+            executer = Des::Cli::Executer.new(file_creator)
+            executer.create(desrc_file)
           end
         end
         sub "display" do
@@ -85,13 +109,9 @@ module Des
           usage "des desrc display"
           help short: "-h"
           run do |library_opts, args|
-            # if @des_options.desrc
-            # @writer.puts ""
-            # @writer.puts "File path: #{@des_options.desrc_path}"
-            # @writer.puts ""
-            # @writer.puts "#{File.read(@des_options.desrc_path)}"
-            # return
-            # end
+            if File.exists?(Des::SettingFile::DesrcFile::DESRC_FILE_PATH)
+            else
+            end
             puts "display!"
           end
         end
