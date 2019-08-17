@@ -60,7 +60,7 @@ describe Des::SettingFile::DesrcFile do
             overwrite: true
 
           STRING
-          true
+          false # FileCreateInfo@overwrite of DesrcFile is false.
         ),
       },
       {
@@ -88,7 +88,7 @@ describe Des::SettingFile::DesrcFile do
             overwrite: true
 
           STRING
-          true
+          false # FileCreateInfo@overwrite of DesrcFile is false.
         ),
       },
       {
@@ -118,7 +118,7 @@ describe Des::SettingFile::DesrcFile do
             overwrite: true
 
           STRING
-          true
+          false # FileCreateInfo@overwrite of DesrcFile is false.
         ),
       },
     ].each do |spec_case|

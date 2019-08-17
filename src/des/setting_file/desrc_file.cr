@@ -12,7 +12,7 @@ module Des
         Des::Cli::FileCreateInfo.new(
           @desrc_file_path,
           to_s,
-          @options.overwrite
+          false
         )
       end
 
