@@ -782,4 +782,89 @@ describe Des::Cli::Executer do
       end
     end
   end
+  describe "#create desrc.yml" do
+    [
+      {
+        desc:        "if desrc.yml is not exist and cli_options is nil, create desrc.yml.",
+        cli_options: {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        },
+        files_to_create_before_testing: [] of NamedTuple(path: String, string: String),
+        desrc_path_str:                 <<-STRING,
+        STRING
+        prompt_input_str: "",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        expected:         {
+          file_expected_list: [
+            {
+              path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+              string: <<-STRING,
+              \\Adefault_options:
+                image: ubuntu:18.04
+                packages: \\[\\]
+                container: my_container
+                save_dir: .
+                docker_compose_version: 3
+                web_app: false
+                overwrite: false
+              \\z
+              STRING
+            },
+          ],
+          output_message: <<-STRING,
+          \\A
+          path: \\/.+?\\/var\\/spec_dir\\/desrc.yml
+
+          default_options:
+            image: ubuntu:18.04
+            packages: \\[\\]
+            container: my_container
+            save_dir: \\.
+            docker_compose_version: 3
+            web_app: false
+            overwrite: false
+
+          \\e\\[92mCreate\\e\\[0m \\/.+?\\/var\\/spec_dir\\/desrc.yml
+          \\z
+          STRING
+        },
+      },
+    ].each do |spec_case|
+      it spec_case["desc"] do
+        des_options = ::Des::Options::Options.new(
+          Des::Options::CliOptions.new(spec_case["cli_options"]),
+          Des::Options::DesrcFileOptions.from_yaml(spec_case["desrc_path_str"])
+        )
+
+        writer = IO::Memory.new
+        reader = IO::Memory.new spec_case["prompt_input_str"]
+        file_creator = Des::Cli::FileCreator.new(writer, reader)
+
+        desrc_file = Des::SettingFile::DesrcFile.new(des_options, "#{spec_case["spec_dir"]}/desrc.yml")
+
+        delete_dir(spec_case["spec_dir"])
+        Dir.mkdir(spec_case["spec_dir"]) unless Dir.exists?(spec_case["spec_dir"])
+
+        spec_case["files_to_create_before_testing"].each do |file|
+          File.write(file[:path], file[:string])
+        end
+
+        executer = Des::Cli::Executer.new(file_creator, writer)
+        executer.create(desrc_file)
+
+        spec_case["expected"]["file_expected_list"].each do |file|
+          File.read(file["path"]).should match /#{file["string"]}/
+        end
+
+        delete_dir(spec_case["spec_dir"])
+        writer.to_s.should match /#{spec_case["expected"]["output_message"]}/
+      end
+    end
+  end
 end

@@ -109,10 +109,9 @@ module Des
           usage "des desrc display"
           help short: "-h"
           run do |library_opts, args|
-            if File.exists?(Des::SettingFile::DesrcFile::DESRC_FILE_PATH)
-            else
-            end
-            puts "display!"
+            file_creator = Des::Cli::FileCreator.new
+            executer = Des::Cli::Executer.new(file_creator)
+            executer.display_desrc_file(Des::SettingFile::DesrcFile::DESRC_FILE_PATH)
           end
         end
       end

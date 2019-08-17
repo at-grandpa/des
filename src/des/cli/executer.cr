@@ -6,7 +6,7 @@ module Des
     class Executer
       getter writer
 
-      def initialize(@file_creator : Des::Cli::FileCreator, writer : IO = STDOUT)
+      def initialize(@file_creator : Des::Cli::FileCreator, @writer : IO = STDOUT)
       end
 
       def create(
@@ -32,6 +32,27 @@ module Des
       end
 
       def create(desrc_file : Des::SettingFile::DesrcFile)
+        desrc_file_info = desrc_file.build_file_create_info
+
+        @writer.puts ""
+        @writer.puts "path: #{desrc_file_info.path}"
+        @writer.puts ""
+        @writer.puts desrc_file_info.str
+        @writer.puts ""
+
+        @file_creator.create(desrc_file_info)
+      end
+
+      def display_desrc_file(desrc_file_path : String)
+        if File.exists?(desrc_file_path)
+          @writer.puts ""
+          @writer.puts "path: #{desrc_file_path}"
+          @writer.puts ""
+          @writer.puts File.read(desrc_file_path)
+          @writer.puts ""
+        else
+          @writer.puts "#{desrc_file_path} is not found."
+        end
       end
     end
   end
