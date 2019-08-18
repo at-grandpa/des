@@ -185,6 +185,30 @@ describe Des::Options::CliOptions do
       end
     end
   end
+  describe "#web_app exceptions" do
+    [
+      {
+        desc:              "raises DesException.",
+        cli_options_input: {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               nil,
+          docker_compose_version: nil,
+          web_app:                "hoge",
+          overwrite:              nil,
+        },
+        expected: false,
+      },
+    ].each do |spec_case|
+      it spec_case["desc"] do
+        cli_options = Des::Options::CliOptions.new(spec_case["cli_options_input"])
+        expect_raises(Des::DesException, "web_app option only allows 'true' or 'false'. See 'des --help'") do
+          cli_options.web_app
+        end
+      end
+    end
+  end
   describe "#overwrite" do
     [
       {
@@ -217,6 +241,30 @@ describe Des::Options::CliOptions do
       it spec_case["desc"] do
         cli_options = Des::Options::CliOptions.new(spec_case["cli_options_input"])
         cli_options.overwrite.should eq spec_case["expected"]
+      end
+    end
+  end
+  describe "#overwrite exceptions" do
+    [
+      {
+        desc:              "raises DesException.",
+        cli_options_input: {
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              "hoge",
+        },
+        expected: false,
+      },
+    ].each do |spec_case|
+      it spec_case["desc"] do
+        cli_options = Des::Options::CliOptions.new(spec_case["cli_options_input"])
+        expect_raises(Des::DesException, "overwrite option only allows 'true' or 'false'. See 'des --help'") do
+          cli_options.overwrite
+        end
       end
     end
   end

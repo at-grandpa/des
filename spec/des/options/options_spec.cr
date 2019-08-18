@@ -143,4 +143,56 @@ describe Des::Options::Options do
       end
     end
   end
+  describe "exceptions" do
+    [
+      {
+        desc:        "raises an Exception, when image option is not set.",
+        cli_options: Des::Options::CliOptions.new({
+          image:                  nil,
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               nil,
+          docker_compose_version: nil,
+          web_app:                nil,
+          overwrite:              nil,
+        }),
+        desrc_file_options: Des::Options::DesrcFileOptions.from_yaml(
+          <<-STRING
+          STRING
+        ),
+        default_desrc_yaml_string: <<-STRING,
+        default_options:
+        STRING
+      },
+    ].each do |spec_case|
+      it spec_case["desc"] do
+        des_options = ::Des::Options::Options.new(spec_case["cli_options"], spec_case["desrc_file_options"], spec_case["default_desrc_yaml_string"])
+        expect_raises(Des::DesException, "image option is not set. See 'des --help'") do
+          des_options.image
+        end
+
+        # No Exception occurs because the package option is never nil in cli _ options.
+        #
+        # expect_raises(Des::DesException, "packages option is not set. See 'des --help'") do
+        #   des_options.packages
+        # end
+
+        expect_raises(Des::DesException, "container option is not set. See 'des --help'") do
+          des_options.container
+        end
+        expect_raises(Des::DesException, "save_dir option is not set. See 'des --help'") do
+          des_options.save_dir
+        end
+        expect_raises(Des::DesException, "docker_compose_version option is not set. See 'des --help'") do
+          des_options.docker_compose_version
+        end
+        expect_raises(Des::DesException, "web_app option is not set. See 'des --help'") do
+          des_options.web_app
+        end
+        expect_raises(Des::DesException, "overwrite option is not set. See 'des --help'") do
+          des_options.overwrite
+        end
+      end
+    end
+  end
 end

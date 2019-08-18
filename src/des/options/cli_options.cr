@@ -41,7 +41,7 @@ module Des
             when nil
               nil
             else
-              raise "{{option[:name]}} option only allows 'true' or 'false'. See 'des --help'"
+              raise DesException.new "{{option[:name]}} option only allows 'true' or 'false'. See 'des --help'"
             end
           end
         {% end %}

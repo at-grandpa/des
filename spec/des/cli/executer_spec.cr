@@ -1111,6 +1111,90 @@ describe Des::Cli::Executer do
       end
     end
   end
+  describe "#create desrc.yml exception." do
+    [
+      {
+        desc:        "raises an Exception, when web_app is not bool.",
+        cli_options: {
+          image:                  "cli_image",
+          packages:               [] of String,
+          container:              "cli_container",
+          save_dir:               "/cli/save_dir",
+          docker_compose_version: "22",
+          web_app:                "hoge",
+          overwrite:              "false",
+        },
+        files_to_create_before_testing: {
+          path:   nil,
+          string: nil,
+        },
+        prompt_input_str: "",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        expect_rases_message: "web_app option only allows 'true' or 'false'. See 'des --help'",
+      },
+      {
+        desc:        "raises an Exception, when overwrite is not bool.",
+        cli_options: {
+          image:                  "cli_image",
+          packages:               [] of String,
+          container:              "cli_container",
+          save_dir:               "/cli/save_dir",
+          docker_compose_version: "22",
+          web_app:                "false",
+          overwrite:              "hoge",
+        },
+        files_to_create_before_testing: {
+          path:   nil,
+          string: nil,
+        },
+        prompt_input_str: "",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        expect_rases_message: "overwrite option only allows 'true' or 'false'. See 'des --help'",
+      },
+    ].each do |spec_case|
+      it spec_case["desc"] do
+        delete_dir(spec_case["spec_dir"])
+        Dir.mkdir(spec_case["spec_dir"]) unless Dir.exists?(spec_case["spec_dir"])
+
+        file_before_test = spec_case["files_to_create_before_testing"]
+        path_before_test = file_before_test[:path]
+        string_before_test = file_before_test[:string]
+        if !path_before_test.nil? && !string_before_test.nil?
+          File.write(path_before_test, string_before_test)
+        end
+
+        desrc_file_yaml_str = if !path_before_test.nil? && File.exists?(path_before_test)
+                                File.read(path_before_test)
+                              else
+                                ""
+                              end
+
+        des_options = ::Des::Options::Options.new(
+          Des::Options::CliOptions.new(spec_case["cli_options"]),
+          Des::Options::DesrcFileOptions.from_yaml(desrc_file_yaml_str),
+          "" # default options is nil for spec.
+        )
+
+        writer = IO::Memory.new
+        reader = IO::Memory.new spec_case["prompt_input_str"]
+        file_creator = Des::Cli::FileCreator.new(writer, reader)
+
+        desrc_file = Des::SettingFile::DesrcFile.new(des_options, "#{spec_case["spec_dir"]}/desrc.yml")
+        dockerfile = Des::SettingFile::Dockerfile.new(des_options)
+        makefile = Des::SettingFile::Makefile.new(des_options)
+        docker_compose = Des::SettingFile::DockerCompose.new(des_options)
+        nginx_conf = Des::SettingFile::NginxConf.new(des_options)
+
+
+        executer = Des::Cli::Executer.new(file_creator, writer)
+        expect_raises(Des::DesException, spec_case["expect_rases_message"]) do
+          executer.create(des_options, desrc_file, dockerfile, makefile, docker_compose, nginx_conf)
+        end
+
+        delete_dir(spec_case["spec_dir"])
+      end
+    end
+  end
   describe "#display_desrc_file" do
     [
       {

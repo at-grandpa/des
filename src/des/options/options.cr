@@ -12,24 +12,25 @@ module Des
         web_app: Bool,
         overwrite: Bool)
 
+      DEFAULT_DESRC_YAML_STRING = <<-STRING
+      default_options:
+        image: ubuntu:18.04
+        packages: []
+        container: my_container
+        save_dir: .
+        docker_compose_version: 3
+        web_app: false
+        overwrite: false
+      STRING
+
       getter cli_options
 
       def initialize(
         @cli_options : Des::Options::CliOptions,
-        @desrc_file_options : Des::Options::DesrcFileOptions
+        @desrc_file_options : Des::Options::DesrcFileOptions,
+        default_desrc_yaml_string : String = DEFAULT_DESRC_YAML_STRING
       )
-        default_desrc_options = Des::Options::DesrcFileOptions.from_yaml(
-          <<-STRING
-          default_options:
-            image: ubuntu:18.04
-            packages: []
-            container: my_container
-            save_dir: .
-            docker_compose_version: 3
-            web_app: false
-            overwrite: false
-          STRING
-        )
+        default_desrc_options = Des::Options::DesrcFileOptions.from_yaml(default_desrc_yaml_string)
         @desrc_file_options = @desrc_file_options.overwrite_values(default_desrc_options, [nil])
       end
 
@@ -42,7 +43,7 @@ module Des
             return_value = nil
             return_value = desrc_file_value unless desrc_file_value.nil?
             return_value = cli_value unless cli_value.nil?
-            raise "{{option[:name]}} option is not set. See 'des --help'" if return_value.nil?
+            raise DesException.new "{{option[:name]}} option is not set. See 'des --help'" if return_value.nil?
             return_value
           end
         {% end %}
@@ -67,7 +68,7 @@ module Des
         if !cli_value.nil? && cli_value.empty? && !desrc_file_value.nil?
           return_value = desrc_file_value
         end
-        raise "packages option is not set. See 'des --help'" if return_value.nil?
+        raise DesException.new "packages option is not set. See 'des --help'" if return_value.nil?
         return_value
       end
 
