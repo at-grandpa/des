@@ -1151,6 +1151,126 @@ describe Des::Cli::Executer do
         spec_dir: "#{__DIR__}/var/spec_dir",
         expect_rases_message: "overwrite option only allows 'true' or 'false'. See 'des --help'",
       },
+      {
+        desc:        "raises an Exception, when image option is nil.",
+        cli_options: {
+          image:                  nil,
+          packages:               [] of String,
+          container:              "cli_container",
+          save_dir:               "/cli/save_dir",
+          docker_compose_version: "22",
+          web_app:                "false",
+          overwrite:              "hoge",
+        },
+        files_to_create_before_testing: {
+          path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+          string:                 <<-STRING,
+          STRING
+        },
+        prompt_input_str: "",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        expect_rases_message: "image option is not set. See 'des --help'",
+      },
+      {
+        desc:        "raises an Exception, when container option is nil.",
+        cli_options: {
+          image:                  "cli_image",
+          packages:               [] of String,
+          container:              nil,
+          save_dir:               "/cli/save_dir",
+          docker_compose_version: "22",
+          web_app:                "false",
+          overwrite:              "false",
+        },
+        files_to_create_before_testing: {
+          path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+          string:                 <<-STRING,
+          STRING
+        },
+        prompt_input_str: "",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        expect_rases_message: "container option is not set. See 'des --help'",
+      },
+      {
+        desc:        "raises an Exception, when save_dir option is nil.",
+        cli_options: {
+          image:                  "cli_image",
+          packages:               [] of String,
+          container:              "cli_container",
+          save_dir:               nil,
+          docker_compose_version: "22",
+          web_app:                "false",
+          overwrite:              "false",
+        },
+        files_to_create_before_testing: {
+          path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+          string:                 <<-STRING,
+          STRING
+        },
+        prompt_input_str: "",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        expect_rases_message: "save_dir option is not set. See 'des --help'",
+      },
+      {
+        desc:        "raises an Exception, when docker_compose_version option is nil.",
+        cli_options: {
+          image:                  "cli_image",
+          packages:               [] of String,
+          container:              "cli_container",
+          save_dir:               "/cli/save_dir",
+          docker_compose_version: nil,
+          web_app:                "false",
+          overwrite:              "false",
+        },
+        files_to_create_before_testing: {
+          path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+          string:                 <<-STRING,
+          STRING
+        },
+        prompt_input_str: "",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        expect_rases_message: "docker_compose_version option is not set. See 'des --help'",
+      },
+      {
+        desc:        "raises an Exception, when web_app option is nil.",
+        cli_options: {
+          image:                  "cli_image",
+          packages:               [] of String,
+          container:              "cli_container",
+          save_dir:               "/cli/save_dir",
+          docker_compose_version: "22",
+          web_app:                nil,
+          overwrite:              "false",
+        },
+        files_to_create_before_testing: {
+          path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+          string:                 <<-STRING,
+          STRING
+        },
+        prompt_input_str: "",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        expect_rases_message: "web_app option is not set. See 'des --help'",
+      },
+      {
+        desc:        "raises an Exception, when overwrite option is nil.",
+        cli_options: {
+          image:                  "cli_image",
+          packages:               [] of String,
+          container:              "cli_container",
+          save_dir:               "/cli/save_dir",
+          docker_compose_version: "22",
+          web_app:                "false",
+          overwrite:              nil,
+        },
+        files_to_create_before_testing: {
+          path:   "#{__DIR__}/var/spec_dir/desrc.yml",
+          string:                 <<-STRING,
+          STRING
+        },
+        prompt_input_str: "",
+        spec_dir: "#{__DIR__}/var/spec_dir",
+        expect_rases_message: "overwrite option is not set. See 'des --help'",
+      },
     ].each do |spec_case|
       it spec_case["desc"] do
         delete_dir(spec_case["spec_dir"])
