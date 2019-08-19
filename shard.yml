@@ -1,5 +1,5 @@
 name: des
-version: 0.2.0
+version: 0.3.0
 
 authors:
   - at-grandpa <yoshiyuki.tsuchida.k@gmail.com>
@@ -8,7 +8,7 @@ targets:
   des:
     main: src/des.cr
 
-crystal: 0.30.0
+crystal: 0.30.1
 
 license: MIT
 

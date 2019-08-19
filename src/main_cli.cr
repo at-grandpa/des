@@ -54,7 +54,10 @@ module Des
 
         executer = Des::Cli::Executer.new(file_creator)
         executer.create(des_options, desrc_file, dockerfile, makefile, docker_compose, nginx_conf)
+      rescue ex : Des::DesException
+        puts "ERROR: #{ex.message}"
       end
+
       sub "desrc" do
         desc "Creates/Update/Display desrc file."
         usage "des desrc [sub_command]"
@@ -101,6 +104,8 @@ module Des
             desrc_file = Des::SettingFile::DesrcFile.new(des_options)
             executer = Des::Cli::Executer.new(file_creator)
             executer.create(desrc_file)
+          rescue ex : Des::DesException
+            puts "ERROR: #{ex.message}"
           end
         end
         sub "display" do
@@ -111,6 +116,8 @@ module Des
             file_creator = Des::Cli::FileCreator.new
             executer = Des::Cli::Executer.new(file_creator)
             executer.display_desrc_file(Des::SettingFile::DesrcFile::DESRC_FILE_PATH)
+          rescue ex : Des::DesException
+            puts "ERROR: #{ex.message}"
           end
         end
       end

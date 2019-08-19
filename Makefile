@@ -5,7 +5,7 @@ DES_BIN ?= $(shell which des)
 PREFIX ?= /usr/local
 OUTPUT_BIN ?= bin/des
 TAR_DIR ?= bin/des
-VERSION ?= 0.2.0
+VERSION ?= 0.3.0
 TAR_GZ_FILE_NAME ?= des-$(VERSION)-darwin-x86_64.tar.gz
 
 spec:
