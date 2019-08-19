@@ -17,8 +17,7 @@ module Des
       option "-p PACKAGES", "--packages=PACKAGE", type: Array(String), desc: "apt-get install packages name."
       option "-c NAME", "--container=NAME", type: String, desc: "Container name."
       option "-s SAVE_DIR", "--save-dir=SAVE_DIR", type: String, desc: "Save dir path."
-      option "-d DESRC_PATH", "--desrc-path=DESRC_PATH", type: String, desc: ".descr.yml path."
-      option "--docker-compose-version=VERSION", type: String, desc: "docker-compose version."
+      option "-d VERSION", "--docker-compose-version=VERSION", type: String, desc: "docker-compose version."
       option "-w FLAG", "--web-app=FLAG", type: String, desc: "Web app mode(true or false). Includes nginx and mysql."
       option "-o FLAG", "--overwrite=FLAG", type: String, desc: "Overwrite each file flag(true or false)."
       version "des #{Des::VERSION}", short: "-v"
@@ -57,22 +56,21 @@ module Des
         executer.create(des_options, desrc_file, dockerfile, makefile, docker_compose, nginx_conf)
       end
       sub "desrc" do
-        desc "Creates or Display desrc file."
+        desc "Creates/Update/Display desrc file."
         usage "des desrc [sub_command]"
         help short: "-h"
         run do |library_opts, args|
           puts library_opts.help_string
         end
         sub "create" do
-          desc "Creates desrc file."
+          desc "Create or Update desrc file."
           alias_name "update"
           usage "des desrc create [options]"
           option "-i IMAGE", "--image=IMAGE", type: String, desc: "Base docker image name."
           option "-p PACKAGES", "--packages=PACKAGE", type: Array(String), desc: "apt-get install packages name."
           option "-c NAME", "--container=NAME", type: String, desc: "Container name."
           option "-s SAVE_DIR", "--save-dir=SAVE_DIR", type: String, desc: "Save dir path."
-          option "-d DESRC_PATH", "--desrc-path=DESRC_PATH", type: String, desc: ".descr.yml path."
-          option "--docker-compose-version=VERSION", type: String, desc: "docker-compose version."
+          option "-d VERSION", "--docker-compose-version=VERSION", type: String, desc: "docker-compose version."
           option "-w FLAG", "--web-app=FLAG", type: String, desc: "Web app mode(true or false). Includes nginx and mysql."
           option "-o FLAG", "--overwrite=FLAG", type: String, desc: "Overwrite each file flag(true or false)."
           help short: "-h"
