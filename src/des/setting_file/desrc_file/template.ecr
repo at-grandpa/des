@@ -1,0 +1,15 @@
+default_options:
+  image: <%= @options.image %>
+<%- if @options.packages.empty? -%>
+  packages: []
+<%- else -%>
+  packages:
+<%- @options.packages.each do |package| -%>
+    - <%= package %>
+<%- end -%>
+<%- end -%>
+  container: <%= @options.container %>
+  save_dir: <%= @options.save_dir %>
+  docker_compose_version: <%= @options.docker_compose_version %>
+  web_app: <%= @options.web_app %>
+  overwrite: <%= @options.overwrite %>

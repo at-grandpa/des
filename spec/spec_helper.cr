@@ -1,33 +1,76 @@
 require "spec"
+require "mocks"
+require "mocks/spec"
 require "../src/des"
 
-alias Rc = Des::Rc
-alias Opts = Des::Opts
-alias Parameters = Des::Parameters
-alias Dockerfile = Des::Dockerfile
-alias Makefile = Des::Makefile
-alias DockerCompose = Des::DockerCompose
-alias DesrcYml = Des::DesrcYml
-
-class SpecCase
-  getter describe, rc_file_yaml, cli_options, expect
-  DEFAULT_CLI_OPTIONS = Des::CliOptions.new(
-    image: nil,
-    packages: [] of String,
-    container: nil,
-    save_dir: nil,
-    rc_file: "dummy_path",
-    docker_compose_version: "3",
-    web_app: false,
-    overwrite: false,
-    desrc: false
-  )
+class OptionsMock
+  include Des::SettingFile::OptionsInterface
 
   def initialize(
-    @describe : String = "",
-    @rc_file_yaml : String = "",
-    @cli_options : Des::CliOptions = DEFAULT_CLI_OPTIONS,
-    @expect : String = ""
+    @cli_options : Des::Options::CliOptions,
+    @desrc_file_options : Des::Options::DesrcFileOptions
   )
   end
+
+  def image : String
+    ""
+  end
+
+  def packages : Array(String)
+    [] of String
+  end
+
+  def container : String
+    ""
+  end
+
+  def save_dir : String
+    ""
+  end
+
+  def docker_compose_version : String
+    ""
+  end
+
+  def web_app : Bool
+    false
+  end
+
+  def overwrite : Bool
+    false
+  end
+
+  def ==(other : self) : Bool
+    true
+  end
+end
+
+Mocks.create_mock OptionsMock do
+  mock image
+  mock packages
+  mock container
+  mock save_dir
+  mock docker_compose_version
+  mock web_app
+  mock overwrite
+end
+
+Mocks.create_mock Des::Options::CliOptions do
+  mock image
+  mock packages
+  mock container
+  mock save_dir
+  mock docker_compose_version
+  mock web_app
+  mock overwrite
+end
+
+Mocks.create_mock Des::Options::DesrcFileOptions do
+  mock image
+  mock packages
+  mock container
+  mock save_dir
+  mock docker_compose_version
+  mock web_app
+  mock overwrite
 end

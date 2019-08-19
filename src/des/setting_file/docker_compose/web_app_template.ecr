@@ -1,0 +1,31 @@
+version: '<%= @options.docker_compose_version %>'
+services:
+  app:
+    build: .
+    container_name: <%= @options.container %>
+    restart: always
+    stdin_open: true
+    volumes:
+      - .:/root/<%= @options.container %>
+    ports:
+      - 3000
+    links:
+      - mysql
+  mysql:
+    image: mysql
+    container_name: <%= @options.container %>-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306
+  nginx:
+    image: nginx
+    container_name: <%= @options.container %>-nginx
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+    links:
+      - app

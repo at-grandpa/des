@@ -4,3 +4,11 @@ shards:
     github: at-grandpa/clim
     version: 0.8.1
 
+  mocks:
+    github: waterlink/mocks.cr
+    version: 0.9.6
+
+  singleton:
+    github: waterlink/singleton.cr
+    version: 1.0.0
+
